@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
 import { addPatient } from "./patientsSlice";
 
 const PatientForm = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     name: "",
@@ -39,11 +41,11 @@ const PatientForm = () => {
         marginBottom: "20px",
       }}
     >
-      <h3>Shto Pacientin e Ri</h3>
+      <h3>{t("patients.addNew")}</h3>
       <input
         type="text"
         name="name"
-        placeholder="Emri"
+        placeholder={t("patients.name")}
         value={formData.name}
         onChange={handleChange}
         required
@@ -57,7 +59,7 @@ const PatientForm = () => {
       <input
         type="email"
         name="email"
-        placeholder="Email"
+        placeholder={t("patients.email")}
         value={formData.email}
         onChange={handleChange}
         required
@@ -71,7 +73,7 @@ const PatientForm = () => {
       <input
         type="tel"
         name="phone"
-        placeholder="Telefon"
+        placeholder={t("patients.phone")}
         value={formData.phone}
         onChange={handleChange}
         required
@@ -85,7 +87,7 @@ const PatientForm = () => {
       <input
         type="number"
         name="age"
-        placeholder="Mosha"
+        placeholder={t("patients.age")}
         value={formData.age}
         onChange={handleChange}
         required
@@ -99,7 +101,7 @@ const PatientForm = () => {
       <input
         type="text"
         name="address"
-        placeholder="Adresa"
+        placeholder={t("patients.address")}
         value={formData.address}
         onChange={handleChange}
         required
@@ -111,7 +113,7 @@ const PatientForm = () => {
         }}
       />
       <button type="submit" style={{ padding: "10px 20px", cursor: "pointer" }}>
-        Shto Pacientin
+        {t("patients.addButton")}
       </button>
     </form>
   );

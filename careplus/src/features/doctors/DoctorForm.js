@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
+import { useTranslation } from "react-i18next";
 import { addDoctor } from "./doctorsSlice";
 
 const DoctorForm = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     name: "",
@@ -45,11 +47,11 @@ const DoctorForm = () => {
         marginBottom: "20px",
       }}
     >
-      <h3>Shto Doktorin e Ri</h3>
+      <h3>{t("doctors.addNew")}</h3>
       <input
         type="text"
         name="name"
-        placeholder="Emri"
+        placeholder={t("doctors.name")}
         value={formData.name}
         onChange={handleChange}
         required
@@ -63,7 +65,7 @@ const DoctorForm = () => {
       <input
         type="text"
         name="speciality"
-        placeholder="Specialiteti"
+        placeholder={t("doctors.speciality")}
         value={formData.speciality}
         onChange={handleChange}
         required
@@ -77,7 +79,7 @@ const DoctorForm = () => {
       <input
         type="email"
         name="email"
-        placeholder="Email"
+        placeholder={t("doctors.email")}
         value={formData.email}
         onChange={handleChange}
         required
@@ -91,7 +93,7 @@ const DoctorForm = () => {
       <input
         type="tel"
         name="phone"
-        placeholder="Telefon"
+        placeholder={t("doctors.phone")}
         value={formData.phone}
         onChange={handleChange}
         required
@@ -105,7 +107,7 @@ const DoctorForm = () => {
       <input
         type="text"
         name="licenseNumber"
-        placeholder="Numri i Licencës"
+        placeholder={t("doctors.license")}
         value={formData.licenseNumber}
         onChange={handleChange}
         required
@@ -117,7 +119,7 @@ const DoctorForm = () => {
         }}
       />
       <button type="submit" style={{ padding: "10px 20px", cursor: "pointer" }}>
-        Shto Doktorin
+        {t("doctors.addButton")}
       </button>
     </form>
   );

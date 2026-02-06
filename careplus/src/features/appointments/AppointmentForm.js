@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
+import { useTranslation } from "react-i18next";
 import { addAppointment } from "./appointmentsSlice";
 
 const AppointmentForm = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     patientName: "",
@@ -45,11 +47,11 @@ const AppointmentForm = () => {
         marginBottom: "20px",
       }}
     >
-      <h3>Shto Takimin e Ri</h3>
+      <h3>{t("appointments.addNew")}</h3>
       <input
         type="text"
         name="patientName"
-        placeholder="Emri i Pacientit"
+        placeholder={t("appointments.patient")}
         value={formData.patientName}
         onChange={handleChange}
         required
@@ -63,7 +65,7 @@ const AppointmentForm = () => {
       <input
         type="text"
         name="doctorName"
-        placeholder="Emri i Doktorit"
+        placeholder={t("appointments.doctor")}
         value={formData.doctorName}
         onChange={handleChange}
         required
@@ -102,7 +104,7 @@ const AppointmentForm = () => {
       />
       <textarea
         name="reason"
-        placeholder="Arsyeja e Vizitës"
+        placeholder={t("appointments.reason")}
         value={formData.reason}
         onChange={handleChange}
         required
@@ -115,7 +117,7 @@ const AppointmentForm = () => {
         }}
       />
       <button type="submit" style={{ padding: "10px 20px", cursor: "pointer" }}>
-        Shto Takimin
+        {t("appointments.addButton")}
       </button>
     </form>
   );

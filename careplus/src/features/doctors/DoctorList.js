@@ -1,37 +1,39 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useTranslation } from "react-i18next";
 import { deleteDoctor } from "./doctorsSlice";
 
 const DoctorList = () => {
+  const { t } = useTranslation();
   const doctors = useSelector((state) => state.doctors.list);
   const dispatch = useDispatch();
 
   return (
     <div>
-      <h3>Lista e Doktorëve</h3>
+      <h3>{t("doctors.list")}</h3>
       {doctors.length === 0 ? (
-        <p>Nuk ka doktorë të regjistruar.</p>
+        <p>{t("doctors.noDoctors")}</p>
       ) : (
         <table style={{ width: "100%", borderCollapse: "collapse" }}>
           <thead>
             <tr style={{ backgroundColor: "#f0f0f0" }}>
               <th style={{ border: "1px solid #ddd", padding: "10px" }}>
-                Emri
+                {t("doctors.name")}
               </th>
               <th style={{ border: "1px solid #ddd", padding: "10px" }}>
-                Specialiteti
+                {t("doctors.speciality")}
               </th>
               <th style={{ border: "1px solid #ddd", padding: "10px" }}>
-                Email
+                {t("doctors.email")}
               </th>
               <th style={{ border: "1px solid #ddd", padding: "10px" }}>
-                Telefon
+                {t("doctors.phone")}
               </th>
               <th style={{ border: "1px solid #ddd", padding: "10px" }}>
-                Licenca
+                {t("doctors.license")}
               </th>
               <th style={{ border: "1px solid #ddd", padding: "10px" }}>
-                Aksione
+                {t("doctors.actions")}
               </th>
             </tr>
           </thead>
@@ -64,7 +66,7 @@ const DoctorList = () => {
                       cursor: "pointer",
                     }}
                   >
-                    Fshij
+                    {t("doctors.delete")}
                   </button>
                 </td>
               </tr>
