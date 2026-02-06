@@ -69,8 +69,8 @@ const Header = () => {
             onClick={handleLogout}
             style={{
               padding: "8px 15px",
-              backgroundColor: "#e74c3c",
-              color: "white",
+              backgroundColor: "#f5f5f5",
+              color: "black",
               border: "none",
               borderRadius: "4px",
               cursor: "pointer",
