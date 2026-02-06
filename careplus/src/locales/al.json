@@ -1,0 +1,71 @@
+{
+  "header": {
+    "title": "CarePlus - Sistemi i Menaxhimit të Spitalit",
+    "logout": "Dilni"
+  },
+  "sidebar": {
+    "home": "Home",
+    "patients": "Pacientët",
+    "doctors": "Doktorët",
+    "appointments": "Takimet"
+  },
+  "login": {
+    "title": "Hyrja në CarePlus",
+    "name": "Emri",
+    "namePlaceholder": "Shkruani emrin tuaj",
+    "role": "Zgjidh Rolin",
+    "selectRole": "-- Zgjedh Rolin --",
+    "doctor": "Doktor",
+    "nurse": "Infermier",
+    "admin": "Administrator",
+    "button": "Hyr"
+  },
+  "home": {
+    "welcome": "Mirë se Vini në CarePlus",
+    "subtitle": "Sistemi i Menaxhimit të Shëndetësisë",
+    "menu": "Përdorni menunë anash për të qasur:",
+    "departments": "Departamentet"
+  },
+  "patients": {
+    "title": "Menaxhimi i Pacientëve",
+    "addNew": "Shto Pacientin e Ri",
+    "list": "Lista e Pacientëve",
+    "name": "Emri",
+    "email": "Email",
+    "phone": "Telefon",
+    "age": "Mosha",
+    "address": "Adresa",
+    "actions": "Aksione",
+    "delete": "Fshij",
+    "noPatients": "Nuk ka pacientë të regjistruar.",
+    "addButton": "Shto Pacientin"
+  },
+  "doctors": {
+    "title": "Menaxhimi i Doktorëve",
+    "addNew": "Shto Doktorin e Ri",
+    "list": "Lista e Doktorëve",
+    "name": "Emri",
+    "speciality": "Specialiteti",
+    "email": "Email",
+    "phone": "Telefon",
+    "license": "Numri i Licencës",
+    "actions": "Aksione",
+    "delete": "Fshij",
+    "noDoctors": "Nuk ka doktorë të regjistruar.",
+    "addButton": "Shto Doktorin"
+  },
+  "appointments": {
+    "title": "Menaxhimi i Takimeve",
+    "addNew": "Shto Takimin e Ri",
+    "list": "Lista e Takimeve",
+    "patient": "Pacienti",
+    "doctor": "Doktori",
+    "date": "Data",
+    "time": "Ora",
+    "reason": "Arsyeja e Vizitës",
+    "actions": "Aksione",
+    "delete": "Fshij",
+    "noAppointments": "Nuk ka takime të regjistruara.",
+    "addButton": "Shto Takimin"
+  }
+}

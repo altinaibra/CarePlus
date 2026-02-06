@@ -1,7 +1,26 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { MdHome, MdPeople, MdLocalHospital, MdEventNote } from "react-icons/md";
 
 const Sidebar = () => {
+  const { t } = useTranslation();
+
+  const menuItems = [
+    { path: "/", label: t("sidebar.home"), icon: <MdHome /> },
+    { path: "/patients", label: t("sidebar.patients"), icon: <MdPeople /> },
+    {
+      path: "/doctors",
+      label: t("sidebar.doctors"),
+      icon: <MdLocalHospital />,
+    },
+    {
+      path: "/appointments",
+      label: t("sidebar.appointments"),
+      icon: <MdEventNote />,
+    },
+  ];
+
   return (
     <aside
       style={{
@@ -14,43 +33,23 @@ const Sidebar = () => {
     >
       <nav>
         <ul style={{ listStyle: "none", padding: 0 }}>
-          <li style={{ marginBottom: "15px" }}>
-            <Link to="/" style={{ color: "white", textDecoration: "none" }}>
-              Home
-            </Link>
-          </li>
-          <li style={{ marginBottom: "15px" }}>
-            <Link
-              to="/patients"
-              style={{ color: "white", textDecoration: "none" }}
-            >
-              Pacientët
-            </Link>
-          </li>
-          <li style={{ marginBottom: "15px" }}>
-            <Link
-              to="/doctors"
-              style={{ color: "white", textDecoration: "none" }}
-            >
-              Doktorët
-            </Link>
-          </li>
-          <li style={{ marginBottom: "15px" }}>
-            <Link
-              to="/appointments"
-              style={{ color: "white", textDecoration: "none" }}
-            >
-              Takimet
-            </Link>
-          </li>
-          <li style={{ marginBottom: "15px" }}>
-            <Link
-              to="/login"
-              style={{ color: "white", textDecoration: "none" }}
-            >
-              Dilni
-            </Link>
-          </li>
+          {menuItems.map((item, index) => (
+            <li key={index} style={{ marginBottom: "15px" }}>
+              <Link
+                to={item.path}
+                style={{
+                  color: "white",
+                  textDecoration: "none",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "8px", 
+                }}
+              >
+                {item.icon}
+                {item.label}
+              </Link>
+            </li>
+          ))}
         </ul>
       </nav>
     </aside>

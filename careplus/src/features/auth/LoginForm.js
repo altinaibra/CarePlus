@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { login } from "./authSlice";
 
 const LoginForm = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -44,18 +46,18 @@ const LoginForm = () => {
         boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
       }}
     >
-      <h2>Hyrja në CarePlus</h2>
+      <h2>{t("login.title")}</h2>
 
       <div style={{ marginBottom: "15px" }}>
         <label
           style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}
         >
-          Emri:
+          {t("login.name")}:
         </label>
         <input
           type="text"
           name="name"
-          placeholder="Shkruani emrin tuaj"
+          placeholder={t("login.namePlaceholder")}
           value={formData.name}
           onChange={handleChange}
           required
@@ -74,7 +76,7 @@ const LoginForm = () => {
         <label
           style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}
         >
-          Zgjidh Rolin:
+          {t("login.role")}:
         </label>
         <select
           name="role"
@@ -91,10 +93,10 @@ const LoginForm = () => {
             cursor: "pointer",
           }}
         >
-          <option value="">-- Zgjedh Rolin --</option>
-          <option value="doctor">Doktor</option>
-          <option value="nurse">Infermier</option>
-          <option value="admin">Administrator</option>
+          <option value="">{t("login.selectRole")}</option>
+          <option value="doctor">{t("login.doctor")}</option>
+          <option value="nurse">{t("login.nurse")}</option>
+          <option value="admin">{t("login.admin")}</option>
         </select>
       </div>
 
@@ -112,7 +114,7 @@ const LoginForm = () => {
           fontWeight: "bold",
         }}
       >
-        Hyr
+        {t("login.button")}
       </button>
     </form>
   );

@@ -1,10 +1,12 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { logout } from "../features/auth/authSlice";
 import { MdLocalHospital } from "react-icons/md";
 
 const Header = () => {
+  const { t, i18n } = useTranslation();
   const user = useSelector((state) => state.auth.user);
   const role = useSelector((state) => state.auth.role);
   const dispatch = useDispatch();
@@ -12,9 +14,9 @@ const Header = () => {
 
   const getRoleLabel = (role) => {
     const roles = {
-      doctor: "Doktor",
-      nurse: "Infermier",
-      admin: "Administrator",
+      doctor: t("login.doctor"),
+      nurse: t("login.nurse"),
+      admin: t("login.admin"),
     };
     return roles[role] || role;
   };
@@ -22,6 +24,11 @@ const Header = () => {
   const handleLogout = () => {
     dispatch(logout());
     navigate("/login");
+  };
+
+  const changeLanguage = (lang) => {
+    i18n.changeLanguage(lang);
+    localStorage.setItem("language", lang);
   };
 
   return (
@@ -36,14 +43,28 @@ const Header = () => {
       }}
     >
       <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-        <MdLocalHospital size={32} /> {/* ← Icon added here */}
-        <h2>CarePlus - Sistemi i Menaxhimit të Spitalit</h2>
+        <MdLocalHospital size={32} />
+        <h3>{t("header.title")}</h3>
       </div>
       {user && (
         <div style={{ display: "flex", gap: "20px", alignItems: "center" }}>
           <span>
             <strong>{user}</strong> ({getRoleLabel(role)})
           </span>
+          <select
+            value={i18n.language}
+            onChange={(e) => changeLanguage(e.target.value)}
+            style={{
+              padding: "6px 12px",
+              borderRadius: "4px",
+              border: "none",
+              cursor: "pointer",
+              backgroundColor: "#ecf0f1",
+            }}
+          >
+            <option value="al">Albanian</option>
+            <option value="en">English</option>
+          </select>
           <button
             onClick={handleLogout}
             style={{
@@ -55,7 +76,7 @@ const Header = () => {
               cursor: "pointer",
             }}
           >
-            Dilni
+            {t("header.logout")}
           </button>
         </div>
       )}

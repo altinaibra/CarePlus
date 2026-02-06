@@ -1,0 +1,71 @@
+{
+  "header": {
+    "title": "CarePlus - Hospital Management System",
+    "logout": "Logout"
+  },
+  "sidebar": {
+    "home": "Home",
+    "patients": "Patients",
+    "doctors": "Doctors",
+    "appointments": "Appointments"
+  },
+  "login": {
+    "title": "Login to CarePlus",
+    "name": "Name",
+    "namePlaceholder": "Enter your name",
+    "role": "Select Role",
+    "selectRole": "-- Select Role --",
+    "doctor": "Doctor",
+    "nurse": "Nurse",
+    "admin": "Administrator",
+    "button": "Login"
+  },
+  "home": {
+    "welcome": "Welcome to CarePlus",
+    "subtitle": "Hospital Health Management System",
+    "menu": "Use the left menu to access:",
+    "departments":"Departments"
+  },
+  "patients": {
+    "title": "Patient Management",
+    "addNew": "Add New Patient",
+    "list": "Patient List",
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone",
+    "age": "Age",
+    "address": "Address",
+    "actions": "Actions",
+    "delete": "Delete",
+    "noPatients": "No registered patients.",
+    "addButton": "Add Patient"
+  },
+  "doctors": {
+    "title": "Doctor Management",
+    "addNew": "Add New Doctor",
+    "list": "Doctor List",
+    "name": "Name",
+    "speciality": "Speciality",
+    "email": "Email",
+    "phone": "Phone",
+    "license": "License Number",
+    "actions": "Actions",
+    "delete": "Delete",
+    "noDoctors": "No registered doctors.",
+    "addButton": "Add Doctor"
+  },
+  "appointments": {
+    "title": "Appointment Management",
+    "addNew": "Add New Appointment",
+    "list": "Appointment List",
+    "patient": "Patient",
+    "doctor": "Doctor",
+    "date": "Date",
+    "time": "Time",
+    "reason": "Reason for Visit",
+    "actions": "Actions",
+    "delete": "Delete",
+    "noAppointments": "No registered appointments.",
+    "addButton": "Add Appointment"
+  }
+}
