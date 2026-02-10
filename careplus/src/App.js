@@ -23,7 +23,7 @@ const App = () => {
         <>
           <Header />
           <div className="flex">
-            <Sidebar />
+            {/* <Sidebar /> */}
             <div className="flex-1">
               <Routes>
                 <Route path="/" element={<Home />} />

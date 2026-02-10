@@ -18,7 +18,7 @@ const AppointmentList = () => {
     <div>
       <h3>{t("appointments.list")}</h3>
       {error && <p style={{ color: "red" }}>Error: {error}</p>}
-      {loading && <p>{t("sidebar.loading")}</p>}
+      {/* {loading && <p>{t("sidebar.loading")}</p>} */}
       {appointments.length === 0 && !loading ? (
         <p>{t("appointments.noAppointments")}</p>
       ) : (

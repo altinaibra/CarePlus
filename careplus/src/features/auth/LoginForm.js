@@ -37,7 +37,7 @@ const LoginForm = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="border border-gray-300 p-8 max-w-md mx-auto mt-16 rounded-lg shadow-md"
+      className="border border-gray-300 p-8 w-full max-w-lg mx-auto mt-16 rounded-lg shadow-md"
     >
       <h2 className="text-2xl font-bold mb-6">{t("login.title")}</h2>
 

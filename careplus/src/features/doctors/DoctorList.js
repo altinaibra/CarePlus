@@ -18,7 +18,7 @@ const DoctorList = () => {
     <div>
       <h3 className="text-lg font-bold mb-4">{t("doctors.list")}</h3>
       {error && <p className="text-red-600 mb-4">Error: {error}</p>}
-      {loading && <p className="text-gray-600">{t("sidebar.loading")}</p>}
+      {/* {loading && <p className="text-gray-600">{t("sidebar.loading")}</p>} */}
       {doctors.length === 0 && !loading ? (
         <p className="text-gray-600">{t("doctors.noDoctors")}</p>
       ) : (

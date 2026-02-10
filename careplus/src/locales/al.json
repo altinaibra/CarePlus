@@ -1,7 +1,12 @@
 {
   "header": {
-    "title": "CarePlus - Sistemi i Menaxhimit të Spitalit",
-    "logout": "Dilni"
+    "title": "CarePlus",
+    "logout": "Dilni",
+    "profile": "Profili",
+    "settings": "Cilesimet",
+    "appointments": "Terminet",
+    "albanian":"Shqip",
+    "english":"Anglisht"
   },
   "sidebar": {
     "home": "Home",

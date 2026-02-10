@@ -1,7 +1,12 @@
 {
   "header": {
-    "title": "CarePlus - Hospital Management System",
-    "logout": "Logout"
+    "title": "CarePlus",
+    "logout": "Logout",
+    "profile": "Profile",
+    "settings": "Settings",
+    "appointments": "Appointments",
+    "Albanian": "Albanian",
+    "English": "English"
   },
   "sidebar": {
     "home": "Home",
@@ -24,7 +29,7 @@
     "welcome": "Welcome to CarePlus",
     "subtitle": "Hospital Health Management System",
     "menu": "Use the left menu to access:",
-    "departments":"Departments"
+    "departments": "Departments"
   },
   "patients": {
     "title": "Patient Management",
