@@ -15,10 +15,10 @@ function LanguageSelector({ i18n, changeLanguage }) {
     ? {
         text: "#f3f4f6",
         textMuted: "#d1d5db",
-        bg: "#1f2937",
-        bgMenu: "#111827",
-        border: "#374151",
-        optionHover: "#374151",
+        bg: "oklch(20.5% 0 0)",
+        bgMenu: "oklch(20.5% 0 0)",
+        border: "oklch(47.6% 0.114 61.907)",
+        optionHover: "oklch(20.5% 0 0)",
       }
     : {
         text: "#111827",

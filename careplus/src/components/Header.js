@@ -67,8 +67,7 @@ const Header = () => {
   }, []);
 
   return (
-    <header className="bg-slate-700 dark:bg-slate-800 text-white px-5 py-4 flex items-center justify-between relative">
-
+    <header className="bg-slate-700 dark:[background-color:oklch(20.5%_0_0)] text-white px-5 py-4 flex items-center justify-between relative border-b border-gray-300 dark:[border-bottom-color:oklch(47.6%_0.114_61.907)]">
       <div className="flex items-center gap-2 z-10">
         <MdLocalHospital size={32} />
         <h3 className="text-xl font-bold">{t("header.title")}</h3>
@@ -96,7 +95,7 @@ const Header = () => {
           <div className="relative" ref={dropdownRef}>
             <button
               onClick={() => setDropdownOpen(!dropdownOpen)}
-            className="flex items-center gap-2 p-2 rounded-full bg-gray-200 text-gray-900 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-100 dark:hover:bg-gray-600 transition"
+              className="flex items-center gap-2 p-2 rounded-full bg-gray-200 text-gray-900 hover:bg-gray-300 dark:[background-color:oklch(20.5%_0_0)] dark:text-gray-100 dark:hover:[background-color:oklch(20.5%_0_0)] transition"
             >
               <MdPerson size={24} />
               <span className="text-sm">
@@ -105,7 +104,7 @@ const Header = () => {
             </button>
 
             {dropdownOpen && (
-              <div className="absolute right-0 mt-2 w-44 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-md shadow-lg py-2 z-20 flex flex-col">
+              <div className="absolute right-0 mt-2 w-44 bg-white dark:[background-color:oklch(20.5%_0_0)] text-gray-900 dark:text-gray-100 rounded-md shadow-lg py-2 z-20 flex flex-col border border-gray-200 dark:[border-color:oklch(47.6%_0.114_61.907)]">
                 <Link
                   to="/profile"
                   className="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700"

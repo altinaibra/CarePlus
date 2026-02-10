@@ -23,7 +23,7 @@ const Home = () => {
           {hospitalInfo.map((dept, idx) => (
             <div
               key={idx}
-              className="border border-gray-300 dark:border-gray-700 rounded-lg p-5 w-48 shadow-md hover:shadow-lg transition bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+              className="border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] rounded-lg p-5 w-48 shadow-md hover:shadow-lg transition bg-white dark:[background-color:oklch(20.5%_0_0)] text-gray-900 dark:text-gray-100"
             >
               <h3 className="text-lg font-semibold mb-2">{dept.title}</h3>
               <p className="text-gray-600 dark:text-gray-300 text-sm">

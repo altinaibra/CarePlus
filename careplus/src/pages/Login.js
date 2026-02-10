@@ -13,7 +13,7 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 relative">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:[background-color:oklch(20.5%_0_0)] relative">
       <div className="absolute top-4 right-4 flex items-center gap-2">
         <LanguageSelector i18n={i18n} changeLanguage={changeLanguage} />
         <ThemeToggle />

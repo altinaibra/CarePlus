@@ -45,7 +45,7 @@ const AppointmentForm = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="border border-gray-300 dark:border-gray-700 p-5 mb-5 rounded-lg bg-white dark:bg-gray-800 shadow-sm text-gray-900 dark:text-gray-100"
+      className="border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] p-5 mb-5 rounded-lg bg-white dark:[background-color:oklch(20.5%_0_0)] shadow-sm text-gray-900 dark:text-gray-100"
     >
       <h3 className="text-lg font-bold mb-4">{t("appointments.addNew")}</h3>
       <input
@@ -55,7 +55,7 @@ const AppointmentForm = () => {
         value={formData.patientName}
         onChange={handleChange}
         required
-        className="block mb-3 p-2 w-full border border-gray-300 dark:border-gray-700 rounded bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-slate-700"
+        className="block mb-3 p-2 w-full border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] rounded bg-white dark:[background-color:oklch(20.5%_0_0)] text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-slate-700"
       />
       <input
         type="text"
@@ -64,7 +64,7 @@ const AppointmentForm = () => {
         value={formData.doctorName}
         onChange={handleChange}
         required
-        className="block mb-3 p-2 w-full border border-gray-300 dark:border-gray-700 rounded bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-slate-700"
+        className="block mb-3 p-2 w-full border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] rounded bg-white dark:[background-color:oklch(20.5%_0_0)] text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-slate-700"
       />
       <input
         type="date"
@@ -72,7 +72,7 @@ const AppointmentForm = () => {
         value={formData.date}
         onChange={handleChange}
         required
-        className="block mb-3 p-2 w-full border border-gray-300 dark:border-gray-700 rounded bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-slate-700"
+        className="block mb-3 p-2 w-full border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] rounded bg-white dark:[background-color:oklch(20.5%_0_0)] text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-slate-700"
       />
       <input
         type="time"
@@ -80,7 +80,7 @@ const AppointmentForm = () => {
         value={formData.time}
         onChange={handleChange}
         required
-        className="block mb-3 p-2 w-full border border-gray-300 dark:border-gray-700 rounded bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-slate-700"
+        className="block mb-3 p-2 w-full border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] rounded bg-white dark:[background-color:oklch(20.5%_0_0)] text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-slate-700"
       />
       <textarea
         name="reason"
@@ -88,7 +88,7 @@ const AppointmentForm = () => {
         value={formData.reason}
         onChange={handleChange}
         required
-        className="block mb-4 p-2 w-full border border-gray-300 dark:border-gray-700 rounded bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-slate-700"
+        className="block mb-4 p-2 w-full border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] rounded bg-white dark:[background-color:oklch(20.5%_0_0)] text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-slate-700"
         style={{ minHeight: "80px" }}
       />
       <button
