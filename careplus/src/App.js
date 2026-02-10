@@ -12,8 +12,7 @@ import PatientsPage from "./pages/PatientsPage";
 import DoctorsPage from "./pages/DoctorsPage";
 import AppointmentsPage from "./pages/AppointmentsPage";
 import Header from "./components/Header";
-import Sidebar from "./components/Sidebar";
-
+import Profile from "./pages/Profile";
 const App = () => {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
@@ -21,7 +20,7 @@ const App = () => {
     <Router>
       {isLoggedIn ? (
         <>
-          <Header  />
+          <Header />
 
           <div className="flex">
             <div className="flex-1">
@@ -31,6 +30,7 @@ const App = () => {
                 <Route path="/doctors" element={<DoctorsPage />} />
                 <Route path="/appointments" element={<AppointmentsPage />} />
                 <Route path="/login" element={<Navigate to="/" />} />
+                <Route path="/profile" element={<Profile />} />
               </Routes>
             </div>
           </div>

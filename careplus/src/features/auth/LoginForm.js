@@ -76,7 +76,7 @@ const LoginForm = () => {
 
       <button
         type="submit"
-        className="px-5 py-3 bg-slate-700 text-white border-0 rounded-md cursor-pointer w-full text-base font-bold hover:bg-slate-800 transition"
+        className="px-5 py-3 bg-slate-700 dark:[background-color:oklch(47.6%_0.114_61.907)] text-white border-0 rounded-md cursor-pointer w-full text-base font-bold hover:bg-slate-800 transition"
       >
         {t("login.button")}
       </button>

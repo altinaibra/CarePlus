@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { logout } from "../features/auth/authSlice";
+
 import {
   MdLocalHospital,
   MdHome,
@@ -73,7 +74,7 @@ const Header = () => {
         <h3 className="text-xl font-bold">{t("header.title")}</h3>
       </div>
 
-      <nav className="flex-1 flex justify-center gap-6">
+      <nav className="flex-1 flex justify-center gap-6 text-2xl ">
         {menuItems.map((item, index) => (
           <Link
             key={index}
@@ -106,7 +107,7 @@ const Header = () => {
             {dropdownOpen && (
               <div className="absolute right-0 mt-2 w-44 bg-white dark:[background-color:oklch(20.5%_0_0)] text-gray-900 dark:text-gray-100 rounded-md shadow-lg py-2 z-20 flex flex-col border border-gray-200 dark:[border-color:oklch(47.6%_0.114_61.907)]">
                 <Link
-                  to="/profile"
+                  to="/Profile"
                   className="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700"
                   onClick={() => setDropdownOpen(false)}
                 >

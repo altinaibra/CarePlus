@@ -89,7 +89,7 @@ const PatientForm = () => {
       />
       <button
         type="submit"
-        className="px-5 py-2 bg-slate-700 text-white rounded cursor-pointer hover:bg-slate-800 transition font-semibold"
+        className="px-5 py-2 bg-slate-700 dark:[background-color:oklch(47.6%_0.114_61.907)]  text-white rounded cursor-pointer hover:bg-slate-800 transition font-semibold"
       >
         {t("patients.addButton")}
       </button>
