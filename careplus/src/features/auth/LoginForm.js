@@ -37,12 +37,12 @@ const LoginForm = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="border border-gray-300 p-8 w-full max-w-lg mx-auto mt-16 rounded-lg shadow-md"
+      className="border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 p-8 w-full max-w-lg mx-auto mt-16 rounded-lg shadow-md text-gray-900 dark:text-gray-100"
     >
       <h2 className="text-2xl font-bold mb-6">{t("login.title")}</h2>
 
       <div className="mb-4">
-        <label className="block mb-2 font-bold text-gray-700">
+        <label className="block mb-2 font-bold text-gray-700 dark:text-gray-200">
           {t("login.name")}:
         </label>
         <input
@@ -52,12 +52,12 @@ const LoginForm = () => {
           value={formData.name}
           onChange={handleChange}
           required
-          className="block px-3 py-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-slate-700"
+          className="block px-3 py-2 w-full border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-slate-700"
         />
       </div>
 
       <div className="mb-6">
-        <label className="block mb-2 font-bold text-gray-700">
+        <label className="block mb-2 font-bold text-gray-700 dark:text-gray-200">
           {t("login.role")}:
         </label>
         <select
@@ -65,7 +65,7 @@ const LoginForm = () => {
           value={formData.role}
           onChange={handleChange}
           required
-          className="block px-3 py-2 w-full border border-gray-300 rounded-md cursor-pointer focus:outline-none focus:ring-2 focus:ring-slate-700"
+          className="block px-3 py-2 w-full border border-gray-300 dark:border-gray-700 rounded-md cursor-pointer bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-slate-700"
         >
           <option value="">{t("login.selectRole")}</option>
           <option value="doctor">{t("login.doctor")}</option>

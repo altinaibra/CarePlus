@@ -56,8 +56,6 @@ const Header = () => {
       icon: <MdEventNote />,
     },
   ];
-
-  // Close dropdown if clicked outside
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
@@ -69,14 +67,13 @@ const Header = () => {
   }, []);
 
   return (
-    <header className="bg-slate-700 text-white px-5 py-4 flex items-center justify-between relative">
-      {/* Left: Logo */}
+    <header className="bg-slate-700 dark:bg-slate-800 text-white px-5 py-4 flex items-center justify-between relative">
+
       <div className="flex items-center gap-2 z-10">
         <MdLocalHospital size={32} />
         <h3 className="text-xl font-bold">{t("header.title")}</h3>
       </div>
 
-      {/* Center: Menu */}
       <nav className="flex-1 flex justify-center gap-6">
         {menuItems.map((item, index) => (
           <Link
@@ -90,20 +87,16 @@ const Header = () => {
         ))}
       </nav>
 
-      {/* Right: Language, Theme, Profile */}
       {user && (
         <div className="flex items-center gap-4 z-10">
-          {/* Language selector */}
           <LanguageSelector i18n={i18n} changeLanguage={changeLanguage} />
 
-          {/* Theme toggle independent */}
           <ThemeToggle />
 
-          {/* Profile dropdown */}
           <div className="relative" ref={dropdownRef}>
             <button
               onClick={() => setDropdownOpen(!dropdownOpen)}
-              className="flex items-center gap-2 p-2 rounded-full bg-gray-200 text-gray-900 hover:bg-gray-300 transition"
+            className="flex items-center gap-2 p-2 rounded-full bg-gray-200 text-gray-900 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-100 dark:hover:bg-gray-600 transition"
             >
               <MdPerson size={24} />
               <span className="text-sm">

@@ -20,47 +20,56 @@ const PatientList = () => {
       {error && <p className="text-red-600 mb-4">Error: {error}</p>}
       {/* {loading && <p className="text-gray-600">{t("sidebar.loading")}</p>} */}
       {patients.length === 0 && !loading ? (
-        <p className="text-gray-600">{t("patients.noPatients")}</p>
+        <p className="text-gray-600 dark:text-gray-300">
+          {t("patients.noPatients")}
+        </p>
       ) : (
         <div className="overflow-x-auto">
-          <table className="w-full border-collapse">
+          <table className="w-full border-collapse text-gray-900 dark:text-gray-100">
             <thead>
-              <tr className="bg-gray-100">
-                <th className="border border-gray-300 p-3 text-left font-semibold">
+              <tr className="bg-gray-100 dark:bg-gray-800">
+                <th className="border border-gray-300 dark:border-gray-700 p-3 text-left font-semibold">
                   {t("patients.name")}
                 </th>
-                <th className="border border-gray-300 p-3 text-left font-semibold">
+                <th className="border border-gray-300 dark:border-gray-700 p-3 text-left font-semibold">
                   {t("patients.email")}
                 </th>
-                <th className="border border-gray-300 p-3 text-left font-semibold">
+                <th className="border border-gray-300 dark:border-gray-700 p-3 text-left font-semibold">
                   {t("patients.phone")}
                 </th>
-                <th className="border border-gray-300 p-3 text-left font-semibold">
+                <th className="border border-gray-300 dark:border-gray-700 p-3 text-left font-semibold">
                   {t("patients.age")}
                 </th>
-                <th className="border border-gray-300 p-3 text-left font-semibold">
+                <th className="border border-gray-300 dark:border-gray-700 p-3 text-left font-semibold">
                   {t("patients.address")}
                 </th>
-                <th className="border border-gray-300 p-3 text-left font-semibold">
+                <th className="border border-gray-300 dark:border-gray-700 p-3 text-left font-semibold">
                   {t("patients.actions")}
                 </th>
               </tr>
             </thead>
             <tbody>
               {patients.map((patient) => (
-                <tr key={patient.id} className="hover:bg-gray-50">
-                  <td className="border border-gray-300 p-3">{patient.name}</td>
-                  <td className="border border-gray-300 p-3">
+                <tr
+                  key={patient.id}
+                  className="hover:bg-gray-50 dark:hover:bg-gray-800"
+                >
+                  <td className="border border-gray-300 dark:border-gray-700 p-3">
+                    {patient.name}
+                  </td>
+                  <td className="border border-gray-300 dark:border-gray-700 p-3">
                     {patient.email}
                   </td>
-                  <td className="border border-gray-300 p-3">
+                  <td className="border border-gray-300 dark:border-gray-700 p-3">
                     {patient.phone}
                   </td>
-                  <td className="border border-gray-300 p-3">{patient.age}</td>
-                  <td className="border border-gray-300 p-3">
+                  <td className="border border-gray-300 dark:border-gray-700 p-3">
+                    {patient.age}
+                  </td>
+                  <td className="border border-gray-300 dark:border-gray-700 p-3">
                     {patient.address}
                   </td>
-                  <td className="border border-gray-300 p-3">
+                  <td className="border border-gray-300 dark:border-gray-700 p-3">
                     <button
                       onClick={() => dispatch(deletePatientAsync(patient.id))}
                       className="px-3 py-1 bg-red-500 text-white border-0 rounded cursor-pointer hover:bg-red-600 transition text-sm"
