@@ -23,7 +23,9 @@
     "doctor": "Doktor",
     "nurse": "Infermier",
     "admin": "Administrator",
-    "button": "Hyr"
+    "button": "Hyr",
+    "emailOrUsername": "Email ose Emri i Përdoruesit",
+    "password": "Fjalëkalimi"
   },
   "home": {
     "welcome": "Mirë se Vini në CarePlus",

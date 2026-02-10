@@ -23,7 +23,9 @@
     "doctor": "Doctor",
     "nurse": "Nurse",
     "admin": "Administrator",
-    "button": "Login"
+    "button": "Login",
+    "emailOrUsername": "Email or username",
+    "password": "Password"
   },
   "home": {
     "welcome": "Welcome to CarePlus",

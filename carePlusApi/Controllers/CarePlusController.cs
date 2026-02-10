@@ -25,13 +25,19 @@ namespace CarePlusApi.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] UserDto login)
+        public async Task<IActionResult> Login([FromBody] LoginDto login)
         {
+            var identifier = login?.Username?.Trim();
+            if (string.IsNullOrWhiteSpace(identifier) || string.IsNullOrWhiteSpace(login?.Password))
+            {
+                return BadRequest("Username and password are required.");
+            }
+
             // Check User
             var user = await _context.Users.FirstOrDefaultAsync(u =>
-                u.Username == login.Username || u.Email == login.Username);
+                u.Email == identifier || u.FirstName == identifier);
 
-            if (user != null && user.Password == ComputeSha256Hash(login.Password))
+            if (user != null && PasswordMatches(login.Password, user.Password))
             {
                 var token = _authService.GenerateJwtToken(user);
                 return Ok(new { token, role = user.Role });
@@ -39,7 +45,7 @@ namespace CarePlusApi.Controllers
 
             // Check Doctor
             var doctor = await _context.Doctors.FirstOrDefaultAsync(d => d.Name == login.Username);
-            if (doctor != null && doctor.Password == ComputeSha256Hash(login.Password))
+            if (doctor != null && PasswordMatches(login.Password, doctor.Password))
             {
                 var mappedUser = new User
                 {
@@ -55,7 +61,7 @@ namespace CarePlusApi.Controllers
 
             // Check Patient
             var patient = await _context.Patients.FirstOrDefaultAsync(p => p.Email == login.Username);
-            if (patient != null && patient.Password == ComputeSha256Hash(login.Password))
+            if (patient != null && PasswordMatches(login.Password, patient.Password))
             {
                 var mappedUser = new User
                 {
@@ -78,9 +84,19 @@ namespace CarePlusApi.Controllers
             var bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(rawData));
             return Convert.ToBase64String(bytes);
         }
+
+        private bool PasswordMatches(string inputPassword, string storedPassword)
+        {
+            if (string.IsNullOrEmpty(inputPassword) || string.IsNullOrEmpty(storedPassword))
+            {
+                return false;
+            }
+
+            return storedPassword == inputPassword ||
+                   storedPassword == ComputeSha256Hash(inputPassword);
+        }
     }
 
-    // ================== Admin Controller ==================
     [Authorize(Roles = "Admin")]
     [ApiController]
     [Route("api/[controller]")]
@@ -89,7 +105,6 @@ namespace CarePlusApi.Controllers
         private readonly AppDbContext _context;
         public AdminController(AppDbContext context) => _context = context;
 
-        // Add Patient
         [HttpPost("add-patient")]
         public async Task<IActionResult> AddPatient([FromBody] PatientDto dto)
         {
@@ -108,8 +123,6 @@ namespace CarePlusApi.Controllers
             await _context.SaveChangesAsync();
             return Ok(patient);
         }
-
-        // Add Doctor
         [HttpPost("add-doctor")]
         public async Task<IActionResult> AddDoctor([FromBody] DoctorDto dto)
         {
