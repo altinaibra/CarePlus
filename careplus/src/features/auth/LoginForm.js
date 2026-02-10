@@ -37,21 +37,12 @@ const LoginForm = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      style={{
-        border: "1px solid #ccc",
-        padding: "30px",
-        maxWidth: "400px",
-        margin: "50px auto",
-        borderRadius: "8px",
-        boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-      }}
+      className="border border-gray-300 p-8 max-w-md mx-auto mt-16 rounded-lg shadow-md"
     >
-      <h2>{t("login.title")}</h2>
+      <h2 className="text-2xl font-bold mb-6">{t("login.title")}</h2>
 
-      <div style={{ marginBottom: "15px" }}>
-        <label
-          style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}
-        >
+      <div className="mb-4">
+        <label className="block mb-2 font-bold text-gray-700">
           {t("login.name")}:
         </label>
         <input
@@ -61,21 +52,12 @@ const LoginForm = () => {
           value={formData.name}
           onChange={handleChange}
           required
-          style={{
-            display: "block",
-            padding: "10px",
-            width: "100%",
-            boxSizing: "border-box",
-            border: "1px solid #ddd",
-            borderRadius: "4px",
-          }}
+          className="block px-3 py-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-slate-700"
         />
       </div>
 
-      <div style={{ marginBottom: "20px" }}>
-        <label
-          style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}
-        >
+      <div className="mb-6">
+        <label className="block mb-2 font-bold text-gray-700">
           {t("login.role")}:
         </label>
         <select
@@ -83,15 +65,7 @@ const LoginForm = () => {
           value={formData.role}
           onChange={handleChange}
           required
-          style={{
-            display: "block",
-            padding: "10px",
-            width: "100%",
-            boxSizing: "border-box",
-            border: "1px solid #ddd",
-            borderRadius: "4px",
-            cursor: "pointer",
-          }}
+          className="block px-3 py-2 w-full border border-gray-300 rounded-md cursor-pointer focus:outline-none focus:ring-2 focus:ring-slate-700"
         >
           <option value="">{t("login.selectRole")}</option>
           <option value="doctor">{t("login.doctor")}</option>
@@ -102,17 +76,7 @@ const LoginForm = () => {
 
       <button
         type="submit"
-        style={{
-          padding: "12px 20px",
-          backgroundColor: "#2c3e50",
-          color: "white",
-          border: "none",
-          borderRadius: "4px",
-          cursor: "pointer",
-          width: "100%",
-          fontSize: "16px",
-          fontWeight: "bold",
-        }}
+        className="px-5 py-3 bg-slate-700 text-white border-0 rounded-md cursor-pointer w-full text-base font-bold hover:bg-slate-800 transition"
       >
         {t("login.button")}
       </button>

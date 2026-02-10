@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
-import { addDoctor } from "./doctorsSlice";
+import { createDoctor } from "./doctorsSlice";
 
 const DoctorForm = () => {
   const { t } = useTranslation();
@@ -24,11 +24,15 @@ const DoctorForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const newDoctor = {
-      id: Date.now(),
-      ...formData,
-    };
-    dispatch(addDoctor(newDoctor));
+    dispatch(
+      createDoctor({
+        name: formData.name,
+        speciality: formData.speciality,
+        email: formData.email,
+        phone: formData.phone,
+        licenseNumber: formData.licenseNumber,
+      }),
+    );
     setFormData({
       name: "",
       speciality: "",
@@ -41,13 +45,9 @@ const DoctorForm = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      style={{
-        border: "1px solid #ccc",
-        padding: "20px",
-        marginBottom: "20px",
-      }}
+      className="border border-gray-300 p-5 mb-5 rounded-lg bg-white shadow-sm"
     >
-      <h3>{t("doctors.addNew")}</h3>
+      <h3 className="text-lg font-bold mb-4">{t("doctors.addNew")}</h3>
       <input
         type="text"
         name="name"
@@ -55,12 +55,7 @@ const DoctorForm = () => {
         value={formData.name}
         onChange={handleChange}
         required
-        style={{
-          display: "block",
-          marginBottom: "10px",
-          padding: "8px",
-          width: "100%",
-        }}
+        className="block mb-3 p-2 w-full border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-slate-700"
       />
       <input
         type="text"
@@ -69,12 +64,7 @@ const DoctorForm = () => {
         value={formData.speciality}
         onChange={handleChange}
         required
-        style={{
-          display: "block",
-          marginBottom: "10px",
-          padding: "8px",
-          width: "100%",
-        }}
+        className="block mb-3 p-2 w-full border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-slate-700"
       />
       <input
         type="email"
@@ -83,12 +73,7 @@ const DoctorForm = () => {
         value={formData.email}
         onChange={handleChange}
         required
-        style={{
-          display: "block",
-          marginBottom: "10px",
-          padding: "8px",
-          width: "100%",
-        }}
+        className="block mb-3 p-2 w-full border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-slate-700"
       />
       <input
         type="tel"
@@ -97,12 +82,7 @@ const DoctorForm = () => {
         value={formData.phone}
         onChange={handleChange}
         required
-        style={{
-          display: "block",
-          marginBottom: "10px",
-          padding: "8px",
-          width: "100%",
-        }}
+        className="block mb-3 p-2 w-full border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-slate-700"
       />
       <input
         type="text"
@@ -111,14 +91,12 @@ const DoctorForm = () => {
         value={formData.licenseNumber}
         onChange={handleChange}
         required
-        style={{
-          display: "block",
-          marginBottom: "10px",
-          padding: "8px",
-          width: "100%",
-        }}
+        className="block mb-4 p-2 w-full border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-slate-700"
       />
-      <button type="submit" style={{ padding: "10px 20px", cursor: "pointer" }}>
+      <button
+        type="submit"
+        className="px-5 py-2 bg-slate-700 text-white rounded cursor-pointer hover:bg-slate-800 transition font-semibold"
+      >
         {t("doctors.addButton")}
       </button>
     </form>

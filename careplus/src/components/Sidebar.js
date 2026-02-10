@@ -22,28 +22,14 @@ const Sidebar = () => {
   ];
 
   return (
-    <aside
-      style={{
-        width: "200px",
-        backgroundColor: "#34495e",
-        color: "white",
-        padding: "20px",
-        minHeight: "100vh",
-      }}
-    >
+    <aside className="w-56 bg-slate-600 text-white px-5 py-5 min-h-screen">
       <nav>
-        <ul style={{ listStyle: "none", padding: 0 }}>
+        <ul className="list-none p-0">
           {menuItems.map((item, index) => (
-            <li key={index} style={{ marginBottom: "15px" }}>
+            <li key={index} className="mb-4">
               <Link
                 to={item.path}
-                style={{
-                  color: "white",
-                  textDecoration: "none",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "8px", 
-                }}
+                className="text-white no-underline flex items-center gap-2 hover:text-gray-200 transition"
               >
                 {item.icon}
                 {item.label}

@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
 using System.Text;
 using carePlusApi.DTO;
+using Admission = CarePlusApi.Models.Admission;
 
 namespace CarePlusApi.Controllers
 {
@@ -26,6 +27,7 @@ namespace CarePlusApi.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] UserDto login)
         {
+            // Check User
             var user = await _context.Users.FirstOrDefaultAsync(u =>
                 u.Username == login.Username || u.Email == login.Username);
 
@@ -35,6 +37,7 @@ namespace CarePlusApi.Controllers
                 return Ok(new { token, role = user.Role });
             }
 
+            // Check Doctor
             var doctor = await _context.Doctors.FirstOrDefaultAsync(d => d.Name == login.Username);
             if (doctor != null && doctor.Password == ComputeSha256Hash(login.Password))
             {
@@ -50,6 +53,7 @@ namespace CarePlusApi.Controllers
                 return Ok(new { token, role = "Doctor" });
             }
 
+            // Check Patient
             var patient = await _context.Patients.FirstOrDefaultAsync(p => p.Email == login.Username);
             if (patient != null && patient.Password == ComputeSha256Hash(login.Password))
             {
@@ -75,90 +79,130 @@ namespace CarePlusApi.Controllers
             return Convert.ToBase64String(bytes);
         }
     }
+
+    // ================== Admin Controller ==================
     [Authorize(Roles = "Admin")]
     [ApiController]
     [Route("api/[controller]")]
-    public class UsersController : ControllerBase
+    public class AdminController : ControllerBase
     {
         private readonly AppDbContext _context;
-        public UsersController(AppDbContext context) => _context = context;
+        public AdminController(AppDbContext context) => _context = context;
 
-        [HttpGet]
-        public async Task<IActionResult> GetUsers() => Ok(await _context.Users.ToListAsync());
+        // Add Patient
+        [HttpPost("add-patient")]
+        public async Task<IActionResult> AddPatient([FromBody] PatientDto dto)
+        {
+            var patient = new Patient
+            {
+                FirstName = dto.FirstName,
+                LastName = dto.LastName,
+                Email = dto.Email,
+                Password = ComputeSha256Hash(dto.Password),
+                DateOfBirth = dto.DateOfBirth,
+                Gender = dto.Gender,
+                Address = dto.Address,
+                Contact = dto.Contact
+            };
+            _context.Patients.Add(patient);
+            await _context.SaveChangesAsync();
+            return Ok(patient);
+        }
+
+        // Add Doctor
+        [HttpPost("add-doctor")]
+        public async Task<IActionResult> AddDoctor([FromBody] DoctorDto dto)
+        {
+            var doctor = new Doctor
+            {
+                Name = dto.Name,
+                Password = ComputeSha256Hash(dto.Password),
+                DepartmentId = dto.DepartmentId,
+                Specialization = dto.Specialization
+            };
+            _context.Doctors.Add(doctor);
+            await _context.SaveChangesAsync();
+            return Ok(doctor);
+        }
+
+        // Assign Room
+        [HttpPost("assign-room")]
+        public async Task<IActionResult> AssignRoom(int patientId, string roomNumber)
+        {
+            var admission = new Admission
+            {
+                PatientId = patientId,
+                RoomNumber = roomNumber,
+                DateIn = DateTime.Now
+            };
+            _context.Admissions.Add(admission);
+            await _context.SaveChangesAsync();
+            return Ok(admission);
+        }
+
+        // Get Available Rooms
+        [HttpGet("available-rooms")]
+        public async Task<IActionResult> GetAvailableRooms()
+        {
+            var allRooms = new List<string> { "101", "102", "103", "104", "105" };
+            var occupiedRooms = await _context.Admissions
+                .Where(a => a.DateOut == null)
+                .Select(a => a.RoomNumber)
+                .ToListAsync();
+            var freeRooms = allRooms.Except(occupiedRooms);
+            return Ok(freeRooms);
+        }
+
+        private string ComputeSha256Hash(string rawData)
+        {
+            using var sha256 = SHA256.Create();
+            var bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(rawData));
+            return Convert.ToBase64String(bytes);
+        }
     }
 
-    [Authorize(Roles = "Admin,Doctor")]
+    // ================== Doctor Controller ==================
+    [Authorize(Roles = "Doctor")]
     [ApiController]
     [Route("api/[controller]")]
-    public class PatientsController : ControllerBase
+    public class DoctorController : ControllerBase
     {
         private readonly AppDbContext _context;
-        public PatientsController(AppDbContext context) => _context = context;
+        public DoctorController(AppDbContext context) => _context = context;
 
-        [HttpGet]
-        public async Task<IActionResult> GetPatients() => Ok(await _context.Patients.ToListAsync());
-    }
+        [HttpGet("patients")]
+        public async Task<IActionResult> GetPatients()
+        {
+            var doctorId = GetCurrentDoctorId();
 
-    [Authorize(Roles = "Admin")]
-    [ApiController]
-    [Route("api/[controller]")]
-    public class DoctorsController : ControllerBase
-    {
-        private readonly AppDbContext _context;
-        public DoctorsController(AppDbContext context) => _context = context;
+            var patients = await _context.MedicalRecords
+                .Include(m => m.Patient)
+                .Where(m => m.DoctorId == doctorId)
+                .Select(m => m.Patient)
+                .Distinct()
+                .ToListAsync();
 
-        [HttpGet]
-        public async Task<IActionResult> GetDoctors() => Ok(await _context.Doctors.ToListAsync());
-    }
+            return Ok(patients);
+        }
 
-    [Authorize(Roles = "Admin")]
-    [ApiController]
-    [Route("api/[controller]")]
-    public class DepartmentsController : ControllerBase
-    {
-        private readonly AppDbContext _context;
-        public DepartmentsController(AppDbContext context) => _context = context;
+        [HttpGet("admissions")]
+        public async Task<IActionResult> GetAdmissions()
+        {
+            var doctorId = GetCurrentDoctorId();
 
-        [HttpGet]
-        public async Task<IActionResult> GetDepartments() => Ok(await _context.Departments.ToListAsync());
-    }
+            var admissions = await _context.Admissions
+                .Include(a => a.Patient)
+                .Where(a => _context.MedicalRecords
+                    .Any(m => m.PatientId == a.PatientId && m.DoctorId == doctorId))
+                .ToListAsync();
 
-    [Authorize(Roles = "Admin,Doctor")]
-    [ApiController]
-    [Route("api/[controller]")]
-    public class AdmissionsController : ControllerBase
-    {
-        private readonly AppDbContext _context;
-        public AdmissionsController(AppDbContext context) => _context = context;
+            return Ok(admissions);
+        }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAdmissions() => Ok(await _context.Admissions.ToListAsync());
-    }
-
-    [Authorize(Roles = "Admin")]
-    [ApiController]
-    [Route("api/[controller]")]
-    public class BillingController : ControllerBase
-    {
-        private readonly AppDbContext _context;
-        public BillingController(AppDbContext context) => _context = context;
-
-        [HttpGet]
-        public async Task<IActionResult> GetBilling() => Ok(await _context.Billing.ToListAsync());
-    }
-
-    [Authorize(Roles = "Admin,Doctor")]
-    [ApiController]
-    [Route("api/[controller]")]
-    public class MedicalRecordsController : ControllerBase
-    {
-        private readonly AppDbContext _context;
-        public MedicalRecordsController(AppDbContext context) => _context = context;
-
-        [HttpGet]
-        public async Task<IActionResult> GetMedicalRecords() => Ok(await _context.MedicalRecords
-            .Include(m => m.Patient)
-            .Include(m => m.Doctor)
-            .ToListAsync());
+        private int GetCurrentDoctorId()
+        {
+            var userId = User.Claims.FirstOrDefault(c => c.Type == "id")?.Value;
+            return int.Parse(userId ?? "0");
+        }
     }
 }

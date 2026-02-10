@@ -1,17 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
-import { deleteAppointment } from "./appointmentsSlice";
+import { fetchAppointments, deleteAppointmentAsync } from "./appointmentsSlice";
 
 const AppointmentList = () => {
   const { t } = useTranslation();
   const appointments = useSelector((state) => state.appointments.list);
+  const loading = useSelector((state) => state.appointments.loading);
+  const error = useSelector((state) => state.appointments.error);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchAppointments());
+  }, [dispatch]);
 
   return (
     <div>
       <h3>{t("appointments.list")}</h3>
-      {appointments.length === 0 ? (
+      {error && <p style={{ color: "red" }}>Error: {error}</p>}
+      {loading && <p>{t("sidebar.loading")}</p>}
+      {appointments.length === 0 && !loading ? (
         <p>{t("appointments.noAppointments")}</p>
       ) : (
         <table style={{ width: "100%", borderCollapse: "collapse" }}>
@@ -57,7 +65,9 @@ const AppointmentList = () => {
                 </td>
                 <td style={{ border: "1px solid #ddd", padding: "10px" }}>
                   <button
-                    onClick={() => dispatch(deleteAppointment(appointment.id))}
+                    onClick={() =>
+                      dispatch(deleteAppointmentAsync(appointment.id))
+                    }
                     style={{
                       padding: "5px 10px",
                       backgroundColor: "#ff6b6b",

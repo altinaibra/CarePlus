@@ -18,7 +18,10 @@ namespace CarePlusApi.Models
 
         [Required]
         public DateTime Date { get; set; }
+        [Required]
+        public DateTime AppointmentDate { get; set; }
 
+        public string Reason { get; set; }
         [Required]
         public string Status { get; set; }
     }

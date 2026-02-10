@@ -7,8 +7,8 @@ const AppointmentsPage = () => {
   const { t } = useTranslation();
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h2>{t("appointments.title")}</h2>
+    <div className="p-5">
+      <h2 className="text-3xl font-bold mb-6">{t("appointments.title")}</h2>
       <AppointmentForm />
       <AppointmentList />
     </div>

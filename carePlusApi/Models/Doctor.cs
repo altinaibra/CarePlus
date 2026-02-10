@@ -16,5 +16,10 @@ namespace CarePlusApi.Models
         public Department Department { get; set; }
 
         public string Specialization { get; set; }
+        public string Email { get; set; }
+
+        public string Phone { get; set; }
+
+        public string LicenseNumber { get; set; }
     }
 }

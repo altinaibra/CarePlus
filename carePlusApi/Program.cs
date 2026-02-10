@@ -13,6 +13,18 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// Add CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowReactApp", builder =>
+    {
+        builder.WithOrigins("http://localhost:3000", "http://localhost:3001")
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowCredentials();
+    });
+});
+
 // Add Controllers
 builder.Services.AddControllers();
 
@@ -60,26 +72,10 @@ app.UseSwaggerUI(c =>
 });
 
 app.UseHttpsRedirection();
+app.UseCors("AllowReactApp");
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
-// Seed admin user
-//using (var scope = app.Services.CreateScope())
-//{
-//    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-//    if (!context.Users.Any())
-//    {
-//        context.Users.Add(new User
-//        {
-//            FirstName = "Admin",
-//            Email = "admin@careplus.com",
-//            Password = "admin123", 
-//            Role = "Admin"
-//        });
-//        context.SaveChanges();
-//    }
-//}
 
 app.Run();

@@ -22,9 +22,9 @@ const App = () => {
       {isLoggedIn ? (
         <>
           <Header />
-          <div style={{ display: "flex" }}>
+          <div className="flex">
             <Sidebar />
-            <div style={{ flex: 1 }}>
+            <div className="flex-1">
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/patients" element={<PatientsPage />} />

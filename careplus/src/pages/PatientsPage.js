@@ -7,8 +7,8 @@ const PatientsPage = () => {
   const { t } = useTranslation();
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h2>{t("patients.title")}</h2>
+    <div className="p-5">
+      <h2 className="text-3xl font-bold mb-6">{t("patients.title")}</h2>
       <PatientForm />
       <PatientList />
     </div>

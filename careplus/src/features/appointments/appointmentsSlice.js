@@ -1,4 +1,47 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { appointmentAPI } from "../../app/api";
+
+export const fetchAppointments = createAsyncThunk(
+  "appointments/fetchAppointments",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await appointmentAPI.getAll();
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.message || "Error fetching appointments",
+      );
+    }
+  },
+);
+
+export const createAppointment = createAsyncThunk(
+  "appointments/createAppointment",
+  async (appointmentData, { rejectWithValue }) => {
+    try {
+      const response = await appointmentAPI.create(appointmentData);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.message || "Error creating appointment",
+      );
+    }
+  },
+);
+
+export const deleteAppointmentAsync = createAsyncThunk(
+  "appointments/deleteAppointment",
+  async (id, { rejectWithValue }) => {
+    try {
+      await appointmentAPI.delete(id);
+      return id;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data?.message || "Error deleting appointment",
+      );
+    }
+  },
+);
 
 const initialState = {
   list: [],
@@ -10,38 +53,40 @@ const appointmentsSlice = createSlice({
   name: "appointments",
   initialState,
   reducers: {
-    setLoading: (state) => {
-      state.loading = true;
+    clearError: (state) => {
+      state.error = null;
     },
-    setAppointments: (state, action) => {
-      state.list = action.payload;
-      state.loading = false;
-    },
-    addAppointment: (state, action) => {
-      state.list.push(action.payload);
-    },
-    updateAppointment: (state, action) => {
-      const index = state.list.findIndex((a) => a.id === action.payload.id);
-      if (index !== -1) {
-        state.list[index] = action.payload;
-      }
-    },
-    deleteAppointment: (state, action) => {
-      state.list = state.list.filter((a) => a.id !== action.payload);
-    },
-    setError: (state, action) => {
-      state.error = action.payload;
-      state.loading = false;
-    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchAppointments.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchAppointments.fulfilled, (state, action) => {
+        state.loading = false;
+        state.list = action.payload;
+      })
+      .addCase(fetchAppointments.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(createAppointment.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(createAppointment.fulfilled, (state, action) => {
+        state.loading = false;
+        state.list.push(action.payload);
+      })
+      .addCase(createAppointment.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(deleteAppointmentAsync.fulfilled, (state, action) => {
+        state.list = state.list.filter((a) => a.id !== action.payload);
+      });
   },
 });
 
-export const {
-  setLoading,
-  setAppointments,
-  addAppointment,
-  updateAppointment,
-  deleteAppointment,
-  setError,
-} = appointmentsSlice.actions;
+export const { clearError } = appointmentsSlice.actions;
 export default appointmentsSlice.reducer;

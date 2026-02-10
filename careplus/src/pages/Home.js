@@ -11,26 +11,20 @@ const Home = () => {
   const { t } = useTranslation();
 
   return (
-    <div style={{ padding: "40px", textAlign: "center" }}>
-      <h1>{t("home.welcome")}</h1>
-      <p>{t("home.subtitle")}</p>
+    <div className="p-10 text-center">
+      <h1 className="text-4xl font-bold mb-4">{t("home.welcome")}</h1>
+      <p className="text-lg text-gray-600 mb-10">{t("home.subtitle")}</p>
 
-      <div style={{ marginTop: "30px" }}>
-        <h2>{t("home.departments")}</h2>
-        <div style={{ display: "flex", justifyContent: "center", gap: "20px" }}>
+      <div className="mt-8">
+        <h2 className="text-2xl font-bold mb-6">{t("home.departments")}</h2>
+        <div className="flex justify-center gap-5 flex-wrap">
           {hospitalInfo.map((dept, idx) => (
             <div
               key={idx}
-              style={{
-                border: "1px solid #ccc",
-                borderRadius: "8px",
-                padding: "20px",
-                width: "200px",
-                boxShadow: "2px 2px 10px rgba(0,0,0,0.1)",
-              }}
+              className="border border-gray-300 rounded-lg p-5 w-48 shadow-md hover:shadow-lg transition bg-white"
             >
-              <h3>{dept.title}</h3>
-              <p>{dept.description}</p>
+              <h3 className="text-lg font-semibold mb-2">{dept.title}</h3>
+              <p className="text-gray-600 text-sm">{dept.description}</p>
             </div>
           ))}
         </div>

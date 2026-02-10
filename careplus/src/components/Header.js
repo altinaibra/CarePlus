@@ -32,49 +32,27 @@ const Header = () => {
   };
 
   return (
-    <header
-      style={{
-        backgroundColor: "#2c3e50",
-        color: "white",
-        padding: "20px",
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-      }}
-    >
-      <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+    <header className="bg-slate-700 text-white px-5 py-5 flex justify-between items-center">
+      <div className="flex items-center gap-2">
         <MdLocalHospital size={32} />
-        <h3>{t("header.title")}</h3>
+        <h3 className="text-xl font-bold">{t("header.title")}</h3>
       </div>
       {user && (
-        <div style={{ display: "flex", gap: "20px", alignItems: "center" }}>
-          <span>
+        <div className="flex gap-5 items-center">
+          <span className="text-sm">
             <strong>{user}</strong> ({getRoleLabel(role)})
           </span>
           <select
             value={i18n.language}
             onChange={(e) => changeLanguage(e.target.value)}
-            style={{
-              padding: "6px 12px",
-              borderRadius: "4px",
-              border: "none",
-              cursor: "pointer",
-              backgroundColor: "#ecf0f1",
-            }}
+            className="px-3 py-1.5 rounded-md border-0 cursor-pointer bg-gray-200 text-gray-900 text-sm"
           >
             <option value="al">Albanian</option>
             <option value="en">English</option>
           </select>
           <button
             onClick={handleLogout}
-            style={{
-              padding: "8px 15px",
-              backgroundColor: "#f5f5f5",
-              color: "black",
-              border: "none",
-              borderRadius: "4px",
-              cursor: "pointer",
-            }}
+            className="px-4 py-2 bg-gray-100 text-gray-900 border-0 rounded-md cursor-pointer hover:bg-gray-200 transition"
           >
             {t("header.logout")}
           </button>

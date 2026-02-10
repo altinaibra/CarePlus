@@ -1,78 +1,78 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
-import { deletePatient } from "./patientsSlice";
+import { fetchPatients, deletePatientAsync } from "./patientsSlice";
 
 const PatientList = () => {
   const { t } = useTranslation();
   const patients = useSelector((state) => state.patients.list);
+  const loading = useSelector((state) => state.patients.loading);
+  const error = useSelector((state) => state.patients.error);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchPatients());
+  }, [dispatch]);
 
   return (
     <div>
-      <h3>{t("patients.list")}</h3>
-      {patients.length === 0 ? (
-        <p>{t("patients.noPatients")}</p>
+      <h3 className="text-lg font-bold mb-4">{t("patients.list")}</h3>
+      {error && <p className="text-red-600 mb-4">Error: {error}</p>}
+      {loading && <p className="text-gray-600">{t("sidebar.loading")}</p>}
+      {patients.length === 0 && !loading ? (
+        <p className="text-gray-600">{t("patients.noPatients")}</p>
       ) : (
-        <table style={{ width: "100%", borderCollapse: "collapse" }}>
-          <thead>
-            <tr style={{ backgroundColor: "#f0f0f0" }}>
-              <th style={{ border: "1px solid #ddd", padding: "10px" }}>
-                {t("patients.name")}
-              </th>
-              <th style={{ border: "1px solid #ddd", padding: "10px" }}>
-                {t("patients.email")}
-              </th>
-              <th style={{ border: "1px solid #ddd", padding: "10px" }}>
-                {t("patients.phone")}
-              </th>
-              <th style={{ border: "1px solid #ddd", padding: "10px" }}>
-                {t("patients.age")}
-              </th>
-              <th style={{ border: "1px solid #ddd", padding: "10px" }}>
-                {t("patients.address")}
-              </th>
-              <th style={{ border: "1px solid #ddd", padding: "10px" }}>
-                {t("patients.actions")}
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {patients.map((patient) => (
-              <tr key={patient.id}>
-                <td style={{ border: "1px solid #ddd", padding: "10px" }}>
-                  {patient.name}
-                </td>
-                <td style={{ border: "1px solid #ddd", padding: "10px" }}>
-                  {patient.email}
-                </td>
-                <td style={{ border: "1px solid #ddd", padding: "10px" }}>
-                  {patient.phone}
-                </td>
-                <td style={{ border: "1px solid #ddd", padding: "10px" }}>
-                  {patient.age}
-                </td>
-                <td style={{ border: "1px solid #ddd", padding: "10px" }}>
-                  {patient.address}
-                </td>
-                <td style={{ border: "1px solid #ddd", padding: "10px" }}>
-                  <button
-                    onClick={() => dispatch(deletePatient(patient.id))}
-                    style={{
-                      padding: "5px 10px",
-                      backgroundColor: "#ff6b6b",
-                      color: "white",
-                      border: "none",
-                      cursor: "pointer",
-                    }}
-                  >
-                    {t("patients.delete")}
-                  </button>
-                </td>
+        <div className="overflow-x-auto">
+          <table className="w-full border-collapse">
+            <thead>
+              <tr className="bg-gray-100">
+                <th className="border border-gray-300 p-3 text-left font-semibold">
+                  {t("patients.name")}
+                </th>
+                <th className="border border-gray-300 p-3 text-left font-semibold">
+                  {t("patients.email")}
+                </th>
+                <th className="border border-gray-300 p-3 text-left font-semibold">
+                  {t("patients.phone")}
+                </th>
+                <th className="border border-gray-300 p-3 text-left font-semibold">
+                  {t("patients.age")}
+                </th>
+                <th className="border border-gray-300 p-3 text-left font-semibold">
+                  {t("patients.address")}
+                </th>
+                <th className="border border-gray-300 p-3 text-left font-semibold">
+                  {t("patients.actions")}
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {patients.map((patient) => (
+                <tr key={patient.id} className="hover:bg-gray-50">
+                  <td className="border border-gray-300 p-3">{patient.name}</td>
+                  <td className="border border-gray-300 p-3">
+                    {patient.email}
+                  </td>
+                  <td className="border border-gray-300 p-3">
+                    {patient.phone}
+                  </td>
+                  <td className="border border-gray-300 p-3">{patient.age}</td>
+                  <td className="border border-gray-300 p-3">
+                    {patient.address}
+                  </td>
+                  <td className="border border-gray-300 p-3">
+                    <button
+                      onClick={() => dispatch(deletePatientAsync(patient.id))}
+                      className="px-3 py-1 bg-red-500 text-white border-0 rounded cursor-pointer hover:bg-red-600 transition text-sm"
+                    >
+                      {t("patients.delete")}
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
     </div>
   );
