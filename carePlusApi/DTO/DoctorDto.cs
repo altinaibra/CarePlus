@@ -11,17 +11,16 @@ namespace carePlusApi.DTO
         [Required]
         public string Name { get; set; }
 
-        [ForeignKey("Department")]
-
+        [Required]
         public string Password { get; set; }
+
+        [ForeignKey("Department")]
         public int DepartmentId { get; set; }
         public Department Department { get; set; }
 
         public string Specialization { get; set; }
         public string Email { get; set; }
-
         public string Phone { get; set; }
-
         public string LicenseNumber { get; set; }
     }
 }

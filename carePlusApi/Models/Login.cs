@@ -1,6 +1,6 @@
-namespace carePlusApi.DTO
+﻿namespace carePlusApi.Models
 {
-    public class LoginDto
+    public class Login
     {
         public string Username { get; set; }
         public string Email { get; set; }

@@ -1,9 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using CarePlusApi.Models;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 
-namespace CarePlusApi.Models
+namespace carePlusApi.DTO
 {
-    public class Doctor
+    public class NurseDto
     {
         public int Id { get; set; }
 
@@ -17,7 +18,6 @@ namespace CarePlusApi.Models
         public int DepartmentId { get; set; }
         public Department Department { get; set; }
 
-        public string Specialization { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
         public string LicenseNumber { get; set; }

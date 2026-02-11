@@ -12,7 +12,6 @@ const LoginForm = () => {
   const [formData, setFormData] = useState({
     username: "", 
     password: "",
-    role: "",
   });
   const [error, setError] = useState("");
 
@@ -21,29 +20,29 @@ const LoginForm = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError("");
+ const handleSubmit = async (e) => {
+   e.preventDefault();
+   setError("");
 
-    try {
-      const response = await authAPI.login(formData);
-      const { token, role } = response.data;
+   try {
+     const response = await authAPI.login(formData);
+     const { token, role, username } = response.data;
 
-      localStorage.setItem("authToken", token);
+     localStorage.setItem("authToken", token);
+     localStorage.setItem("userRole", role);
 
-      dispatch(
-        loginAction({
-          user: formData.username,
-          role: role,
-        }),
-      );
+     dispatch(
+       loginAction({
+         user: username,
+         role: role,
+       }),
+     );
 
-      navigate("/");
-    } catch (err) {
-      console.error(err);
-      setError("Invalid credentials");
-    }
-  };
+     navigate("/");
+   } catch (err) {
+     setError("Invalid credentials");
+   }
+ };
 
   return (
     <form
@@ -82,24 +81,6 @@ const LoginForm = () => {
           required
           className="block px-3 py-2 w-full border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] rounded-md bg-white dark:[background-color:oklch(20.5%_0_0)] text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-slate-700"
         />
-      </div>
-
-      <div className="mb-6">
-        <label className="block mb-2 font-bold text-gray-700 dark:text-gray-200">
-          {t("login.role")}:
-        </label>
-        <select
-          name="role"
-          value={formData.role}
-          onChange={handleChange}
-          required
-          className="block px-3 py-2 w-full border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] rounded-md cursor-pointer bg-white dark:[background-color:oklch(20.5%_0_0)] text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-slate-700"
-        >
-          <option value="">{t("login.selectRole")}</option>
-          <option value="admin">{t("login.admin")}</option>
-          <option value="doctor">{t("login.doctor")}</option>
-          <option value="nurse">{t("login.nurse")}</option>
-        </select>
       </div>
 
       <button
