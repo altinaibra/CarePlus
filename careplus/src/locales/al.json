@@ -59,7 +59,8 @@
     "actions": "Aksione",
     "delete": "Fshij",
     "noDoctors": "Nuk ka doktorë të regjistruar.",
-    "addButton": "Shto Doktorin"
+    "addButton": "Shto Doktorin",
+    "password":"Fjalëkalimi"
   },
   "appointments": {
     "title": "Menaxhimi i Takimeve",

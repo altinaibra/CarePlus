@@ -25,9 +25,7 @@ const handleSubmit = async (e) => {
   setError("");
 
   try {
-  console.log("Form data:", formData);
   const response = await authAPI.login(formData);
-  console.log("Login response:", response.data);
     const { token, role, username } = response.data;
 
     localStorage.setItem("authToken", token);

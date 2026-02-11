@@ -1,55 +1,62 @@
-using CarePlusApi.Data;
-using Microsoft.AspNetCore.Authorization;
+﻿using CarePlusApi.Data;
+using CarePlusApi.Models;
+using carePlusApi.DTO;
+using CarePlusApi.Repository;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace CarePlusApi.Controllers
 {
-    [Authorize(Roles = "Doctor")]
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/doctors")] // ✅ Use plural lowercase for REST convention
     public class DoctorController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly DoctorRepository _doctorRepo;
 
         public DoctorController(AppDbContext context)
         {
-            _context = context;
+            _doctorRepo = new DoctorRepository(context);
         }
 
-        [HttpGet("patients")]
-        public async Task<IActionResult> GetPatients()
+        [HttpGet]
+        public async Task<IActionResult> GetAllDoctors()
         {
-            var doctorId = GetCurrentDoctorId();
-
-            var patients = await _context.MedicalRecords
-                .Include(m => m.Patient)
-                .Where(m => m.DoctorId == doctorId)
-                .Select(m => m.Patient)
-                .Distinct()
-                .ToListAsync();
-
-            return Ok(patients);
+            var doctors = await _doctorRepo.GetAllAsync();
+            return Ok(doctors);
         }
 
-        [HttpGet("admissions")]
-        public async Task<IActionResult> GetAdmissions()
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetDoctor(int id)
         {
-            var doctorId = GetCurrentDoctorId();
-
-            var admissions = await _context.Admissions
-                .Include(a => a.Patient)
-                .Where(a => _context.MedicalRecords
-                    .Any(m => m.PatientId == a.PatientId && m.DoctorId == doctorId))
-                .ToListAsync();
-
-            return Ok(admissions);
+            var doctor = await _doctorRepo.GetByIdAsync(id);
+            if (doctor == null) return NotFound();
+            return Ok(doctor);
         }
 
-        private int GetCurrentDoctorId()
+        [HttpPost]
+        public async Task<IActionResult> CreateDoctor([FromBody] DoctorDto doctorDto)
         {
-            var userId = User.Claims.FirstOrDefault(c => c.Type == "id")?.Value;
-            return int.TryParse(userId, out var doctorId) ? doctorId : 0;
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var doctor = await _doctorRepo.CreateAsync(doctorDto);
+
+            return Ok(new
+            {
+                doctor.Id,
+                doctor.Name,
+                doctor.Specialization,
+                doctor.Email,
+                doctor.Phone,
+                doctor.LicenseNumber
+            });
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteDoctor(int id)
+        {
+            var deleted = await _doctorRepo.DeleteAsync(id);
+            if (!deleted) return NotFound();
+            return NoContent();
         }
     }
 }

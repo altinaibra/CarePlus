@@ -6,12 +6,15 @@ import { createDoctor } from "./doctorsSlice";
 const DoctorForm = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+
+  // ✅ Include password in formData
   const [formData, setFormData] = useState({
     name: "",
     speciality: "",
     email: "",
     phone: "",
     licenseNumber: "",
+    password: "",
   });
 
   const handleChange = (e) => {
@@ -24,6 +27,8 @@ const DoctorForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    // ✅ Send password along with other fields
     dispatch(
       createDoctor({
         name: formData.name,
@@ -31,14 +36,17 @@ const DoctorForm = () => {
         email: formData.email,
         phone: formData.phone,
         licenseNumber: formData.licenseNumber,
+        password: formData.password,
       }),
     );
+
     setFormData({
       name: "",
       speciality: "",
       email: "",
       phone: "",
       licenseNumber: "",
+      password: "",
     });
   };
 
@@ -48,6 +56,7 @@ const DoctorForm = () => {
       className="border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] p-5 mb-5 rounded-lg bg-white dark:[background-color:oklch(20.5%_0_0)] shadow-sm text-gray-900 dark:text-gray-100"
     >
       <h3 className="text-lg font-bold mb-4">{t("doctors.addNew")}</h3>
+
       <input
         type="text"
         name="name"
@@ -80,6 +89,15 @@ const DoctorForm = () => {
         name="phone"
         placeholder={t("doctors.phone")}
         value={formData.phone}
+        onChange={handleChange}
+        required
+        className="block mb-3 p-2 w-full border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] rounded bg-white dark:[background-color:oklch(20.5%_0_0)] text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-slate-700"
+      />
+      <input
+        type="password"
+        name="password"
+        placeholder={t("doctors.password")}
+        value={formData.password}
         onChange={handleChange}
         required
         className="block mb-3 p-2 w-full border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] rounded bg-white dark:[background-color:oklch(20.5%_0_0)] text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-slate-700"

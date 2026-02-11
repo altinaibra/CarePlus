@@ -59,7 +59,8 @@
     "actions": "Actions",
     "delete": "Delete",
     "noDoctors": "No registered doctors.",
-    "addButton": "Add Doctor"
+    "addButton": "Add Doctor",
+    "password": "Password"
   },
   "appointments": {
     "title": "Appointment Management",
