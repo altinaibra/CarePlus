@@ -37,15 +37,18 @@
     "title": "Patient Management",
     "addNew": "Add New Patient",
     "list": "Patient List",
-    "name": "Name",
+    "firstName": "Name",
+    "lastName": "Last Name",
     "email": "Email",
-    "phone": "Phone",
+    "contact": "Contact",
     "age": "Age",
+    "gender": "Gender",
     "address": "Address",
     "actions": "Actions",
     "delete": "Delete",
     "noPatients": "No registered patients.",
-    "addButton": "Add Patient"
+    "addButton": "Add Patient",
+    "password": "Password"
   },
   "doctors": {
     "title": "Doctor Management",

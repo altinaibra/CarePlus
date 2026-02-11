@@ -68,13 +68,7 @@ const AppointmentList = () => {
                     onClick={() =>
                       dispatch(deleteAppointmentAsync(appointment.id))
                     }
-                    style={{
-                      padding: "5px 10px",
-                      backgroundColor: "#ff6b6b",
-                      color: "white",
-                      border: "none",
-                      cursor: "pointer",
-                    }}
+                    className="px-3 py-1 bg-slate-700 dark:[background-color:oklch(47.6%_0.114_61.907)] text-white rounded cursor-pointer hover:bg-slate-800 transition text-sm"
                   >
                     {t("appointments.delete")}
                   </button>

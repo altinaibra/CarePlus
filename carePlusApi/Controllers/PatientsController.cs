@@ -1,5 +1,6 @@
 using CarePlusApi.Data;
 using CarePlusApi.Models;
+using CarePlusApi.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -58,10 +59,28 @@ namespace CarePlusApi.Controllers
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
 
+                // Hash password before saving
+                if (!string.IsNullOrEmpty(patient.Password))
+                {
+                    patient.Password = PasswordHelper.HashPassword(patient.Password);
+                }
+
                 _context.Patients.Add(patient);
                 await _context.SaveChangesAsync();
 
-                return CreatedAtAction(nameof(GetPatient), new { id = patient.Id }, patient);
+                return CreatedAtAction(nameof(GetPatient), new { id = patient.Id }, new
+                {
+                    patient.Id,
+                    patient.FirstName,
+                    patient.LastName,
+                    patient.DateOfBirth,
+                    patient.Age,
+                    patient.Email,
+                    patient.Gender,
+                    patient.Address,
+                    patient.Contact
+                    // Do not return Password
+                });
             }
             catch (Exception ex)
             {
@@ -80,14 +99,36 @@ namespace CarePlusApi.Controllers
                     return NotFound(new { message = "Patient not found" });
 
                 existingPatient.FirstName = patient.FirstName;
+                existingPatient.LastName = patient.LastName;
+                existingPatient.DateOfBirth = patient.DateOfBirth;
+                existingPatient.Age = patient.Age;
                 existingPatient.Email = patient.Email;
                 existingPatient.Contact = patient.Contact;
                 existingPatient.Address = patient.Address;
+                existingPatient.Gender = patient.Gender;
+
+                // Update password if provided
+                if (!string.IsNullOrEmpty(patient.Password))
+                {
+                    existingPatient.Password = PasswordHelper.HashPassword(patient.Password);
+                }
 
                 _context.Patients.Update(existingPatient);
                 await _context.SaveChangesAsync();
 
-                return Ok(existingPatient);
+                return Ok(new
+                {
+                    existingPatient.Id,
+                    existingPatient.FirstName,
+                    existingPatient.LastName,
+                    existingPatient.DateOfBirth,
+                    existingPatient.Age,
+                    existingPatient.Email,
+                    existingPatient.Gender,
+                    existingPatient.Address,
+                    existingPatient.Contact
+                    // Do not return Password
+                });
             }
             catch (Exception ex)
             {

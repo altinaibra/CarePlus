@@ -29,13 +29,16 @@ const PatientList = () => {
             <thead>
               <tr className="bg-gray-100 dark:[background-color:oklch(20.5%_0_0)]">
                 <th className="border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] p-3 text-left font-semibold">
-                  {t("patients.name")}
+                  {t("patients.firstName")}
+                </th>
+                <th className="border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] p-3 text-left font-semibold">
+                  {t("patients.lastName")}
                 </th>
                 <th className="border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] p-3 text-left font-semibold">
                   {t("patients.email")}
                 </th>
                 <th className="border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] p-3 text-left font-semibold">
-                  {t("patients.phone")}
+                  {t("patients.contact")}
                 </th>
                 <th className="border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] p-3 text-left font-semibold">
                   {t("patients.age")}
@@ -55,13 +58,16 @@ const PatientList = () => {
                   className="hover:bg-gray-50 dark:hover:[background-color:oklch(20.5%_0_0)]"
                 >
                   <td className="border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] p-3">
-                    {patient.name}
+                    {patient.firstName}
+                  </td>
+                  <td className="border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] p-3">
+                    {patient.lastName}
                   </td>
                   <td className="border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] p-3">
                     {patient.email}
                   </td>
                   <td className="border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] p-3">
-                    {patient.phone}
+                    {patient.contact}
                   </td>
                   <td className="border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] p-3">
                     {patient.age}
@@ -72,7 +78,7 @@ const PatientList = () => {
                   <td className="border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] p-3">
                     <button
                       onClick={() => dispatch(deletePatientAsync(patient.id))}
-                      className="px-3 py-1 bg-red-500 text-white border-0 rounded cursor-pointer hover:bg-red-600 transition text-sm"
+                      className="px-3 py-1 bg-slate-700 dark:[background-color:oklch(47.6%_0.114_61.907)] text-white border-0 rounded cursor-pointer transition text-sm"
                     >
                       {t("patients.delete")}
                     </button>

@@ -37,15 +37,18 @@
     "title": "Menaxhimi i Pacientëve",
     "addNew": "Shto Pacientin e Ri",
     "list": "Lista e Pacientëve",
-    "name": "Emri",
+    "firstName": "Emri",
+    "lastName": "Mbiemri",
     "email": "Email",
-    "phone": "Telefon",
+    "contact": "Kontakti",
     "age": "Mosha",
+    "gender": "Gjinia",
     "address": "Adresa",
     "actions": "Aksione",
     "delete": "Fshij",
     "noPatients": "Nuk ka pacientë të regjistruar.",
-    "addButton": "Shto Pacientin"
+    "addButton": "Shto Pacientin",
+    "password": "Fjalëkalimi"
   },
   "doctors": {
     "title": "Menaxhimi i Doktorëve",

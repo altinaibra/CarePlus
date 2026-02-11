@@ -72,7 +72,7 @@ const DoctorList = () => {
                   <td className="border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] p-3">
                     <button
                       onClick={() => dispatch(deleteDoctorAsync(doctor.id))}
-                      className="px-3 py-1 bg-red-500 text-white border-0 rounded cursor-pointer hover:bg-red-600 transition text-sm"
+                      className="px-3 py-1 bg-slate-700 dark:[background-color:oklch(47.6%_0.114_61.907)] text-white border-0 rounded cursor-pointer  transition text-sm"
                     >
                       {t("doctors.delete")}
                     </button>
