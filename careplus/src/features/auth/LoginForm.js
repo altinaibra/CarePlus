@@ -20,29 +20,33 @@ const LoginForm = () => {
     setFormData({ ...formData, [name]: value });
   };
 
- const handleSubmit = async (e) => {
-   e.preventDefault();
-   setError("");
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setError("");
 
-   try {
-     const response = await authAPI.login(formData);
-     const { token, role, username } = response.data;
+  try {
+  console.log("Form data:", formData);
+  const response = await authAPI.login(formData);
+  console.log("Login response:", response.data);
+    const { token, role, username } = response.data;
 
-     localStorage.setItem("authToken", token);
-     localStorage.setItem("userRole", role);
+    localStorage.setItem("authToken", token);
+    localStorage.setItem("userRole", role);
+    localStorage.setItem("username", username);
 
-     dispatch(
-       loginAction({
-         user: username,
-         role: role,
-       }),
-     );
+    dispatch(
+      loginAction({
+        user: username,
+        role: role,
+      }),
+    );
 
-     navigate("/");
-   } catch (err) {
-     setError("Invalid credentials");
-   }
- };
+    navigate("/"); 
+  } catch (err) {
+    setError("Invalid credentials");
+  }
+};
+
 
   return (
     <form
