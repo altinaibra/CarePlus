@@ -2,8 +2,7 @@
 using CarePlusApi.Models;
 using carePlusApi.DTO;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Cryptography;
-using System.Text;
+using CarePlusApi.Helpers; 
 
 namespace CarePlusApi.Repository
 {
@@ -35,7 +34,7 @@ namespace CarePlusApi.Repository
                 Email = doctorDto.Email,
                 Phone = doctorDto.Phone,
                 LicenseNumber = doctorDto.LicenseNumber,
-                Password = HashPassword(doctorDto.Password)
+                Password = PasswordHelper.HashPassword(doctorDto.Password) 
             };
 
             _context.Doctors.Add(doctor);
@@ -51,14 +50,6 @@ namespace CarePlusApi.Repository
             _context.Doctors.Remove(doctor);
             await _context.SaveChangesAsync();
             return true;
-        }
-
-        private string HashPassword(string password)
-        {
-            using var sha256 = SHA256.Create();
-            var bytes = Encoding.UTF8.GetBytes(password);
-            var hash = sha256.ComputeHash(bytes);
-            return Convert.ToBase64String(hash);
         }
     }
 }
