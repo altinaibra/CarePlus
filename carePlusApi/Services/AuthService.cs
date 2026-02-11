@@ -21,23 +21,22 @@ namespace CarePlusApi.Services
 
         public async Task<(string token, string role, string username)> LoginAsync(LoginDto loginDto)
         {
-            if (string.IsNullOrEmpty(loginDto.Username) && string.IsNullOrEmpty(loginDto.Email))
-                throw new Exception("Username or Email must be provided.");
+            if (string.IsNullOrEmpty(loginDto.Username))
+                throw new Exception("Username must be provided.");
 
-            // Fetch user by username or email
-            var user = await _userRepository.GetByUsernameOrEmailAsync(loginDto.Username, loginDto.Email);
+            var user = await _userRepository.GetByUsernameAsync(loginDto.Username);
+
             if (user == null)
                 throw new Exception("User not found.");
 
-            // Verify password (replace with hashed password verification in production)
             if (user.Password != loginDto.Password)
                 throw new Exception("Invalid password.");
 
-            // Generate JWT token
             var token = GenerateJwtToken(user);
 
             return (token, user.Role, user.Username);
         }
+
 
         public string GenerateJwtToken(User user)
         {

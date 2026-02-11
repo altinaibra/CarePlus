@@ -12,13 +12,12 @@ namespace CarePlusApi.Repository
             _context = context;
         }
 
-        public async Task<User?> GetByUsernameOrEmailAsync(string username, string email)
+        public async Task<User?> GetByUsernameAsync(string username)
         {
             return await _context.Users
-                .FirstOrDefaultAsync(u =>
-                    (username != null && u.Username == username) ||
-                    (email != null && u.Email == email)
-                );
+                .FirstOrDefaultAsync(u => u.Username == username);
         }
+
+
     }
 }
