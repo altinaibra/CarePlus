@@ -31,6 +31,7 @@ const App = () => {
                 <Route path="/appointments" element={<AppointmentsPage />} />
                 <Route path="/login" element={<Navigate to="/" />} />
                 <Route path="/profile" element={<Profile />} />
+                
               </Routes>
             </div>
           </div>

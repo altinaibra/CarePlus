@@ -5,8 +5,8 @@
     "profile": "Profili",
     "settings": "Cilesimet",
     "appointments": "Terminet",
-    "albanian":"Shqip",
-    "english":"Anglisht"
+    "albanian": "Shqip",
+    "english": "Anglisht"
   },
   "sidebar": {
     "home": "Home",
@@ -63,7 +63,7 @@
     "delete": "Fshij",
     "noDoctors": "Nuk ka doktorë të regjistruar.",
     "addButton": "Shto Doktorin",
-    "password":"Fjalëkalimi"
+    "password": "Fjalëkalimi"
   },
   "appointments": {
     "title": "Menaxhimi i Takimeve",
@@ -77,6 +77,8 @@
     "actions": "Aksione",
     "delete": "Fshij",
     "noAppointments": "Nuk ka takime të regjistruara.",
-    "addButton": "Shto Takimin"
+    "addButton": "Shto Takimin",
+    "selectPatient": "Selekto Pacientin",
+    "appointments.selectDoctor": "Selekto Doktorin"
   }
 }

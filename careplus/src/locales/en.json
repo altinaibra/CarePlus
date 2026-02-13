@@ -77,6 +77,8 @@
     "actions": "Actions",
     "delete": "Delete",
     "noAppointments": "No registered appointments.",
-    "addButton": "Add Appointment"
+    "addButton": "Add Appointment",
+    "selectPatient": "Select Patient",
+    "appointments.selectDoctor":"Select Doctor"
   }
 }

@@ -30,7 +30,7 @@ export const appointmentAPI = {
 
 // DEPARTMENTS
 export const departmentAPI = {
-  getAll: () => axiosInstance.get("/departments"), // assuming your endpoint is /departments
+  getAll: () => axiosInstance.get("/departments"),
   getById: (id) => axiosInstance.get(`/departments/${id}`),
   create: (data) => axiosInstance.post("/departments", data),
   update: (id, data) => axiosInstance.put(`/departments/${id}`, data),
