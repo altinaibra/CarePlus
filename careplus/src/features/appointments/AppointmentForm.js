@@ -20,7 +20,6 @@ const AppointmentForm = () => {
     reason: "",
   });
 
-  // Fetch doctors and patients when the component mounts
   useEffect(() => {
     if (doctors.length === 0) dispatch(fetchDoctors());
     if (patients.length === 0) dispatch(fetchPatients());
@@ -31,30 +30,30 @@ const AppointmentForm = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-const handleSubmit = (e) => {
-  e.preventDefault();
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-  const appointmentDate = new Date(`${formData.date}T${formData.time}`);
+    const appointmentDate = new Date(`${formData.date}T${formData.time}`);
 
-  dispatch(
-    createAppointment({
-      PatientId: parseInt(formData.patientId),
-      DoctorId: parseInt(formData.doctorId),
-      AppointmentDate: appointmentDate.toISOString(), // form date+time
-      Date: new Date().toISOString(), // current date
-      Reason: formData.reason,
-      Status: "Scheduled",
-    }),
-  );
+    dispatch(
+      createAppointment({
+        PatientId: parseInt(formData.patientId),
+        DoctorId: parseInt(formData.doctorId),
+        AppointmentDate: appointmentDate.toISOString(), // form date+time
+        Date: new Date().toISOString(), // current date
+        Reason: formData.reason,
+        Status: "Scheduled",
+      }),
+    );
 
-  setFormData({
-    patientId: "",
-    doctorId: "",
-    date: "",
-    time: "",
-    reason: "",
-  });
-};
+    setFormData({
+      patientId: "",
+      doctorId: "",
+      date: "",
+      time: "",
+      reason: "",
+    });
+  };
 
   return (
     <form

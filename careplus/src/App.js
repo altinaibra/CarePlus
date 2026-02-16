@@ -13,6 +13,7 @@ import DoctorsPage from "./pages/DoctorsPage";
 import AppointmentsPage from "./pages/AppointmentsPage";
 import Header from "./components/Header";
 import Profile from "./pages/Profile";
+import DepartmentDetails from "./pages/DepartmentDetails/DepartmentDetails";
 const App = () => {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
@@ -31,7 +32,10 @@ const App = () => {
                 <Route path="/appointments" element={<AppointmentsPage />} />
                 <Route path="/login" element={<Navigate to="/" />} />
                 <Route path="/profile" element={<Profile />} />
-                
+                <Route
+                  path="/departments/:id"
+                  element={<DepartmentDetails />}
+                />
               </Routes>
             </div>
           </div>
