@@ -14,6 +14,8 @@ import AppointmentsPage from "./pages/AppointmentsPage";
 import Header from "./components/Header";
 import Profile from "./pages/Profile";
 import DepartmentDetails from "./pages/DepartmentDetails/DepartmentDetails";
+import { SettingsProvider } from "./components/Settings/Settings";
+import SettingsPage from "./pages/SettingsPage";
 
 interface RootState {
   auth: {
@@ -25,34 +27,37 @@ const App: React.FC = () => {
   const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
 
   return (
-    <Router>
-      {isLoggedIn ? (
-        <>
-          <Header />
-          <div className="flex">
-            <div className="flex-1">
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/patients" element={<PatientsPage />} />
-                <Route path="/doctors" element={<DoctorsPage />} />
-                <Route path="/appointments" element={<AppointmentsPage />} />
-                <Route path="/login" element={<Navigate to="/" />} />
-                <Route path="/profile" element={<Profile />} />
-                <Route
-                  path="/departments/:id"
-                  element={<DepartmentDetails />}
-                />
-              </Routes>
+    <SettingsProvider>
+      <Router>
+        {isLoggedIn ? (
+          <>
+            <Header />
+            <div className="flex">
+              <div className="flex-1">
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/patients" element={<PatientsPage />} />
+                  <Route path="/doctors" element={<DoctorsPage />} />
+                  <Route path="/appointments" element={<AppointmentsPage />} />
+                  <Route path="/login" element={<Navigate to="/" />} />
+                  <Route path="/profile" element={<Profile />} />
+                  <Route path="/settings" element={<SettingsPage />} />
+                  <Route
+                    path="/departments/:id"
+                    element={<DepartmentDetails />}
+                  />
+                </Routes>
+              </div>
             </div>
-          </div>
-        </>
-      ) : (
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="*" element={<Navigate to="/login" />} />
-        </Routes>
-      )}
-    </Router>
+          </>
+        ) : (
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="*" element={<Navigate to="/login" />} />
+          </Routes>
+        )}
+      </Router>
+    </SettingsProvider>
   );
 };
 
