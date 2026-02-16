@@ -5,7 +5,6 @@ import { useTranslation } from "react-i18next";
 import { logout } from "../features/auth/authSlice";
 import { IconType } from "react-icons";
 
-// New icons you want to use
 import { FaHome, FaUserMd, FaUsers, FaCalendarAlt } from "react-icons/fa";
 
 import LanguageSelector from "../locales/LanguageSelector";
@@ -15,7 +14,7 @@ import { RootState } from "../app/store";
 interface MenuItem {
   path: string;
   label: string;
-  Icon: IconType; // Use IconType from react-icons
+  Icon: IconType;
 }
 
 const Header: React.FC = () => {
@@ -47,7 +46,6 @@ const Header: React.FC = () => {
     localStorage.setItem("language", lang);
   };
 
-  // Updated menu items with new icons
   const menuItems: MenuItem[] = [
     { path: "/", label: t("sidebar.home"), Icon: FaHome },
     { path: "/patients", label: t("sidebar.patients"), Icon: FaUsers },
@@ -75,24 +73,27 @@ const Header: React.FC = () => {
   return (
     <header className="bg-slate-700 dark:[background-color:oklch(20.5%_0_0)] text-white px-5 py-4 flex items-center justify-between relative border-b border-gray-300 dark:[border-bottom-color:oklch(47.6%_0.114_61.907)]">
       <div className="flex items-center gap-2 z-10">
-        {/* <FaUserMd size={32} /> */}
+        {React.createElement(
+          FaUserMd as React.ComponentType<{ size?: number }>,
+          { size: 32 },
+        )}
         <h3 className="text-xl font-bold">{t("header.title")}</h3>
       </div>
 
       <nav className="flex-1 flex justify-center gap-6 text-2xl">
-        {menuItems.map((item, index) => {
-          const Icon = item.Icon;
-          return (
-            <Link
-              key={index}
-              to={item.path}
-              className="flex items-center gap-1 text-white hover:text-gray-200 transition"
-            >
-              {/* <Icon /> */}
-              <span className="text-sm">{item.label}</span>
-            </Link>
-          );
-        })}
+        {menuItems.map((item, index) => (
+          <Link
+            key={index}
+            to={item.path}
+            className="flex items-center gap-1 text-white hover:text-gray-200 transition"
+          >
+            {React.createElement(
+              item.Icon as React.ComponentType<{ size?: number }>,
+              { size: 20 },
+            )}
+            <span className="text-sm">{item.label}</span>
+          </Link>
+        ))}
       </nav>
 
       {user && (
@@ -105,7 +106,10 @@ const Header: React.FC = () => {
               onClick={() => setDropdownOpen(!dropdownOpen)}
               className="flex items-center gap-2 p-2 rounded-full bg-gray-200 text-gray-900 hover:bg-gray-300 dark:[background-color:oklch(20.5%_0_0)] dark:text-gray-100 dark:hover:[background-color:oklch(20.5%_0_0)] transition"
             >
-              {/* <FaUserMd size={24} /> */}
+              {React.createElement(
+                FaUserMd as React.ComponentType<{ size?: number }>,
+                { size: 22 },
+              )}
               <span className="text-sm">
                 <strong>{user ?? ""}</strong> ({getRoleLabel(role ?? "")})
               </span>
