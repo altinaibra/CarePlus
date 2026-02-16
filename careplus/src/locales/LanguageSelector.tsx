@@ -3,13 +3,28 @@ import Select from "react-select";
 import FlagAL from "../assets/images/FlagAL.png";
 import FlagEN from "../assets/images/FlagEN.png";
 import { useTheme } from "../context/ThemeContext";
+import { i18n as I18nInstance } from "i18next";
 
-const options = [
+interface LanguageOption {
+  value: string;
+  label: string;
+  flag: string;
+}
+
+const options: LanguageOption[] = [
   { value: "al", label: "AL", flag: FlagAL },
   { value: "en", label: "EN", flag: FlagEN },
 ];
 
-function LanguageSelector({ i18n, changeLanguage }) {
+interface LanguageSelectorProps {
+  i18n: I18nInstance;
+  changeLanguage: (lang: string) => void;
+}
+
+const LanguageSelector: React.FC<LanguageSelectorProps> = ({
+  i18n,
+  changeLanguage,
+}) => {
   const { isDarkMode } = useTheme();
   const colors = isDarkMode
     ? {
@@ -30,16 +45,15 @@ function LanguageSelector({ i18n, changeLanguage }) {
       };
 
   return (
-    <Select
+    <Select<LanguageOption>
       value={options.find((opt) => opt.value === i18n.language)}
-      onChange={(selected) => changeLanguage(selected.value)}
+      onChange={(selected) => {
+        if (selected) changeLanguage(selected.value);
+      }}
       options={options}
       isSearchable={false}
       formatOptionLabel={(opt) => (
-        <div
-          className="flex items-center gap-2"
-          style={{ color: colors.text }}
-        >
+        <div className="flex items-center gap-2" style={{ color: colors.text }}>
           <img src={opt.flag} alt={opt.label} className="w-5 h-4 rounded-sm" />
           <span>{opt.label}</span>
         </div>
@@ -83,9 +97,9 @@ function LanguageSelector({ i18n, changeLanguage }) {
           border: `1px solid ${colors.border}`,
         }),
       }}
-      className="w-30 "
+      className="w-30"
     />
   );
-}
+};
 
 export default LanguageSelector;

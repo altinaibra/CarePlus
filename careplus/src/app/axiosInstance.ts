@@ -1,7 +1,7 @@
-import axios from "axios";
+import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 
-const API_BASE_URL = process.env.REACT_APP_API_URL;
-
+const API_BASE_URL =
+  process.env.REACT_APP_API_URL || "http://localhost:5000/api";
 console.log("API Base URL:", API_BASE_URL);
 
 const axiosInstance = axios.create({
@@ -13,12 +13,22 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use((config) => {
   const token = localStorage.getItem("authToken");
-  if (token) config.headers.Authorization = `Bearer ${token}`;
+
+  if (token) {
+    config.headers = config.headers ?? {};
+    if ("set" in config.headers) {
+      config.headers.set("Authorization", `Bearer ${token}`);
+    } else {
+      (config.headers as Record<string, string>)["Authorization"] =
+        `Bearer ${token}`;
+    }
+  }
+
   return config;
 });
 
 axiosInstance.interceptors.response.use(
-  (response) => response,
+  (response: AxiosResponse) => response,
   (error) => {
     if (error.response?.status === 401) {
       localStorage.removeItem("authToken");

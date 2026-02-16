@@ -1,14 +1,17 @@
 import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { fetchDoctors, deleteDoctorAsync } from "./doctorsSlice";
+import { RootState, AppDispatch } from "../../app/store"; 
+import { useDispatch } from "react-redux";
 
-const DoctorList = () => {
+const DoctorList: React.FC = () => {
   const { t } = useTranslation();
-  const doctors = useSelector((state) => state.doctors.list);
-  const loading = useSelector((state) => state.doctors.loading);
-  const error = useSelector((state) => state.doctors.error);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
+
+  const doctors = useSelector((state: RootState) => state.doctors.list);
+  const loading = useSelector((state: RootState) => state.doctors.loading);
+  const error = useSelector((state: RootState) => state.doctors.error);
 
   useEffect(() => {
     dispatch(fetchDoctors());
@@ -18,7 +21,6 @@ const DoctorList = () => {
     <div>
       <h3 className="text-lg font-bold mb-4">{t("doctors.list")}</h3>
       {error && <p className="text-red-600 mb-4">Error: {error}</p>}
-      {/* {loading && <p className="text-gray-600">{t("sidebar.loading")}</p>} */}
       {doctors.length === 0 && !loading ? (
         <p className="text-gray-600 dark:text-gray-300">
           {t("doctors.noDoctors")}

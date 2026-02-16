@@ -3,9 +3,14 @@ import { useTranslation } from "react-i18next";
 import { departmentAPI } from "../app/api";
 import { useNavigate } from "react-router-dom";
 
-const Home = () => {
+interface Department {
+  id: string | number;
+  name: string;
+}
+
+const Home: React.FC = () => {
   const { t } = useTranslation();
-  const [departments, setDepartments] = useState([]);
+  const [departments, setDepartments] = useState<Department[]>([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -22,7 +27,7 @@ const Home = () => {
     }
   };
 
-  const openDepartment = (id) => {
+  const openDepartment = (id: string | number) => {
     navigate(`/departments/${id}`);
   };
 
@@ -40,14 +45,16 @@ const Home = () => {
             <div
               key={dept.id}
               onClick={() => openDepartment(dept.id)}
-              className="cursor-pointer 
+              className={`
+                cursor-pointer
                 w-full sm:w-[calc(50%-1.25rem)] lg:w-[calc(33.333%-1.25rem)]
                 min-h-48 border border-gray-300 
                 dark:[border-color:oklch(47.6%_0.114_61.907)] 
                 rounded-lg p-5 shadow-md hover:shadow-lg transition 
                 bg-white dark:[background-color:oklch(20.5%_0_0)] 
                 text-gray-900 dark:text-gray-100
-                flex items-center justify-center"
+                flex items-center justify-center
+              `}
             >
               <h3 className="text-lg font-semibold mb-2">{dept.name}</h3>
             </div>

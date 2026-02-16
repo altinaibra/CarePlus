@@ -14,15 +14,21 @@ import AppointmentsPage from "./pages/AppointmentsPage";
 import Header from "./components/Header";
 import Profile from "./pages/Profile";
 import DepartmentDetails from "./pages/DepartmentDetails/DepartmentDetails";
-const App = () => {
-  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+
+interface RootState {
+  auth: {
+    isLoggedIn: boolean;
+  };
+}
+
+const App: React.FC = () => {
+  const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
 
   return (
     <Router>
       {isLoggedIn ? (
         <>
           <Header />
-
           <div className="flex">
             <div className="flex-1">
               <Routes>

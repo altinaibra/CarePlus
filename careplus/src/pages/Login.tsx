@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 const Login = () => {
   const { i18n } = useTranslation();
 
-  const changeLanguage = (lang) => {
+  const changeLanguage = (lang: string) => {
     i18n.changeLanguage(lang);
     localStorage.setItem("language", lang);
   };

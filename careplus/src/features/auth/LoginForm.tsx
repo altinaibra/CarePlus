@@ -1,50 +1,49 @@
-import React, { useState } from "react";
+import React, { ChangeEvent, FormEvent, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { login as loginAction } from "./authSlice"; 
-import { authAPI } from "../../app/api"; 
+import { login as loginAction } from "./authSlice";
+import { authAPI } from "../../app/api";
 
 const LoginForm = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    username: "", 
+    username: "",
     password: "",
   });
   const [error, setError] = useState("");
 
-  const handleChange = (e) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  setError("");
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setError("");
 
-  try {
-  const response = await authAPI.login(formData);
-    const { token, role, username } = response.data;
+    try {
+      const response = await authAPI.login(formData);
+      const { token, role, username } = response.data;
 
-    localStorage.setItem("authToken", token);
-    localStorage.setItem("userRole", role);
-    localStorage.setItem("username", username);
+      localStorage.setItem("authToken", token);
+      localStorage.setItem("userRole", role);
+      localStorage.setItem("username", username);
 
-    dispatch(
-      loginAction({
-        user: username,
-        role: role,
-      }),
-    );
+      dispatch(
+        loginAction({
+          user: username,
+          role: role,
+        }),
+      );
 
-    navigate("/"); 
-  } catch (err) {
-    setError("Invalid credentials");
-  }
-};
-
+      navigate("/");
+    } catch (err) {
+      setError("Invalid credentials");
+    }
+  };
 
   return (
     <form

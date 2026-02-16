@@ -1,18 +1,33 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { createAppointment } from "./appointmentsSlice";
-import { fetchDoctors } from "../doctors/doctorsSlice"; // make sure you have this slice
-import { fetchPatients } from "../patients/patientsSlice"; // same for patients
+import { Doctor, fetchDoctors } from "../doctors/doctorsSlice";
+import { fetchPatients } from "../patients/patientsSlice";
+import { RootState, AppDispatch } from "../../app/store";
+import { Patient } from "../../app/api";
 
-const AppointmentForm = () => {
+interface AppointmentFormData {
+  patientId: string;
+  doctorId: string;
+  date: string;
+  time: string;
+  reason: string;
+}
+
+const AppointmentForm: React.FC = () => {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
-  const doctors = useSelector((state) => state.doctors.list || []);
-  const patients = useSelector((state) => state.patients.list || []);
+  const doctors = useSelector(
+    (state: RootState) => state.doctors.list,
+  ) as Doctor[];
 
-  const [formData, setFormData] = useState({
+  const patients = useSelector(
+    (state: RootState) => state.patients.list,
+  ) as Patient[];
+
+  const [formData, setFormData] = useState<AppointmentFormData>({
     patientId: "",
     doctorId: "",
     date: "",
@@ -25,12 +40,14 @@ const AppointmentForm = () => {
     if (patients.length === 0) dispatch(fetchPatients());
   }, [dispatch, doctors.length, patients.length]);
 
-  const handleChange = (e) => {
+  const handleChange = (
+    e: ChangeEvent<HTMLSelectElement | HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const appointmentDate = new Date(`${formData.date}T${formData.time}`);
@@ -39,8 +56,8 @@ const AppointmentForm = () => {
       createAppointment({
         PatientId: parseInt(formData.patientId),
         DoctorId: parseInt(formData.doctorId),
-        AppointmentDate: appointmentDate.toISOString(), // form date+time
-        Date: new Date().toISOString(), // current date
+        AppointmentDate: appointmentDate.toISOString(),
+        Date: new Date().toISOString(),
         Reason: formData.reason,
         Status: "Scheduled",
       }),
@@ -87,7 +104,7 @@ const AppointmentForm = () => {
         <option value="">{t("appointments.selectDoctor")}</option>
         {doctors.map((d) => (
           <option key={d.id} value={d.id}>
-            Dr. {d.firstName} {d.lastName}
+            Dr. {d.name}
           </option>
         ))}
       </select>

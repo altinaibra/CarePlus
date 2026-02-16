@@ -1,7 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, ChangeEvent, FormEvent } from "react";
 
-const Profile = () => {
-  const [profileData, setProfileData] = useState({
+interface ProfileData {
+  firstName: string;
+  lastName: string;
+  age: string;
+  email: string;
+  contact: string;
+}
+
+const Profile: React.FC = () => {
+  const [profileData, setProfileData] = useState<ProfileData>({
     firstName: "",
     lastName: "",
     age: "",
@@ -9,15 +17,14 @@ const Profile = () => {
     contact: "",
   });
 
-  const handleChange = (e) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setProfileData({
-      ...profileData,
+    setProfileData((prev) => ({
+      ...prev,
       [name]: value,
-    });
+    }));
   };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log("Profile saved:", profileData);
     alert("Profile saved successfully!");
@@ -29,7 +36,7 @@ const Profile = () => {
         Profile
       </h2>
       <form onSubmit={handleSubmit} className="space-y-4">
-        {/* First Name */}
+
         <div>
           <label className="block mb-1 text-gray-700 dark:text-gray-200">
             First Name:
@@ -44,7 +51,7 @@ const Profile = () => {
           />
         </div>
 
-        {/* Last Name */}
+
         <div>
           <label className="block mb-1 text-gray-700 dark:text-gray-200">
             Last Name:
@@ -59,7 +66,7 @@ const Profile = () => {
           />
         </div>
 
-        {/* Age */}
+
         <div>
           <label className="block mb-1 text-gray-700 dark:text-gray-200">
             Age:
@@ -74,7 +81,6 @@ const Profile = () => {
           />
         </div>
 
-        {/* Email */}
         <div>
           <label className="block mb-1 text-gray-700 dark:text-gray-200">
             Email:
@@ -89,7 +95,6 @@ const Profile = () => {
           />
         </div>
 
-        {/* Contact */}
         <div>
           <label className="block mb-1 text-gray-700 dark:text-gray-200">
             Contact:
@@ -104,10 +109,9 @@ const Profile = () => {
           />
         </div>
 
-        {/* Save Button */}
         <button
           type="submit"
-          className="w-full py-3 mt-4 rounded-md font-bold text-white bg-slate-700 dark:[background-color:oklch(47.6%_0.114_61.907)] hover:bg-slate-800oklch(47.6%_0.114_61.900) transition"
+          className="w-full py-3 mt-4 rounded-md font-bold text-white bg-slate-700 dark:[background-color:oklch(47.6%_0.114_61.907)] hover:bg-slate-800 transition"
         >
           Save Profile
         </button>
