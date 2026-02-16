@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 const settingsOptions = [
@@ -17,9 +18,10 @@ const settingsOptions = [
 ];
 
 const SettingsPage: React.FC = () => {
+  const { t, i18n } = useTranslation();
   return (
     <div className="p-5 max-w-5xl mx-auto">
-      <h2 className="text-2xl font-bold mb-6">Settings</h2>
+      <h2 className="text-2xl font-bold mb-6">{t("settings.Settings")}</h2>
       <div className="flex flex-col gap-6">
         {settingsOptions.map((option) => (
           <Link
@@ -32,9 +34,9 @@ const SettingsPage: React.FC = () => {
             >
               {option.title.charAt(0)}
             </div>
-            <h3 className="text-lg font-semibold mb-1">{option.title}</h3>
+            <h3 className="text-lg font-semibold mb-1">{t(option.title)}</h3>
             <p className="text-gray-600 dark:text-gray-300">
-              {option.description}
+              {t(option.description)}
             </p>
           </Link>
         ))}

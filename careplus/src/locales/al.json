@@ -80,5 +80,8 @@
     "addButton": "Shto Takimin",
     "selectPatient": "Selekto Pacientin",
     "appointments.selectDoctor": "Selekto Doktorin"
+  },
+  "settings": {
+    "Settings": "Cilesimet"
   }
 }

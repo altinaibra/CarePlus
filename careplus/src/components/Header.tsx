@@ -139,6 +139,14 @@ const Header: React.FC = () => {
                   {t("header.appointments") || "Appointments"}
                 </Link>
 
+                <Link
+                  to="/prescription"
+                  className="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700"
+                  onClick={() => setDropdownOpen(false)}
+                >
+                  {t("header.prescription") || "Prescription"}
+                </Link>
+
                 <button
                   onClick={handleLogout}
                   className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700"

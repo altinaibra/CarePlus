@@ -16,6 +16,7 @@ import Profile from "./pages/Profile";
 import DepartmentDetails from "./pages/DepartmentDetails/DepartmentDetails";
 import { SettingsProvider } from "./components/Settings/Settings";
 import SettingsPage from "./pages/SettingsPage";
+import PrescriptionPage from "./pages/PrescriptionPage";
 
 interface RootState {
   auth: {
@@ -41,7 +42,8 @@ const App: React.FC = () => {
                   <Route path="/appointments" element={<AppointmentsPage />} />
                   <Route path="/login" element={<Navigate to="/" />} />
                   <Route path="/profile" element={<Profile />} />
-                  <Route path="/settings" element={<SettingsPage />} />
+                  <Route path="/settings" element={<SettingsPage />} />{" "}
+                  <Route path="/prescription" element={<PrescriptionPage />} />
                   <Route
                     path="/departments/:id"
                     element={<DepartmentDetails />}
