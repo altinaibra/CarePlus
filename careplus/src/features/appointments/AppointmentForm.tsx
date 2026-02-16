@@ -46,9 +46,13 @@ const AppointmentForm: React.FC = () => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
-
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!formData.patientId || !formData.doctorId) {
+      alert("Please select both patient and doctor");
+      return;
+    }
 
     const appointmentDate = new Date(`${formData.date}T${formData.time}`);
 

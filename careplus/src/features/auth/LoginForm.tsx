@@ -36,6 +36,7 @@ const LoginForm = () => {
         loginAction({
           user: username,
           role: role,
+          token: token, 
         }),
       );
 

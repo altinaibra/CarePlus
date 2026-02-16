@@ -27,15 +27,16 @@ const AppointmentList: React.FC = () => {
   const error = useSelector((state: RootState) => state.appointments.error);
 
   const appointments: Appointment[] = apiAppointments.map((a) => {
-    const [datePart, timePart] = a.AppointmentDate.split("T");
+    const dateTime = a.AppointmentDate || ""; // fallback if undefined
+    const [datePart, timePart] = dateTime.split("T");
     return {
       id: a.id,
-      patientId: a.PatientId,
-      doctorId: a.DoctorId,
-      date: datePart,
+      patientId: a.PatientId || "",
+      doctorId: a.DoctorId || "",
+      date: datePart || "",
       time: timePart?.substring(0, 5) || "",
-      reason: a.Reason,
-      status: a.Status,
+      reason: a.Reason || "",
+      status: a.Status || "Scheduled",
     };
   });
 
@@ -45,68 +46,75 @@ const AppointmentList: React.FC = () => {
 
   return (
     <div>
-      <h3>{t("appointments.list")}</h3>
+      <h3 className="text-lg font-bold mb-4">{t("appointments.list")}</h3>
 
-      {error && <p style={{ color: "red" }}>Error: {error}</p>}
+      {error && <p className="text-red-600 mb-4">Error: {error}</p>}
 
       {appointments.length === 0 && !loading ? (
-        <p>{t("appointments.noAppointments")}</p>
+        <p className="text-gray-600 dark:text-gray-300">
+          {t("appointments.noAppointments")}
+        </p>
       ) : (
-        <table style={{ width: "100%", borderCollapse: "collapse" }}>
-          <thead>
-            <tr style={{ backgroundColor: "#f0f0f0" }}>
-              <th style={{ border: "1px solid #ddd", padding: "10px" }}>
-                {t("appointments.patient")}
-              </th>
-              <th style={{ border: "1px solid #ddd", padding: "10px" }}>
-                {t("appointments.doctor")}
-              </th>
-              <th style={{ border: "1px solid #ddd", padding: "10px" }}>
-                {t("appointments.date")}
-              </th>
-              <th style={{ border: "1px solid #ddd", padding: "10px" }}>
-                {t("appointments.time")}
-              </th>
-              <th style={{ border: "1px solid #ddd", padding: "10px" }}>
-                {t("appointments.reason")}
-              </th>
-              <th style={{ border: "1px solid #ddd", padding: "10px" }}>
-                {t("appointments.actions")}
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {appointments.map((appointment) => (
-              <tr key={appointment.id}>
-                <td style={{ border: "1px solid #ddd", padding: "10px" }}>
-                  {appointment.patientId}
-                </td>
-                <td style={{ border: "1px solid #ddd", padding: "10px" }}>
-                  {appointment.doctorId}
-                </td>
-                <td style={{ border: "1px solid #ddd", padding: "10px" }}>
-                  {appointment.date}
-                </td>
-                <td style={{ border: "1px solid #ddd", padding: "10px" }}>
-                  {appointment.time}
-                </td>
-                <td style={{ border: "1px solid #ddd", padding: "10px" }}>
-                  {appointment.reason}
-                </td>
-                <td style={{ border: "1px solid #ddd", padding: "10px" }}>
-                  <button
-                    onClick={() =>
-                      dispatch(deleteAppointmentAsync(appointment.id))
-                    }
-                    className="px-3 py-1 bg-slate-700 dark:[background-color:oklch(47.6%_0.114_61.907)] text-white rounded cursor-pointer hover:bg-slate-800 transition text-sm"
-                  >
-                    {t("appointments.delete")}
-                  </button>
-                </td>
+        <div className="overflow-x-auto">
+          <table className="w-full border-collapse text-gray-900 dark:text-gray-100">
+            <thead>
+              <tr className="bg-gray-100 dark:[background-color:oklch(20.5%_0_0)]">
+                <th className="border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] p-3 text-left font-semibold">
+                  {t("appointments.patient")}
+                </th>
+                <th className="border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] p-3 text-left font-semibold">
+                  {t("appointments.doctor")}
+                </th>
+                <th className="border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] p-3 text-left font-semibold">
+                  {t("appointments.date")}
+                </th>
+                <th className="border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] p-3 text-left font-semibold">
+                  {t("appointments.time")}
+                </th>
+                <th className="border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] p-3 text-left font-semibold">
+                  {t("appointments.reason")}
+                </th>
+                <th className="border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] p-3 text-left font-semibold">
+                  {t("appointments.actions")}
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {appointments.map((appointment) => (
+                <tr
+                  key={appointment.id}
+                  className="hover:bg-gray-50 dark:hover:[background-color:oklch(20.5%_0_0)]"
+                >
+                  <td className="border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] p-3">
+                    {appointment.patientId}
+                  </td>
+                  <td className="border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] p-3">
+                    {appointment.doctorId}
+                  </td>
+                  <td className="border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] p-3">
+                    {appointment.date}
+                  </td>
+                  <td className="border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] p-3">
+                    {appointment.time}
+                  </td>
+                  <td className="border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] p-3">
+                    {appointment.reason}
+                  </td>
+                  <td className="border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] p-3">
+                    <button
+                      onClick={() =>
+                        dispatch(deleteAppointmentAsync(appointment.id))
+                      }
+                      className="px-3 py-1 bg-slate-700 dark:[background-color:oklch(47.6%_0.114_61.907)] text-white border-0 rounded cursor-pointer hover:bg-slate-800 transition text-sm"
+                    >
+                      {t("appointments.delete")}
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
     </div>
   );

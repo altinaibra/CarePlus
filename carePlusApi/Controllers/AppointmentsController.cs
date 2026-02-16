@@ -1,3 +1,4 @@
+using carePlusApi.DTO;
 using CarePlusApi.Data;
 using CarePlusApi.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -51,22 +52,25 @@ namespace CarePlusApi.Controllers
 
         // POST: api/appointments
         [HttpPost]
-        public async Task<IActionResult> CreateAppointment([FromBody] Appointment appointment)
+        public async Task<IActionResult> CreateAppointment([FromBody] AppointmentCreateDto dto)
         {
-            try
-            {
-                if (!ModelState.IsValid)
-                    return BadRequest(ModelState);
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
-                _context.Appointments.Add(appointment);
-                await _context.SaveChangesAsync();
-
-                return CreatedAtAction(nameof(GetAppointment), new { id = appointment.Id }, appointment);
-            }
-            catch (Exception ex)
+            var appointment = new Appointment
             {
-                return StatusCode(500, new { message = "Error creating appointment", error = ex.Message });
-            }
+                PatientId = dto.PatientId,
+                DoctorId = dto.DoctorId,
+                AppointmentDate = dto.AppointmentDate,
+                Reason = dto.Reason,
+                Status = dto.Status,
+                Date = DateTime.Now
+            };
+
+            _context.Appointments.Add(appointment);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetAppointment), new { id = appointment.Id }, appointment);
         }
 
         // PUT: api/appointments/{id}
