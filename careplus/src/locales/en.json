@@ -82,6 +82,22 @@
     "appointments.selectDoctor": "Select Doctor"
   },
   "settings": {
-    "Settings": "Settings"
+    "Settings": "Settings",
+    "print": "Print",
+    "close": "Close",
+    "save": "Save",
+    "hasAllergies": "Does the patient have allergies?",
+    "allergiesPlaceholder": "List allergies",
+    "diagnosis": "Diagnosis",
+    "diagnosisPlaceholder": "Enter diagnosis",
+    "prescription": "Prescription",
+    "prescriptionPlaceholder": "Enter prescription details",
+    "title": "System Settings",
+    "patientName": "Patient Name",
+    "patientNamePlaceholder": "Enter patient name",
+    "patientAge": "Patient Age",
+    "patientAgePlaceholder": "Enter patient age",
+    "patientGender": "Patient Gender",
+    "patientGenderPlaceholder": "Enter patient gender"
   }
 }

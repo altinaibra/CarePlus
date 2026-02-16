@@ -21,7 +21,7 @@ const SettingsPage: React.FC = () => {
   const { t, i18n } = useTranslation();
   return (
     <div className="p-5 max-w-5xl mx-auto">
-      <h2 className="text-2xl font-bold mb-6">{t("settings.Settings")}</h2>
+      <h2 className="text-2xl font-bold mb-6">{t("settings.settings")}</h2>
       <div className="flex flex-col gap-6">
         {settingsOptions.map((option) => (
           <Link

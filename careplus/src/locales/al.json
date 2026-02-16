@@ -82,6 +82,22 @@
     "appointments.selectDoctor": "Selekto Doktorin"
   },
   "settings": {
-    "Settings": "Cilesimet"
+    "settings": "Cilesimet",
+    "print": "Printo",
+    "title": "Cilesimet e Sistemit",
+    "patientName": "Emri i Pacientit",
+    "patientNamePlaceholder": "Shkruani emrin e pacientit",
+    "patientAge": "Mosha e Pacientit",
+    "patientAgePlaceholder": "Shkruani moshën e pacientit",
+    "patientGender": "Gjinia e Pacientit",
+    "patientGenderPlaceholder": "Shkruani gjininë e pacientit",
+    "hasAllergies": "A ka pacienti alergji?",
+    "allergiesPlaceholder": "Shkruani alergjitë e pacientit",
+    "diagnosis": "Diagnoza",
+    "diagnosisPlaceholder": "Shkruani diagnozën",
+    "prescription": "Përshkrimi",
+    "prescriptionPlaceholder": "Shkruani detajet e përshkrimit",
+    "close": "Mbyll",
+    "save": "Ruaj"
   }
 }
