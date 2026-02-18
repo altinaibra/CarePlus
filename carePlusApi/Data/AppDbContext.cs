@@ -18,6 +18,7 @@ namespace CarePlusApi.Data
         public DbSet<MedicalRecord> MedicalRecords { get; set; }
         public DbSet<Billing> Billing { get; set; }
         public DbSet<Nurse> Nurses { get; set; }       
-        public DbSet<Administrator> Administrators { get; set; }  
+        public DbSet<Administrator> Administrators { get; set; }
+        public DbSet<Room> Rooms { get; set; }
     }
 }
