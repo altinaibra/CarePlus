@@ -41,3 +41,14 @@ code {
   font-family:
     "Inter", source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
+
+/* Light mode */
+.custom-date-input::-webkit-calendar-picker-indicator {
+  filter: invert(0);
+  cursor: pointer;
+}
+
+/* Dark mode */
+.dark .custom-date-input::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}

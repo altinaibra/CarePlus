@@ -114,8 +114,9 @@ const patientsSlice = createSlice({
       })
       .addCase(fetchPatients.rejected, (state, action) => {
         state.loading = false;
-        state.error =
-          typeof action.payload === "string" ? action.payload : "Unknown error";
+        state.error = action.payload
+          ? (action.payload as string)
+          : action.error.message || "Unknown error";
       })
 
       // Create patient

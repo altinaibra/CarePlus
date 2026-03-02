@@ -17,15 +17,10 @@ import DepartmentDetails from "./pages/DepartmentDetails/DepartmentDetails";
 import { SettingsProvider } from "./components/Settings/Settings";
 import SettingsPage from "./pages/SettingsPage";
 import PrescriptionPage from "./pages/PrescriptionPage";
-
-interface RootState {
-  auth: {
-    isLoggedIn: boolean;
-  };
-}
+import { RootState } from "./app/store";
 
 const App: React.FC = () => {
-  const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
+  const { isLoggedIn, role } = useSelector((state: RootState) => state.auth);
 
   return (
     <SettingsProvider>
@@ -43,7 +38,16 @@ const App: React.FC = () => {
                   <Route path="/login" element={<Navigate to="/" />} />
                   <Route path="/profile" element={<Profile />} />
                   <Route path="/settings" element={<SettingsPage />} />{" "}
-                  <Route path="/prescription" element={<PrescriptionPage />} />
+                  <Route
+                    path="/prescription"
+                    element={
+                      role === "doctor" ? (
+                        <PrescriptionPage />
+                      ) : (
+                        <Navigate to="/" />
+                      )
+                    }
+                  />
                   <Route
                     path="/departments/:id"
                     element={<DepartmentDetails />}

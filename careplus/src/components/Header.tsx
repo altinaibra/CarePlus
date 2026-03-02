@@ -5,7 +5,13 @@ import { useTranslation } from "react-i18next";
 import { logout } from "../features/auth/authSlice";
 import { IconType } from "react-icons";
 
-import { FaHome, FaUserMd, FaUsers, FaCalendarAlt } from "react-icons/fa";
+import {
+  FaHome,
+  FaUserMd,
+  FaUsers,
+  FaCalendarAlt,
+  FaPrescriptionBottleAlt,
+} from "react-icons/fa";
 
 import LanguageSelector from "../locales/LanguageSelector";
 import ThemeToggle from "../context/ThemeToggle";
@@ -48,13 +54,30 @@ const Header: React.FC = () => {
 
   const menuItems: MenuItem[] = [
     { path: "/", label: t("sidebar.home"), Icon: FaHome },
-    { path: "/patients", label: t("sidebar.patients"), Icon: FaUsers },
-    { path: "/doctors", label: t("sidebar.doctors"), Icon: FaUserMd },
+    {
+      path: "/patients",
+      label: t("sidebar.patients"),
+      Icon: FaUsers,
+    },
+    {
+      path: "/doctors",
+      label: t("sidebar.doctors"),
+      Icon: FaUserMd,
+    },
     {
       path: "/appointments",
       label: t("sidebar.appointments"),
       Icon: FaCalendarAlt,
     },
+    ...(role === "doctor"
+      ? [
+          {
+            path: "/prescription",
+            label: t("header.prescription") || "Prescription",
+            Icon: FaPrescriptionBottleAlt,
+          },
+        ]
+      : []),
   ];
 
   useEffect(() => {
@@ -139,13 +162,15 @@ const Header: React.FC = () => {
                   {t("header.appointments") || "Appointments"}
                 </Link>
 
-                <Link
-                  to="/prescription"
-                  className="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700"
-                  onClick={() => setDropdownOpen(false)}
-                >
-                  {t("header.prescription") || "Prescription"}
-                </Link>
+                {role === "doctor" && (
+                  <Link
+                    to="/prescription"
+                    className="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700"
+                    onClick={() => setDropdownOpen(false)}
+                  >
+                    {t("header.prescription") || "Prescription"}
+                  </Link>
+                )}
 
                 <button
                   onClick={handleLogout}

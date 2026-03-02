@@ -32,7 +32,8 @@
     "welcome": "Mirë se Vini në CarePlus",
     "subtitle": "Sistemi i Menaxhimit të Shëndetësisë",
     "menu": "Përdorni menunë anash për të qasur:",
-    "departments": "Departamentet"
+    "departments": "Departamentet",
+    "rooms": "Rooms"
   },
   "patients": {
     "title": "Menaxhimi i Pacientëve",
@@ -99,6 +100,7 @@
     "prescription": "Përshkrimi",
     "prescriptionPlaceholder": "Shkruani detajet e përshkrimit",
     "close": "Mbyll",
-    "save": "Ruaj"
+    "save": "Ruaj",
+    "doctorSignature": "Nënshkrimi i Doktorit"
   }
 }

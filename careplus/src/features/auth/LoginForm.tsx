@@ -27,20 +27,25 @@ const LoginForm = () => {
     try {
       const response = await authAPI.login(formData);
       const { token, role, username } = response.data;
+      const normalizedRole = role.toLowerCase();
 
       localStorage.setItem("authToken", token);
-      localStorage.setItem("userRole", role);
+      localStorage.setItem("userRole", normalizedRole);
       localStorage.setItem("username", username);
 
       dispatch(
         loginAction({
           user: username,
-          role: role,
+          role: normalizedRole,
           token: token, 
         }),
       );
 
-      navigate("/");
+      if (normalizedRole === "doctor") {
+        navigate("/prescription");
+      } else {
+        navigate("/");
+      }
     } catch (err) {
       setError("Invalid credentials");
     }

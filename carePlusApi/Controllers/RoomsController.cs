@@ -1,69 +1,57 @@
-﻿using carePlusApi.DTO;
-using carePlusApi.DTO.carePlusApi.DTO;
+﻿using carePlusApi.DTO.carePlusApi.DTO;
 using carePlusApi.Repository;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 
-namespace carePlusApi.Controllers
+[ApiController]
+[Route("api/[controller]")]
+public class RoomsController : ControllerBase
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class RoomsController : ControllerBase
+    private readonly RoomRepository _repository;
+
+    public RoomsController()
     {
-        private readonly RoomRepository _repository;
+        _repository = new RoomRepository();
+    }
 
-        public RoomsController()
-        {
-            _repository = new RoomRepository();
-        }
+    [HttpGet]
+    public ActionResult<IEnumerable<RoomDto>> GetAll()
+    {
+        return Ok(_repository.GetAll());
+    }
 
-        [HttpGet]
-        public ActionResult<IEnumerable<RoomDto>> GetAll()
-        {
-            return Ok(_repository.GetAll());
-        }
+    [HttpGet("{id}")]
+    public ActionResult<RoomDto> GetById(int id)
+    {
+        var room = _repository.GetById(id);
 
-        [HttpGet("{id}")]
-        public ActionResult<RoomDto> GetById(int id)
-        {
-            var room = _repository.GetById(id);
+        if (room == null)
+            return NotFound();
 
-            if (room == null)
-                return NotFound();
+        return Ok(room);
+    }
 
-            return Ok(room);
-        }
+    [HttpPost]
+    public ActionResult<RoomDto> Create(RoomDto room)
+    {
+        var created = _repository.Add(room);
+        return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
+    }
 
-        [HttpGet("department/{departmentId}")]
-        public ActionResult<IEnumerable<RoomDto>> GetByDepartment(int departmentId)
-        {
-            return Ok(_repository.GetByDepartment(departmentId));
-        }
+    [HttpPut("{id}")]
+    public IActionResult Update(int id, RoomDto room)
+    {
+        if (!_repository.Update(id, room))
+            return NotFound();
 
-        [HttpPost]
-        public ActionResult<RoomDto> Create(RoomDto room)
-        {
-            var created = _repository.Add(room);
+        return NoContent();
+    }
 
-            return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
-        }
+    [HttpDelete("{id}")]
+    public IActionResult Delete(int id)
+    {
+        if (!_repository.Delete(id))
+            return NotFound();
 
-        [HttpPut("{id}")]
-        public IActionResult Update(int id, RoomDto room)
-        {
-            if (!_repository.Update(id, room))
-                return NotFound();
-
-            return NoContent();
-        }
-
-        [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
-        {
-            if (!_repository.Delete(id))
-                return NotFound();
-
-            return NoContent();
-        }
+        return NoContent();
     }
 }

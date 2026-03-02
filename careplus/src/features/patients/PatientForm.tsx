@@ -32,7 +32,6 @@ const PatientForm: React.FC = () => {
     password: "",
   });
 
-  // Handle input changes
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -41,10 +40,10 @@ const PatientForm: React.FC = () => {
     }));
   };
 
-  // Handle form submission
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(createPatient(formData));
+
     setFormData({
       firstName: "",
       lastName: "",
@@ -61,7 +60,9 @@ const PatientForm: React.FC = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] p-5 mb-5 rounded-lg bg-white dark:[background-color:oklch(20.5%_0_0)] shadow-sm text-gray-900 dark:text-gray-100"
+      className="border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] 
+      p-5 mb-5 rounded-lg bg-white dark:[background-color:oklch(20.5%_0_0)] 
+      shadow-sm text-gray-900 dark:text-gray-100"
     >
       <h3 className="text-lg font-bold mb-4">{t("patients.addNew")}</h3>
 
@@ -89,13 +90,22 @@ const PatientForm: React.FC = () => {
             name !== "contact" &&
             name !== "address"
           }
-          className="block mb-3 p-2 w-full border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] rounded bg-white dark:[background-color:oklch(20.5%_0_0)] text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-slate-700"
+          className={`block mb-3 p-2 w-full border border-gray-300 
+          dark:[border-color:oklch(47.6%_0.114_61.907)] 
+          rounded bg-white dark:[background-color:oklch(20.5%_0_0)] 
+          text-gray-900 dark:text-gray-100 
+          placeholder:text-gray-400 dark:placeholder:text-gray-500 
+          focus:outline-none focus:ring-2 focus:ring-slate-700
+          ${type === "date" ? "custom-date-input" : ""}`}
         />
       ))}
 
       <button
         type="submit"
-        className="px-5 py-2 bg-slate-700 dark:[background-color:oklch(47.6%_0.114_61.907)] text-white rounded cursor-pointer hover:bg-slate-800 transition font-semibold"
+        className="px-5 py-2 bg-slate-700 
+        dark:[background-color:oklch(47.6%_0.114_61.907)] 
+        text-white rounded cursor-pointer 
+        hover:bg-slate-800 transition font-semibold"
       >
         {t("patients.addButton")}
       </button>

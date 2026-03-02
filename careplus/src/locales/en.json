@@ -32,7 +32,8 @@
     "welcome": "Welcome to CarePlus",
     "subtitle": "Hospital Health Management System",
     "menu": "Use the left menu to access:",
-    "departments": "Departments"
+    "departments": "Departments",
+    "rooms": "Dhomat"
   },
   "patients": {
     "title": "Patient Management",
@@ -99,6 +100,7 @@
     "patientAge": "Patient Age",
     "patientAgePlaceholder": "Enter patient age",
     "patientGender": "Patient Gender",
-    "patientGenderPlaceholder": "Enter patient gender"
+    "patientGenderPlaceholder": "Enter patient gender",
+    "doctorSignature": "Doctor Signature"
   }
 }

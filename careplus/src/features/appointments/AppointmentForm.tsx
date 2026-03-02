@@ -2,7 +2,7 @@ import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { createAppointment } from "./appointmentsSlice";
-import { Doctor, fetchDoctors } from "../doctors/doctorsSlice";
+import { fetchDoctors, Doctor } from "../doctors/doctorsSlice";
 import { fetchPatients } from "../patients/patientsSlice";
 import { RootState, AppDispatch } from "../../app/store";
 import { Patient } from "../../app/api";
@@ -22,7 +22,6 @@ const AppointmentForm: React.FC = () => {
   const doctors = useSelector(
     (state: RootState) => state.doctors.list,
   ) as Doctor[];
-
   const patients = useSelector(
     (state: RootState) => state.patients.list,
   ) as Patient[];
@@ -46,6 +45,7 @@ const AppointmentForm: React.FC = () => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
+
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
