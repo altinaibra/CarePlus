@@ -108,13 +108,28 @@ const Header: React.FC = () => {
           <Link
             key={index}
             to={item.path}
-            className="flex items-center gap-1 text-white hover:text-gray-200 transition"
+            className="relative group flex items-center gap-1 text-white hover:text-gray-200 transition pb-2"
           >
             {React.createElement(
               item.Icon as React.ComponentType<{ size?: number }>,
               { size: 20 },
             )}
-            <span className="text-sm">{item.label}</span>
+            <span
+              className="
+                relative text-sm
+                before:content-[''] before:absolute before:left-0 before:bottom-0 before:h-[2px] before:w-full
+                before:bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.95),transparent)]
+                before:bg-[length:200%_100%] before:opacity-0
+                group-hover:before:opacity-100 group-hover:before:animate-underlineSlide
+
+                after:content-[''] after:absolute after:left-0 after:bottom-[-4px] after:h-[2px] after:w-full
+                after:bg-[linear-gradient(90deg,transparent,rgba(148,163,184,0.95),transparent)]
+                after:bg-[length:200%_100%] after:opacity-0
+                group-hover:after:opacity-100 group-hover:after:animate-underlineSlideReverse
+              "
+            >
+              {item.label}
+            </span>
           </Link>
         ))}
       </nav>
