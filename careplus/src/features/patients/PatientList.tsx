@@ -60,13 +60,25 @@ const PatientList: React.FC = () => {
                   key={patient.id}
                   className="hover:bg-gray-50 dark:hover:[background-color:oklch(20.5%_0_0)]"
                 >
-                  <td className="border p-3">{patient.firstName}</td>
-                  <td className="border p-3">{patient.lastName}</td>
-                  <td className="border p-3">{patient.email}</td>
-                  <td className="border p-3">{patient.contact}</td>
-                  <td className="border p-3">{patient.age}</td>
-                  <td className="border p-3">{patient.address}</td>
-                  <td className="border p-3">
+                  <td className="border p-3 dark:[border-color:oklch(47.6%_0.114_61.907)]">
+                    {patient.firstName}
+                  </td>
+                  <td className="border p-3 dark:[border-color:oklch(47.6%_0.114_61.907)]">
+                    {patient.lastName}
+                  </td>
+                  <td className="border p-3 dark:[border-color:oklch(47.6%_0.114_61.907)]">
+                    {patient.email}
+                  </td>
+                  <td className="border p-3 dark:[border-color:oklch(47.6%_0.114_61.907)]">
+                    {patient.contact}
+                  </td>
+                  <td className="border p-3 dark:[border-color:oklch(47.6%_0.114_61.907)]">
+                    {patient.age}
+                  </td>
+                  <td className="border p-3 dark:[border-color:oklch(47.6%_0.114_61.907)]">
+                    {patient.address}
+                  </td>
+                  <td className="border p-3 dark:[border-color:oklch(47.6%_0.114_61.907)]">
                     <button
                       onClick={() => dispatch(deletePatientAsync(patient.id))}
                       className="px-3 py-1 bg-slate-700 dark:[background-color:oklch(47.6%_0.114_61.907)] text-white border-0 rounded cursor-pointer transition text-sm"

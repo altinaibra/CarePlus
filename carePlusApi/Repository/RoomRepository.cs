@@ -1,55 +1,55 @@
-using carePlusApi.DTO;
-using carePlusApi.DTO.carePlusApi.DTO;
-using System.Collections.Generic;
-using System.Linq;
-using System.Xml.Linq;
+using carePlusApi.Models;
+using CarePlusApi.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace carePlusApi.Repository
 {
     public class RoomRepository
     {
-        private readonly List<RoomDto> _rooms = new();
+        private readonly AppDbContext _context;
 
-        public IEnumerable<RoomDto> GetAll() => _rooms;
-
-        public RoomDto? GetById(int id)
+        public RoomRepository(AppDbContext context)
         {
-            return _rooms.FirstOrDefault(r => r.Id == id);
+            _context = context;
         }
 
-        public IEnumerable<RoomDto> GetByDepartment(int departmentId)
+        public async Task<List<Room>> GetAllAsync()
         {
-            return _rooms.Where(r => r.DepartmentId == departmentId);
+            return await _context.Rooms.ToListAsync();
         }
 
-        public RoomDto Add(RoomDto room)
+        public async Task<Room?> GetByIdAsync(int id)
         {
-            room.Id = _rooms.Count > 0 ? _rooms.Max(r => r.Id) + 1 : 1;
-            _rooms.Add(room);
+            return await _context.Rooms.FindAsync(id);
+        }
+
+        public async Task<List<Room>> GetByDepartmentAsync(int departmentId)
+        {
+            return await _context.Rooms
+                .Where(r => r.DepartmentId == departmentId)
+                .ToListAsync();
+        }
+
+        public async Task<Room> AddAsync(Room room)
+        {
+            _context.Rooms.Add(room);
+            await _context.SaveChangesAsync();
             return room;
         }
 
-        public bool Update(int id, RoomDto updatedRoom)
+        public async Task<bool> UpdateAsync(Room room)
         {
-            var existing = GetById(id);
-            if (existing == null) return false;
-
-            existing.RoomNumber = updatedRoom.RoomNumber;
-            existing.DepartmentId = updatedRoom.DepartmentId;
-            existing.TotalBeds = updatedRoom.TotalBeds;
-            existing.AvailableBeds = updatedRoom.AvailableBeds;
-            existing.OccupiedBeds = updatedRoom.OccupiedBeds;
-
-            return true;
+            _context.Rooms.Update(room);
+            return await _context.SaveChangesAsync() > 0;
         }
 
-        public bool Delete(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
-            var room = GetById(id);
+            var room = await _context.Rooms.FindAsync(id);
             if (room == null) return false;
 
-            _rooms.Remove(room);
-            return true;
+            _context.Rooms.Remove(room);
+            return await _context.SaveChangesAsync() > 0;
         }
     }
 }

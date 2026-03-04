@@ -33,7 +33,12 @@
     "subtitle": "Sistemi i Menaxhimit të Shëndetësisë",
     "menu": "Përdorni menunë anash për të qasur:",
     "departments": "Departamentet",
-    "rooms": "Dhomat"
+    "rooms": "Dhomat",
+    "noRooms": "Nuk ka dhoma në dispozicion.",
+    "roomLabel": "Dhoma: {{number}}",
+    "totalBeds": "Shtretërit gjithsej",
+    "availableBeds": "Të lira",
+    "occupiedBeds": "Të zëna"
   },
   "patients": {
     "title": "Menaxhimi i Pacientëve",
@@ -105,5 +110,9 @@
   },
   "profile": {
     "save": "Ruaj"
+  },
+  "prescription":{
+    "saved": "Prescription saved successfully!",
+    "error": "Gabim gjatë ruajtjes së recetës"
   }
 }

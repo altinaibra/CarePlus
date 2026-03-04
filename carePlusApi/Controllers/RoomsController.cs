@@ -1,57 +1,97 @@
-﻿using carePlusApi.DTO.carePlusApi.DTO;
+using carePlusApi.DTO;
+using carePlusApi.Models;
 using carePlusApi.Repository;
 using Microsoft.AspNetCore.Mvc;
 
-[ApiController]
-[Route("api/[controller]")]
-public class RoomsController : ControllerBase
+namespace carePlusApi.Controllers
 {
-    private readonly RoomRepository _repository;
-
-    public RoomsController()
+    [ApiController]
+    [Route("api/[controller]")]
+    public class RoomsController : ControllerBase
     {
-        _repository = new RoomRepository();
-    }
+        private readonly RoomRepository _repository;
 
-    [HttpGet]
-    public ActionResult<IEnumerable<RoomDto>> GetAll()
-    {
-        return Ok(_repository.GetAll());
-    }
+        public RoomsController(RoomRepository repository)
+        {
+            _repository = repository;
+        }
 
-    [HttpGet("{id}")]
-    public ActionResult<RoomDto> GetById(int id)
-    {
-        var room = _repository.GetById(id);
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<RoomDto>>> GetAll()
+        {
+            var rooms = await _repository.GetAllAsync();
+            return Ok(rooms.Select(ToDto));
+        }
 
-        if (room == null)
-            return NotFound();
+        [HttpGet("{id}")]
+        public async Task<ActionResult<RoomDto>> GetById(int id)
+        {
+            var room = await _repository.GetByIdAsync(id);
+            if (room == null) return NotFound();
 
-        return Ok(room);
-    }
+            return Ok(ToDto(room));
+        }
 
-    [HttpPost]
-    public ActionResult<RoomDto> Create(RoomDto room)
-    {
-        var created = _repository.Add(room);
-        return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
-    }
+        [HttpGet("department/{departmentId}")]
+        public async Task<ActionResult<IEnumerable<RoomDto>>> GetByDepartment(int departmentId)
+        {
+            var rooms = await _repository.GetByDepartmentAsync(departmentId);
+            return Ok(rooms.Select(ToDto));
+        }
 
-    [HttpPut("{id}")]
-    public IActionResult Update(int id, RoomDto room)
-    {
-        if (!_repository.Update(id, room))
-            return NotFound();
+        [HttpPost]
+        public async Task<ActionResult<RoomDto>> Create(RoomDto dto)
+        {
+            var room = FromDto(dto);
+            var created = await _repository.AddAsync(room);
+            return CreatedAtAction(nameof(GetById), new { id = created.Id }, ToDto(created));
+        }
 
-        return NoContent();
-    }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, RoomDto dto)
+        {
+            var existing = await _repository.GetByIdAsync(id);
+            if (existing == null) return NotFound();
 
-    [HttpDelete("{id}")]
-    public IActionResult Delete(int id)
-    {
-        if (!_repository.Delete(id))
-            return NotFound();
+            existing.RoomNumber = dto.RoomNumber;
+            existing.DepartmentId = dto.DepartmentId;
+            existing.TotalBeds = dto.TotalBeds;
+            existing.AvailableBeds = dto.AvailableBeds;
+            existing.OccupiedBeds = dto.OccupiedBeds;
 
-        return NoContent();
+            await _repository.UpdateAsync(existing);
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var success = await _repository.DeleteAsync(id);
+            if (!success) return NotFound();
+
+            return NoContent();
+        }
+
+        private static RoomDto ToDto(Room room) =>
+            new()
+            {
+                Id = room.Id,
+                RoomNumber = room.RoomNumber,
+                DepartmentId = room.DepartmentId,
+                TotalBeds = room.TotalBeds,
+                AvailableBeds = room.AvailableBeds,
+                OccupiedBeds = room.OccupiedBeds
+            };
+
+        private static Room FromDto(RoomDto dto) =>
+            new()
+            {
+                Id = dto.Id,
+                RoomNumber = dto.RoomNumber,
+                DepartmentId = dto.DepartmentId,
+                TotalBeds = dto.TotalBeds,
+                AvailableBeds = dto.AvailableBeds,
+                OccupiedBeds = dto.OccupiedBeds
+            };
     }
 }

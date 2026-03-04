@@ -24,8 +24,8 @@ const App: React.FC = () => {
   const { isLoggedIn, role } = useSelector((state: RootState) => state.auth);
 
   return (
-    <SettingsProvider>
-      <SnackbarProvider>
+    <SnackbarProvider>
+      <SettingsProvider>
         <Router>
           {isLoggedIn ? (
             <>
@@ -68,8 +68,8 @@ const App: React.FC = () => {
             </Routes>
           )}
         </Router>
-      </SnackbarProvider>
-    </SettingsProvider>
+      </SettingsProvider>
+    </SnackbarProvider>
   );
 };
 

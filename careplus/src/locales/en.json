@@ -33,7 +33,12 @@
     "subtitle": "Hospital Health Management System",
     "menu": "Use the left menu to access:",
     "departments": "Departments",
-    "rooms": "Rooms"
+    "rooms": "Rooms",
+    "noRooms": "No rooms available.",
+    "roomLabel": "Room: {{number}}",
+    "totalBeds": "Total beds",
+    "availableBeds": "Available",
+    "occupiedBeds": "Occupied"
   },
   "patients": {
     "title": "Patient Management",
@@ -105,5 +110,10 @@
   },
   "profile": {
     "save": "Save"
+  },
+
+  "prescription": {
+    "saved": "Receta u ruajt me sukses!",
+    "error": "Error saving prescription"
   }
 }

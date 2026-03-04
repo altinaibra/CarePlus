@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, ReactNode } from "react";
+import { useSnackbar } from "../../ui/SnackbarContext";
 
 interface SettingsContextType {
   printers: string[];
@@ -20,11 +21,10 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({
     setPrinters((prev) => [...prev, printer]);
   const removePrinter = (printer: string) =>
     setPrinters((prev) => prev.filter((p) => p !== printer));
-
+  const { showSnackbar } = useSnackbar();
   const changePassword = (newPassword: string) => {
-    // këtu mund të bësh call tek API për ndryshimin e fjalëkalimit
     console.log("Password changed to:", newPassword);
-    alert("Password changed successfully!");
+    showSnackbar("Password changed successfully!");
   };
 
   return (

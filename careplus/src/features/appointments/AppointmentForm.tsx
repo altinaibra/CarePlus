@@ -7,6 +7,7 @@ import { fetchPatients } from "../patients/patientsSlice";
 import { RootState, AppDispatch } from "../../app/store";
 import { Patient } from "../../app/api";
 import styles from "../../styles/AppointmentFormStyles";
+import { useSnackbar } from "../../ui/SnackbarContext";
 
 interface AppointmentFormData {
   patientId: string;
@@ -19,6 +20,7 @@ interface AppointmentFormData {
 const AppointmentForm: React.FC = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch<AppDispatch>();
+  const { showSnackbar } = useSnackbar();
 
   const doctors = useSelector(
     (state: RootState) => state.doctors.list,
@@ -51,7 +53,7 @@ const AppointmentForm: React.FC = () => {
     e.preventDefault();
 
     if (!formData.patientId || !formData.doctorId) {
-      alert("Please select both patient and doctor");
+      showSnackbar("Please select both patient and doctor", "warning");
       return;
     }
 

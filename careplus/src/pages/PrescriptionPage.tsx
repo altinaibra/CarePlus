@@ -4,6 +4,7 @@ import PharmacyIcon from "../SVG/PharmacyIcon";
 import { useTheme } from "../context/ThemeContext";
 import { prescriptionAPI } from "../app/api";
 import styles from "..//styles/PrescriptionStyles";
+import { useSnackbar } from "../ui/SnackbarContext";
 
 const PrescriptionPage: React.FC = () => {
   const [patientName, setPatientName] = useState("");
@@ -16,6 +17,7 @@ const PrescriptionPage: React.FC = () => {
 
   const { t } = useTranslation();
   const { isDarkMode } = useTheme();
+  const { showSnackbar } = useSnackbar();
 
   const handleSave = async () => {
     try {
@@ -26,7 +28,7 @@ const PrescriptionPage: React.FC = () => {
         hasAllergies,
         allergies,
       });
-      alert("Prescription saved successfully!");
+      showSnackbar(t("prescription.saved"), "success");
       setPatientName("");
       setPatientAge("");
       setPatientGender("");
@@ -36,11 +38,11 @@ const PrescriptionPage: React.FC = () => {
       setPrescription("");
     } catch (error) {
       console.error(error);
-      alert("Error saving prescription");
+      showSnackbar(t("prescription.error"), "error");
     }
   };
 
-  const handleClose = () => alert("Closing page...");
+  const handleClose = () => showSnackbar("Closing page...", "warning");
   const handlePrint = () => window.print();
 
   return (
@@ -60,7 +62,6 @@ const PrescriptionPage: React.FC = () => {
         </div>
 
         <div className={styles.gridContainer}>
-          {/* Patient Name */}
           <div>
             <label className={styles.label}>{t("settings.patientName")}</label>
             <input
@@ -72,7 +73,6 @@ const PrescriptionPage: React.FC = () => {
             />
           </div>
 
-          {/* Patient Age */}
           <div>
             <label className={styles.label}>{t("settings.patientAge")}</label>
             <input
@@ -84,7 +84,6 @@ const PrescriptionPage: React.FC = () => {
             />
           </div>
 
-          {/* Gender */}
           <div>
             <label className={styles.label}>
               {t("settings.patientGender")}
@@ -123,7 +122,6 @@ const PrescriptionPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Allergies */}
         <div className="mb-4">
           <label className="inline-flex items-center gap-2">
             <input
@@ -147,7 +145,6 @@ const PrescriptionPage: React.FC = () => {
           )}
         </div>
 
-        {/* Diagnosis */}
         <div className="mb-4">
           <label className={styles.label}>{t("settings.diagnosis")}</label>
           <textarea
@@ -158,7 +155,6 @@ const PrescriptionPage: React.FC = () => {
           />
         </div>
 
-        {/* Prescription */}
         <div className="mb-4">
           <label className={styles.label}>{t("settings.prescription")}</label>
           <textarea
@@ -169,7 +165,6 @@ const PrescriptionPage: React.FC = () => {
           />
         </div>
 
-        {/* Doctor Signature */}
         <div className="mb-4 flex justify-end mt-28">
           <div className="w-1/5">
             <label className={styles.label + " text-right"}>
@@ -184,7 +179,6 @@ const PrescriptionPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Buttons */}
         <div className="flex justify-end gap-3 mt-6">
           <button onClick={handleClose} className={styles.buttonSecondary}>
             {t("settings.close")}
