@@ -17,6 +17,9 @@ interface Room {
 const Home: React.FC = () => {
   const { t } = useTranslation();
   const [departments, setDepartments] = useState<Department[]>([]);
+  const [roomsByDepartment, setRoomsByDepartment] = useState<
+    Record<string | number, Room[]>
+  >({});
   const [allRooms, setAllRooms] = useState<Room[]>([]);
   const navigate = useNavigate();
 
@@ -31,8 +34,22 @@ const Home: React.FC = () => {
         roomAPI.getAll(),
       ]);
 
-      setDepartments(deptRes.data as Department[]);
-      setAllRooms(roomsRes.data as Room[]);
+      const departmentsData: Department[] = deptRes.data;
+      const roomsData: Room[] = roomsRes.data;
+
+      setDepartments(departmentsData);
+      setAllRooms(roomsData);
+
+      const groupedRooms: Record<string | number, Room[]> = {};
+      roomsData.forEach((room) => {
+        const deptId = room.departmentId ?? "unknown";
+        if (!groupedRooms[deptId]) {
+          groupedRooms[deptId] = [];
+        }
+        groupedRooms[deptId].push(room);
+      });
+
+      setRoomsByDepartment(groupedRooms);
     } catch (error) {
       console.error("Error loading departments or rooms", error);
     }
@@ -74,7 +91,17 @@ const Home: React.FC = () => {
                 {dept.name}
               </h3>
 
-              {/* Departments section tani nuk shfaq më rooms brenda çdo department */}
+              <div className="mt-3 flex flex-wrap gap-2 justify-center">
+                {roomsByDepartment[dept.id]?.map((room) => (
+                  <span
+                    key={room.id}
+                    onClick={() => openRoom(dept.id, room.id)}
+                    className="cursor-pointer px-3 py-1 bg-gray-200 dark:bg-[oklch(30%_0_0)] text-gray-800 dark:text-gray-100 rounded hover:bg-gray-300 dark:hover:bg-[oklch(40%_0_0)] transition text-sm"
+                  >
+                    {room.roomNumber}
+                  </span>
+                ))}
+              </div>
             </div>
           ))}
         </div>

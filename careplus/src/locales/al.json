@@ -33,7 +33,7 @@
     "subtitle": "Sistemi i Menaxhimit të Shëndetësisë",
     "menu": "Përdorni menunë anash për të qasur:",
     "departments": "Departamentet",
-    "rooms": "Rooms"
+    "rooms": "Dhomat"
   },
   "patients": {
     "title": "Menaxhimi i Pacientëve",
@@ -102,5 +102,8 @@
     "close": "Mbyll",
     "save": "Ruaj",
     "doctorSignature": "Nënshkrimi i Doktorit"
+  },
+  "profile": {
+    "save": "Ruaj"
   }
 }

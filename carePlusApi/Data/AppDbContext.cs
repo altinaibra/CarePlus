@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using carePlusApi.Models;
 using CarePlusApi.Models;
 using Microsoft.EntityFrameworkCore;
@@ -20,5 +20,6 @@ namespace CarePlusApi.Data
         public DbSet<Nurse> Nurses { get; set; }       
         public DbSet<Administrator> Administrators { get; set; }
         public DbSet<Room> Rooms { get; set; }
+        public DbSet<Prescription> Prescriptions { get; set; }
     }
 }

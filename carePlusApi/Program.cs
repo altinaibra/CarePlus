@@ -16,7 +16,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddScoped<UserRepository>();
 builder.Services.AddScoped<DepartmentRepository>();
-
+builder.Services.AddScoped<PrescriptionRepository>();
 
 builder.Services.AddScoped<AuthService>();
 

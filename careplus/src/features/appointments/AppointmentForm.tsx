@@ -6,6 +6,7 @@ import { fetchDoctors, Doctor } from "../doctors/doctorsSlice";
 import { fetchPatients } from "../patients/patientsSlice";
 import { RootState, AppDispatch } from "../../app/store";
 import { Patient } from "../../app/api";
+import styles from "../../styles/AppointmentFormStyles";
 
 interface AppointmentFormData {
   patientId: string;
@@ -77,18 +78,15 @@ const AppointmentForm: React.FC = () => {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] p-5 mb-5 rounded-lg bg-white dark:[background-color:oklch(20.5%_0_0)] shadow-sm text-gray-900 dark:text-gray-100"
-    >
-      <h3 className="text-lg font-bold mb-4">{t("appointments.addNew")}</h3>
+    <form onSubmit={handleSubmit} className={styles.formContainer}>
+      <h3 className={styles.header}>{t("appointments.addNew")}</h3>
 
       <select
         name="patientId"
         value={formData.patientId}
         onChange={handleChange}
         required
-        className="block mb-3 p-2 w-full border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] rounded bg-white dark:[background-color:oklch(20.5%_0_0)] text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-slate-700"
+        className={styles.input}
       >
         <option value="">{t("appointments.selectPatient")}</option>
         {patients.map((p) => (
@@ -103,7 +101,7 @@ const AppointmentForm: React.FC = () => {
         value={formData.doctorId}
         onChange={handleChange}
         required
-        className="block mb-3 p-2 w-full border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] rounded bg-white dark:[background-color:oklch(20.5%_0_0)] text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-slate-700"
+        className={styles.input}
       >
         <option value="">{t("appointments.selectDoctor")}</option>
         {doctors.map((d) => (
@@ -119,7 +117,7 @@ const AppointmentForm: React.FC = () => {
         value={formData.date}
         onChange={handleChange}
         required
-        className="block mb-3 p-2 w-full border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] rounded bg-white dark:[background-color:oklch(20.5%_0_0)] text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-slate-700"
+        className={styles.input}
       />
 
       <input
@@ -128,7 +126,7 @@ const AppointmentForm: React.FC = () => {
         value={formData.time}
         onChange={handleChange}
         required
-        className="block mb-3 p-2 w-full border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] rounded bg-white dark:[background-color:oklch(20.5%_0_0)] text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-slate-700"
+        className={styles.input}
       />
 
       <textarea
@@ -137,14 +135,11 @@ const AppointmentForm: React.FC = () => {
         value={formData.reason}
         onChange={handleChange}
         required
-        className="block mb-4 p-2 w-full border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] rounded bg-white dark:[background-color:oklch(20.5%_0_0)] text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-slate-700"
+        className={styles.textarea}
         style={{ minHeight: "80px" }}
       />
 
-      <button
-        type="submit"
-        className="px-5 py-2 bg-slate-700 dark:[background-color:oklch(47.6%_0.114_61.907)] text-white rounded cursor-pointer hover:bg-slate-800 transition font-semibold"
-      >
+      <button type="submit" className={styles.buttonPrimary}>
         {t("appointments.addButton")}
       </button>
     </form>

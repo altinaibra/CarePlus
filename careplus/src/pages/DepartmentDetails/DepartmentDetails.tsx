@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { departmentAPI } from "../../app/api";
+import styles from "../../styles/DepartmentDetailsStyles";
 
 interface Department {
   id: number;
@@ -17,11 +18,11 @@ const departmentColors: Record<string, string> = {
 };
 
 const DepartmentDetails: React.FC = () => {
-  const { id } = useParams<{ id: string }>(); 
+  const { id } = useParams<{ id: string }>();
   const [department, setDepartment] = useState<Department | null>(null);
 
   useEffect(() => {
-    if (!id) return; 
+    if (!id) return;
 
     const fetchDepartment = async () => {
       try {
@@ -35,15 +36,15 @@ const DepartmentDetails: React.FC = () => {
     fetchDepartment();
   }, [id]);
 
-  if (!department) return <p className="text-center mt-10">Loading...</p>;
+  if (!department) return <p className={styles.loading}>Loading...</p>;
 
   const bgColor = departmentColors[department.name] || departmentColors.default;
 
   return (
-    <div className={`${bgColor} min-h-screen flex items-center justify-center`}>
-      <div className="p-10 max-w-2xl rounded-lg shadow-md bg-white dark:bg-gray-800">
-        <h1 className="text-4xl font-bold mb-4">{department.name}</h1>
-        <p className="text-lg">ID: {department.id}</p>
+    <div className={`${bgColor} ${styles.container}`}>
+      <div className={styles.card}>
+        <h1 className={styles.title}>{department.name}</h1>
+        <p className={styles.subtitle}>ID: {department.id}</p>
       </div>
     </div>
   );

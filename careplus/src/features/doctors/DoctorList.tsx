@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { fetchDoctors, deleteDoctorAsync } from "./doctorsSlice";
-import { RootState, AppDispatch } from "../../app/store"; 
-import { useDispatch } from "react-redux";
+import { RootState, AppDispatch } from "../../app/store";
+import styles from "../../styles/DoctorListStyles";
 
 const DoctorList: React.FC = () => {
   const { t } = useTranslation();
@@ -18,63 +18,36 @@ const DoctorList: React.FC = () => {
   }, [dispatch]);
 
   return (
-    <div>
-      <h3 className="text-lg font-bold mb-4">{t("doctors.list")}</h3>
-      {error && <p className="text-red-600 mb-4">Error: {error}</p>}
+    <div className={styles.container}>
+      <h3 className={styles.header}>{t("doctors.list")}</h3>
+      {error && <p className={styles.errorText}>Error: {error}</p>}
       {doctors.length === 0 && !loading ? (
-        <p className="text-gray-600 dark:text-gray-300">
-          {t("doctors.noDoctors")}
-        </p>
+        <p className={styles.emptyText}>{t("doctors.noDoctors")}</p>
       ) : (
-        <div className="overflow-x-auto">
-          <table className="w-full border-collapse text-gray-900 dark:text-gray-100">
+        <div className={styles.tableWrapper}>
+          <table className={styles.table}>
             <thead>
-              <tr className="bg-gray-100 dark:[background-color:oklch(20.5%_0_0)]">
-                <th className="border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] p-3 text-left font-semibold">
-                  {t("doctors.name")}
-                </th>
-                <th className="border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] p-3 text-left font-semibold">
-                  {t("doctors.speciality")}
-                </th>
-                <th className="border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] p-3 text-left font-semibold">
-                  {t("doctors.email")}
-                </th>
-                <th className="border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] p-3 text-left font-semibold">
-                  {t("doctors.phone")}
-                </th>
-                <th className="border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] p-3 text-left font-semibold">
-                  {t("doctors.license")}
-                </th>
-                <th className="border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] p-3 text-left font-semibold">
-                  {t("doctors.actions")}
-                </th>
+              <tr className={styles.theadRow}>
+                <th className={styles.th}>{t("doctors.name")}</th>
+                <th className={styles.th}>{t("doctors.speciality")}</th>
+                <th className={styles.th}>{t("doctors.email")}</th>
+                <th className={styles.th}>{t("doctors.phone")}</th>
+                <th className={styles.th}>{t("doctors.license")}</th>
+                <th className={styles.th}>{t("doctors.actions")}</th>
               </tr>
             </thead>
             <tbody>
               {doctors.map((doctor) => (
-                <tr
-                  key={doctor.id}
-                  className="hover:bg-gray-50 dark:hover:[background-color:oklch(20.5%_0_0)]"
-                >
-                  <td className="border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] p-3">
-                    {doctor.name}
-                  </td>
-                  <td className="border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] p-3">
-                    {doctor.speciality}
-                  </td>
-                  <td className="border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] p-3">
-                    {doctor.email}
-                  </td>
-                  <td className="border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] p-3">
-                    {doctor.phone}
-                  </td>
-                  <td className="border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] p-3">
-                    {doctor.licenseNumber}
-                  </td>
-                  <td className="border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] p-3">
+                <tr key={doctor.id} className={styles.trHover}>
+                  <td className={styles.td}>{doctor.name}</td>
+                  <td className={styles.td}>{doctor.speciality}</td>
+                  <td className={styles.td}>{doctor.email}</td>
+                  <td className={styles.td}>{doctor.phone}</td>
+                  <td className={styles.td}>{doctor.licenseNumber}</td>
+                  <td className={styles.td}>
                     <button
                       onClick={() => dispatch(deleteDoctorAsync(doctor.id))}
-                      className="px-3 py-1 bg-slate-700 dark:[background-color:oklch(47.6%_0.114_61.907)] text-white border-0 rounded cursor-pointer  transition text-sm"
+                      className={styles.deleteButton}
                     >
                       {t("doctors.delete")}
                     </button>

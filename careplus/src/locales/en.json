@@ -33,7 +33,7 @@
     "subtitle": "Hospital Health Management System",
     "menu": "Use the left menu to access:",
     "departments": "Departments",
-    "rooms": "Dhomat"
+    "rooms": "Rooms"
   },
   "patients": {
     "title": "Patient Management",
@@ -102,5 +102,8 @@
     "patientGender": "Patient Gender",
     "patientGenderPlaceholder": "Enter patient gender",
     "doctorSignature": "Doctor Signature"
+  },
+  "profile": {
+    "save": "Save"
   }
 }

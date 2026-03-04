@@ -3,8 +3,8 @@ import { useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { createDoctor } from "./doctorsSlice";
 import { AppDispatch } from "../../app/store";
+import styles from "../../styles/DoctorFormStyles";
 
-// ✅ DTO for creating doctor (includes password)
 interface CreateDoctorDto {
   name: string;
   speciality: string;
@@ -29,16 +29,11 @@ const DoctorForm: React.FC = () => {
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     dispatch(createDoctor(formData));
 
     setFormData({
@@ -52,11 +47,8 @@ const DoctorForm: React.FC = () => {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] p-5 mb-5 rounded-lg bg-white dark:[background-color:oklch(20.5%_0_0)] shadow-sm text-gray-900 dark:text-gray-100"
-    >
-      <h3 className="text-lg font-bold mb-4">{t("doctors.addNew")}</h3>
+    <form onSubmit={handleSubmit} className={styles.form}>
+      <h3 className={styles.header}>{t("doctors.addNew")}</h3>
 
       <input
         type="text"
@@ -65,7 +57,7 @@ const DoctorForm: React.FC = () => {
         value={formData.name}
         onChange={handleChange}
         required
-        className="block mb-3 p-2 w-full border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] rounded bg-white dark:[background-color:oklch(20.5%_0_0)] text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-slate-700"
+        className={styles.input}
       />
 
       <input
@@ -75,7 +67,7 @@ const DoctorForm: React.FC = () => {
         value={formData.speciality}
         onChange={handleChange}
         required
-        className="block mb-3 p-2 w-full border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] rounded bg-white dark:[background-color:oklch(20.5%_0_0)] text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-slate-700"
+        className={styles.input}
       />
 
       <input
@@ -85,7 +77,7 @@ const DoctorForm: React.FC = () => {
         value={formData.email}
         onChange={handleChange}
         required
-        className="block mb-3 p-2 w-full border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] rounded bg-white dark:[background-color:oklch(20.5%_0_0)] text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-slate-700"
+        className={styles.input}
       />
 
       <input
@@ -95,7 +87,7 @@ const DoctorForm: React.FC = () => {
         value={formData.phone}
         onChange={handleChange}
         required
-        className="block mb-3 p-2 w-full border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] rounded bg-white dark:[background-color:oklch(20.5%_0_0)] text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-slate-700"
+        className={styles.input}
       />
 
       <input
@@ -105,7 +97,7 @@ const DoctorForm: React.FC = () => {
         value={formData.password}
         onChange={handleChange}
         required
-        className="block mb-3 p-2 w-full border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] rounded bg-white dark:[background-color:oklch(20.5%_0_0)] text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-slate-700"
+        className={styles.input}
       />
 
       <input
@@ -115,13 +107,10 @@ const DoctorForm: React.FC = () => {
         value={formData.licenseNumber}
         onChange={handleChange}
         required
-        className="block mb-4 p-2 w-full border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] rounded bg-white dark:[background-color:oklch(20.5%_0_0)] text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-slate-700"
+        className={styles.inputLast}
       />
 
-      <button
-        type="submit"
-        className="px-5 py-2 bg-slate-700 dark:[background-color:oklch(47.6%_0.114_61.907)] text-white rounded cursor-pointer hover:bg-slate-800 transition font-semibold"
-      >
+      <button type="submit" className={styles.submitButton}>
         {t("doctors.addButton")}
       </button>
     </form>
