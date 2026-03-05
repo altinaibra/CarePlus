@@ -172,7 +172,6 @@ const PrescriptionPage: React.FC = () => {
             </label>
             <input
               type="text"
-              value={prescription}
               onChange={(e) => setPrescription(e.target.value)}
               className={styles.signatureInput}
             />
