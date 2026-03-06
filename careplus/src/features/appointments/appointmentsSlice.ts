@@ -1,8 +1,9 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import { appointmentAPI, Appointment, } from "../../app/api";
+import { appointmentAPI, Appointment, Patient, Doctor } from "../../app/api";
 
 type ID = string | number;
 
+// FETCH
 export const fetchAppointments = createAsyncThunk<
   Appointment[],
   void,
@@ -18,17 +19,27 @@ export const fetchAppointments = createAsyncThunk<
   }
 });
 
-// Create appointment
+// CREATE
 export const createAppointment = createAsyncThunk<
   Appointment,
-  Omit<Appointment, "id">,
-  { rejectValue: string }
+  Omit<Appointment, "id" | "patient" | "doctor">,
+  { rejectValue: string; state: any }
 >(
   "appointments/createAppointment",
-  async (appointmentData, { rejectWithValue }) => {
+  async (appointmentData, { rejectWithValue, getState }) => {
     try {
       const response = await appointmentAPI.create(appointmentData);
-      return response.data;
+
+      // Attach patient & doctor objects from Redux state
+      const state = getState();
+      const patient: Patient | undefined = state.patients.list.find(
+        (p: Patient) => p.id === response.data.PatientId,
+      );
+      const doctor: Doctor | undefined = state.doctors.list.find(
+        (d: Doctor) => d.id === response.data.DoctorId,
+      );
+
+      return { ...response.data, patient, doctor };
     } catch (error: any) {
       return rejectWithValue(
         error.response?.data?.message || "Error creating appointment",
@@ -37,10 +48,10 @@ export const createAppointment = createAsyncThunk<
   },
 );
 
-// Delete appointment
+// DELETE
 export const deleteAppointmentAsync = createAsyncThunk<
-  string | number,
-  string | number,
+  ID,
+  ID,
   { rejectValue: string }
 >("appointments/deleteAppointment", async (id, { rejectWithValue }) => {
   try {
@@ -53,7 +64,6 @@ export const deleteAppointmentAsync = createAsyncThunk<
   }
 });
 
-// Slice state type
 interface AppointmentsState {
   list: Appointment[];
   loading: boolean;
@@ -105,12 +115,9 @@ const appointmentsSlice = createSlice({
         state.loading = false;
         state.error = action.payload as string;
       })
-      .addCase(
-        deleteAppointmentAsync.fulfilled,
-        (state, action: PayloadAction<ID>) => {
-          state.list = state.list.filter((a) => a.id !== action.payload);
-        },
-      );
+      .addCase(deleteAppointmentAsync.fulfilled, (state, action) => {
+        state.list = state.list.filter((a) => a.id !== action.payload);
+      });
   },
 });
 

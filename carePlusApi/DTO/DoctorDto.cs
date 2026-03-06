@@ -8,7 +8,10 @@ namespace carePlusApi.DTO
     public class DoctorDto
     {
         [Required]
-        public string Name { get; set; }
+        public string FirstName { get; set; }  // riemëruar
+
+        [Required]
+        public string LastName { get; set; }
 
         [Required]
         [JsonPropertyName("speciality")] // matches React form field

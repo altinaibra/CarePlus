@@ -61,7 +61,8 @@
     "title": "Doctor Management",
     "addNew": "Add New Doctor",
     "list": "Doctor List",
-    "name": "Name",
+    "firstName": "First Name",
+    "lastName": "Last Name",
     "speciality": "Speciality",
     "email": "Email",
     "phone": "Phone",
@@ -86,7 +87,7 @@
     "noAppointments": "No registered appointments.",
     "addButton": "Add Appointment",
     "selectPatient": "Select Patient",
-    "appointments.selectDoctor": "Select Doctor"
+    "selectDoctor": "Select Doctor"
   },
   "settings": {
     "Settings": "Settings",

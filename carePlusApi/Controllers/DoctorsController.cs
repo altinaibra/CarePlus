@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CarePlusApi.Controllers
 {
     [ApiController]
-    [Route("api/doctors")] // ✅ Use plural lowercase for REST convention
+    [Route("api/doctors")] 
     public class DoctorController : ControllerBase
     {
         private readonly DoctorRepository _doctorRepo;
@@ -43,7 +43,8 @@ namespace CarePlusApi.Controllers
             return Ok(new
             {
                 doctor.Id,
-                doctor.Name,
+                doctor.FirstName,
+                doctor.LastName,
                 doctor.Specialization,
                 doctor.Email,
                 doctor.Phone,

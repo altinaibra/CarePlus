@@ -1,4 +1,4 @@
-using carePlusApi.DTO;
+﻿using carePlusApi.DTO;
 using CarePlusApi.Data;
 using CarePlusApi.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -23,7 +23,11 @@ namespace CarePlusApi.Controllers
         {
             try
             {
-                var appointments = await _context.Appointments.ToListAsync();
+                var appointments = await _context.Appointments
+                    .Include(a => a.Patient)
+                    .Include(a => a.Doctor)
+                    .ToListAsync();
+
                 return Ok(appointments);
             }
             catch (Exception ex)
@@ -52,7 +56,7 @@ namespace CarePlusApi.Controllers
 
         // POST: api/appointments
         [HttpPost]
-        public async Task<IActionResult> CreateAppointment([FromBody] AppointmentCreateDto dto)
+        public async Task<IActionResult> CreateAppointment([FromBody] AppointmentDto dto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -70,7 +74,13 @@ namespace CarePlusApi.Controllers
             _context.Appointments.Add(appointment);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetAppointment), new { id = appointment.Id }, appointment);
+            // 🔹 REFRESH nga DB me Include
+            var created = await _context.Appointments
+                .Include(a => a.Patient)
+                .Include(a => a.Doctor)
+                .FirstOrDefaultAsync(a => a.Id == appointment.Id);
+
+            return CreatedAtAction(nameof(GetAppointment), new { id = appointment.Id }, created);
         }
 
         // PUT: api/appointments/{id}

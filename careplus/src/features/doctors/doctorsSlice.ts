@@ -3,6 +3,8 @@ import { doctorAPI } from "../../app/api";
 
 export interface Doctor {
   id: number;
+  firstName: string;
+  lastName: string;
   name: string;
   speciality: string;
   email: string;
@@ -34,6 +36,8 @@ const initialState: DoctorsState = {
 
 const mapDoctorFromAPI = (d: APIDoctor): Doctor => ({
   id: Number(d.id),
+  firstName: d.firstName ?? "",
+  lastName: d.lastName ?? "",
   name: `${d.firstName ?? ""} ${d.lastName ?? ""}`.trim(),
   speciality: d.specialty ?? "",
   email: d.email ?? "",
@@ -61,7 +65,8 @@ export const fetchDoctors = createAsyncThunk<
 export const createDoctor = createAsyncThunk<
   Doctor,
   {
-    name: string;
+    firstName: string;
+    lastName: string;
     speciality: string;
     email: string;
     phone: string;
@@ -71,15 +76,9 @@ export const createDoctor = createAsyncThunk<
   { rejectValue: string }
 >("doctors/createDoctor", async (doctorData, { rejectWithValue }) => {
   try {
-    // split name into first + last
-    const nameParts = doctorData.name.trim().split(" ");
-
-    const firstName = nameParts[0] ?? "";
-    const lastName = nameParts.slice(1).join(" ") ?? "";
-
     const response = await doctorAPI.create({
-      firstName,
-      lastName,
+      firstName: doctorData.firstName,
+      lastName: doctorData.lastName,
       specialty: doctorData.speciality,
       email: doctorData.email,
       phone: doctorData.phone,

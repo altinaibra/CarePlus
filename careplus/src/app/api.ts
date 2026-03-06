@@ -83,6 +83,23 @@ export const doctorAPI = {
 };
 
 // ----- APPOINTMENTS -----
+export interface Patient {
+  id: ID;
+  firstName: string;
+  lastName: string;
+}
+
+export interface Doctor {
+  id: number;
+  firstName: string;
+  lastName: string;
+  speciality: string;
+  email: string;
+  phone: string;
+  licenseNumber: string;
+  password: string;
+}
+
 export interface Appointment {
   id: ID;
   PatientId: ID;
@@ -91,6 +108,10 @@ export interface Appointment {
   Date: string;
   Reason: string;
   Status: "Scheduled" | "Completed" | "Cancelled";
+
+  // Optional related objects for frontend convenience
+  patient?: Patient | null;
+  doctor?: Doctor | null;
 }
 
 export const appointmentAPI = {
@@ -99,7 +120,7 @@ export const appointmentAPI = {
   getById: (id: ID): Promise<AxiosResponse<Appointment>> =>
     axiosInstance.get(`/appointments/${id}`),
   create: (
-    data: Omit<Appointment, "id">,
+    data: Omit<Appointment, "id" | "patient" | "doctor">,
   ): Promise<AxiosResponse<Appointment>> =>
     axiosInstance.post("/appointments", data),
   update: (
@@ -110,7 +131,6 @@ export const appointmentAPI = {
   delete: (id: ID): Promise<AxiosResponse<void>> =>
     axiosInstance.delete(`/appointments/${id}`),
 };
-
 // ----- DEPARTMENTS -----
 export interface Department {
   id: ID;

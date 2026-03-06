@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace carePlusApi.DTO
 {
-    public class AppointmentCreateDto
+    public class AppointmentDto
     {
         [Required]
         public int PatientId { get; set; }

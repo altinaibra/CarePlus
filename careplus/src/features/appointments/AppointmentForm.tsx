@@ -1,7 +1,7 @@
 import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
-import { createAppointment } from "./appointmentsSlice";
+import { createAppointment, fetchAppointments } from "./appointmentsSlice";
 import { fetchDoctors, Doctor } from "../doctors/doctorsSlice";
 import { fetchPatients } from "../patients/patientsSlice";
 import { RootState, AppDispatch } from "../../app/store";
@@ -49,7 +49,7 @@ const AppointmentForm: React.FC = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!formData.patientId || !formData.doctorId) {
@@ -59,7 +59,8 @@ const AppointmentForm: React.FC = () => {
 
     const appointmentDate = new Date(`${formData.date}T${formData.time}`);
 
-    dispatch(
+    // 🔹 CREATE APPOINTMENT
+    await dispatch(
       createAppointment({
         PatientId: parseInt(formData.patientId),
         DoctorId: parseInt(formData.doctorId),
@@ -69,6 +70,9 @@ const AppointmentForm: React.FC = () => {
         Status: "Scheduled",
       }),
     );
+
+    // 🔹 REFRESH LIST
+    dispatch(fetchAppointments());
 
     setFormData({
       patientId: "",
@@ -108,18 +112,17 @@ const AppointmentForm: React.FC = () => {
         <option value="">{t("appointments.selectDoctor")}</option>
         {doctors.map((d) => (
           <option key={d.id} value={d.id}>
-            Dr. {d.name}
+            Dr. {d.firstName} {d.lastName}
           </option>
         ))}
       </select>
-
       <input
         type="date"
         name="date"
         value={formData.date}
         onChange={handleChange}
         required
-        className={styles.input}
+        className={`${styles.input} custom-date-input`}
       />
 
       <input
@@ -128,9 +131,8 @@ const AppointmentForm: React.FC = () => {
         value={formData.time}
         onChange={handleChange}
         required
-        className={styles.input}
+        className={`${styles.input} custom-time-input`}
       />
-
       <textarea
         name="reason"
         placeholder={t("appointments.reason")}

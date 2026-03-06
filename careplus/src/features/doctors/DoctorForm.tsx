@@ -6,7 +6,8 @@ import { AppDispatch } from "../../app/store";
 import styles from "../../styles/DoctorFormStyles";
 
 interface CreateDoctorDto {
-  name: string;
+  firstName: string;
+  lastName: string;
   speciality: string;
   email: string;
   phone: string;
@@ -19,7 +20,8 @@ const DoctorForm: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
 
   const [formData, setFormData] = useState<CreateDoctorDto>({
-    name: "",
+    firstName: "",
+    lastName: "",
     speciality: "",
     email: "",
     phone: "",
@@ -37,7 +39,8 @@ const DoctorForm: React.FC = () => {
     dispatch(createDoctor(formData));
 
     setFormData({
-      name: "",
+      firstName: "",
+      lastName: "",
       speciality: "",
       email: "",
       phone: "",
@@ -50,15 +53,27 @@ const DoctorForm: React.FC = () => {
     <form onSubmit={handleSubmit} className={styles.form}>
       <h3 className={styles.header}>{t("doctors.addNew")}</h3>
 
-      <input
-        type="text"
-        name="name"
-        placeholder={t("doctors.name")}
-        value={formData.name}
-        onChange={handleChange}
-        required
-        className={styles.input}
-      />
+      <div style={{ display: "flex", gap: "8px" }}>
+        <input
+          type="text"
+          name="firstName"
+          placeholder={t("doctors.firstName")}
+          value={formData.firstName}
+          onChange={handleChange}
+          required
+          className={styles.input}
+        />
+
+        <input
+          type="text"
+          name="lastName"
+          placeholder={t("doctors.lastName")}
+          value={formData.lastName}
+          onChange={handleChange}
+          required
+          className={styles.inputLast}
+        />
+      </div>
 
       <input
         type="text"

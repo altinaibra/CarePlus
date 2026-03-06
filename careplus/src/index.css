@@ -136,3 +136,16 @@ code {
 .dark .custom-date-input::-webkit-calendar-picker-indicator {
   filter: invert(1);
 }
+
+/* Light mode */
+.custom-time-input::-webkit-calendar-picker-indicator,
+.custom-time-input::-webkit-clear-button {
+  filter: invert(0);
+  cursor: pointer;
+}
+
+/* Dark mode */
+.dark .custom-time-input::-webkit-calendar-picker-indicator,
+.dark .custom-time-input::-webkit-clear-button {
+  filter: invert(1); /* bëhet #fff */
+}

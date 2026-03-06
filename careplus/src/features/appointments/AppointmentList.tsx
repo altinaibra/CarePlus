@@ -4,8 +4,6 @@ import { useTranslation } from "react-i18next";
 import { fetchAppointments, deleteAppointmentAsync } from "./appointmentsSlice";
 import { RootState, AppDispatch } from "../../app/store";
 import { Appointment as ApiAppointment } from "../../app/api";
-import { Doctor } from "../doctors/doctorsSlice";
-import type { PatientWithContact as Patient } from "../patients/types";
 import styles from "../../styles/AppointmentListStyles";
 
 const AppointmentList: React.FC = () => {
@@ -16,14 +14,6 @@ const AppointmentList: React.FC = () => {
     (state) => state.appointments.list,
   );
 
-  const doctors = useSelector<RootState, Doctor[]>(
-    (state) => state.doctors.list,
-  );
-
-  const patients = useSelector<RootState, Patient[]>(
-    (state) => state.patients.list,
-  );
-
   const loading = useSelector<RootState, boolean>(
     (state) => state.appointments.loading,
   );
@@ -32,25 +22,24 @@ const AppointmentList: React.FC = () => {
   );
 
   const appointments = apiAppointments.map((a) => {
-    const dateTime = a.AppointmentDate || "";
+    const dateTime =
+      (a as any).AppointmentDate ?? (a as any).appointmentDate ?? "";
     const [datePart, timePart] = dateTime.split("T");
-
-    const patient = patients.find((p) => p.id === a.PatientId);
-    const doctor = doctors.find((d) => d.id === a.DoctorId);
 
     return {
       id: a.id,
-      patientName: patient
-        ? `${patient.firstName} ${patient.lastName}`
+      patientName: a.patient
+        ? `${a.patient.firstName} ${a.patient.lastName}`
         : "Unknown",
-      doctorName: doctor ? `Dr. ${doctor.name}` : "Unknown",
+      doctorName: a.doctor
+        ? `Dr. ${a.doctor.firstName} ${a.doctor.lastName}`
+        : "Unknown",
       date: datePart || "",
       time: timePart?.substring(0, 5) || "",
-      reason: a.Reason || "",
-      status: a.Status || "Scheduled",
+      reason: (a as any).Reason ?? (a as any).reason ?? "",
+      status: (a as any).Status ?? (a as any).status ?? "Scheduled",
     };
   });
-
   useEffect(() => {
     dispatch(fetchAppointments());
   }, [dispatch]);

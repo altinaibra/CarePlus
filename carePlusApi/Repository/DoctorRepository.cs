@@ -29,7 +29,8 @@ namespace CarePlusApi.Repository
         {
             var doctor = new Doctor
             {
-                Name = doctorDto.Name,
+                FirstName = doctorDto.FirstName,
+                LastName = doctorDto.LastName,
                 Specialization = doctorDto.Specialization,
                 Email = doctorDto.Email,
                 Phone = doctorDto.Phone,
