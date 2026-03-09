@@ -37,6 +37,23 @@ namespace CarePlusApi.Services
             return (token, user.Role, user.Username);
         }
 
+        public async Task ChangePasswordAsync(ChangePasswordDto dto)
+        {
+            if (string.IsNullOrEmpty(dto.Username))
+                throw new Exception("Username must be provided.");
+
+            var user = await _userRepository.GetByUsernameAsync(dto.Username);
+
+            if (user == null)
+                throw new Exception("User not found.");
+
+            if (user.Password != dto.CurrentPassword)
+                throw new Exception("Current password is incorrect.");
+
+            user.Password = dto.NewPassword;
+
+            await _userRepository.UpdateAsync(user);
+        }
 
         public string GenerateJwtToken(User user)
         {

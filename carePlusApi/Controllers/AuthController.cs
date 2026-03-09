@@ -33,5 +33,19 @@ namespace CarePlusApi.Controllers
                 return Unauthorized(new { message = ex.Message });
             }
         }
+
+        [HttpPost("change-password")]
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto dto)
+        {
+            try
+            {
+                await _authService.ChangePasswordAsync(dto);
+                return Ok(new { message = "Password changed successfully" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
     }
 }

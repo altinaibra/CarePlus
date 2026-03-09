@@ -116,5 +116,16 @@
   "prescription": {
     "saved": "Receta u ruajt me sukses!",
     "error": "Error saving prescription"
+  },
+  "settingsPage": {
+    "printers": "Printers",
+    "changePassword": "Change Password",
+    "description": "Manage printers for the system",
+    "passwordDescription": "Update your account password",
+    "currentPassword": "Current Password",
+    "newPassword": "New Password",
+    "confirmPassword": "Confirm Password",
+    "cancel": "Cancel",
+    "save": "Save"
   }
 }

@@ -13,10 +13,17 @@ export interface LoginResponse {
   role: string;
   username: string;
 }
-
+export interface ChangePasswordRequest {
+  username: string;
+  currentPassword: string;
+  newPassword: string;
+}
 export const authAPI = {
   login: (credentials: LoginRequest): Promise<AxiosResponse<LoginResponse>> =>
     axiosInstance.post("/auth/login", credentials),
+
+  changePassword: (data: ChangePasswordRequest): Promise<AxiosResponse<void>> =>
+    axiosInstance.post("/auth/change-password", data),
 };
 
 export interface Patient {

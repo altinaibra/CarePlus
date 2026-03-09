@@ -22,10 +22,17 @@ namespace CarePlusApi.Repository
 
         public async Task<User> CreateAsync(User user)
         {
-            user.Password = PasswordHelper.HashPassword(user.Password); 
+            user.Password = PasswordHelper.HashPassword(user.Password);
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
             return user;
+        }
+
+        // ✅ ADD THIS METHOD
+        public async Task UpdateAsync(User user)
+        {
+            _context.Users.Update(user);
+            await _context.SaveChangesAsync();
         }
     }
 }

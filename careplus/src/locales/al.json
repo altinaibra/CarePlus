@@ -115,5 +115,11 @@
   "prescription": {
     "saved": "Prescription saved successfully!",
     "error": "Gabim gjatë ruajtjes së recetës"
+  },
+  "settingsPage": {
+    "printers": "Printerat",
+    "changePassword": "Ndrysho Fjalëkalimin",
+    "description": "Menaxho printerat për sistemin",
+    "passwordDescription": "Përditëso fjalëkalimin e llogarisë tënde"
   }
 }
