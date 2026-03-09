@@ -33,12 +33,13 @@ const Printers: React.FC = () => {
         await printerAPI.update(editingPrinterId, {
           printerName: newPrinterName,
           printerDescription: newPrinterDescription,
+          defaultPrinter: isDefaultPrinter,
         });
       } else {
         await printerAPI.create({
           printerName: newPrinterName,
           printerDescription: newPrinterDescription,
-          defaultPrinter: false,
+          defaultPrinter: isDefaultPrinter,
           entryDate: new Date().toISOString(),
         });
       }
@@ -47,12 +48,12 @@ const Printers: React.FC = () => {
 
       setNewPrinterName("");
       setNewPrinterDescription("");
+      setIsDefaultPrinter(false); // reset form
       setEditingPrinterId(null);
     } catch (err) {
       console.error(err);
     }
   };
-
   const handleEditPrinter = (printer: Printer) => {
     setEditingPrinterId(printer.printerId);
     setNewPrinterName(printer.printerName);
@@ -68,10 +69,8 @@ const Printers: React.FC = () => {
     }
   };
 
-  // Toggle defaultPrinter
   const handleToggleDefault = async (printer: Printer) => {
     try {
-      // If enabling this printer, disable all others
       if (!printer.defaultPrinter) {
         await Promise.all(
           printers.map((p) =>
@@ -81,15 +80,14 @@ const Printers: React.FC = () => {
           ),
         );
       } else {
-        // If turning off, just update this printer
         await printerAPI.update(printer.printerId, { defaultPrinter: false });
       }
+
       fetchPrinters();
     } catch (err) {
       console.error(err);
     }
   };
-
   return (
     <div className={PrinterStyles.container}>
       <h1 className="text-2xl font-bold mb-6">{t("printers.printers")}</h1>
@@ -112,15 +110,12 @@ const Printers: React.FC = () => {
           className="flex-1 px-4 py-2 bg-white dark:[background-color:oklch(20.5%_0_0)] border rounded
                            border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-600"
         />
-        <label className="flex items-center gap-2">
+        <label className="flex items-center gap-2 cursor-pointer">
           <input
-            type="radio"
+            type="checkbox" // use checkbox for toggle instead of radio
             checked={isDefaultPrinter}
-            onChange={() => setIsDefaultPrinter(!isDefaultPrinter)}
-            className="
-              w-4 h-4 
-              accent-[oklch(47.6%_0.114_61.907)] 
-            "
+            onChange={() => setIsDefaultPrinter((prev) => !prev)}
+            className="w-4 h-4 accent-[oklch(47.6%_0.114_61.907)]"
           />
           <span className="text-black dark:text-white text-sm">
             Default Printer
@@ -150,7 +145,11 @@ const Printers: React.FC = () => {
                 type="checkbox"
                 checked={printer.defaultPrinter}
                 onChange={() => handleToggleDefault(printer)}
-                className="w-5 h-5 rounded border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500"
+                className="
+                w-5 h-5 rounded border-gray-300 dark:border-gray-600
+                focus:ring-2 focus:ring-[oklch(47.6%_0.114_61.907)]
+                accent-[oklch(47.6%_0.114_61.907)]
+              "
               />
             </label>
 
