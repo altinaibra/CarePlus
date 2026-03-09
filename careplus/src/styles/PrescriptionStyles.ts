@@ -13,9 +13,9 @@ const styles = {
   checkbox:
     "w-4 h-4 rounded border-gray-400 dark:border-[oklch(47.6%_0.114_61.907)] bg-white dark:bg-[oklch(20.5%_0_0)] checked:bg-[#EF4136] dark:checked:bg-[oklch(47.6%_0.114_61.907)] focus:ring-2 focus:ring-[#EF4136] dark:focus:ring-[oklch(47.6%_0.114_61.907)] transition",
   buttonPrimary:
-    "px-4 py-2 bg-slate-700 dark:bg-[oklch(47.6%_0.114_61.907)] text-white rounded hover:bg-blue-700 dark:hover:bg-blue-600 transition",
+    "px-4 py-2 bg-slate-700 dark:bg-[oklch(47.6%_0.114_61.907)] text-white rounded hover:bg-blue-700",
   buttonSecondary:
-    "px-4 py-2 bg-gray-400 dark:bg-gray-600 text-white rounded hover:bg-gray-500 dark:hover:bg-gray-700 transition",
+    "px-4 py-2 bg-white dark:[background-color:oklch(20.5%_0_0)] border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] text-white rounded hover:bg-gray-500",
   signatureInput:
     "w-full p-2 border-b border-gray-300 dark:border-[oklch(47.6%_0.114_61.907)] bg-transparent text-gray-900 dark:text-gray-100 focus:outline-none focus:border-slate-700 dark:focus:border-[oklch(47.6%_0.114_61.907)] placeholder:text-gray-400 dark:placeholder:text-gray-500",
 };

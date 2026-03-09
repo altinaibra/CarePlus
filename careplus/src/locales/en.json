@@ -126,6 +126,18 @@
     "newPassword": "New Password",
     "confirmPassword": "Confirm Password",
     "cancel": "Cancel",
-    "save": "Save"
+    "save": "Save",
+    "fillAllFields": "Fill all fields",
+    "passwordsDontMatch": "Passwords don't match"
+  },
+  "printers": {
+    "printers": "Printers",
+    "printerName": "Printer Name",
+    "description": "Description",
+    "printersDescription": "Printer Description",
+    "updatePrinter": "Update Printer",
+    "addPrinter": "Add printer",
+    "edit": "Edit",
+    "delete": "Delete"
   }
 }

@@ -15,10 +15,11 @@ import Header from "./components/Header";
 import Profile from "./pages/Profile";
 import DepartmentDetails from "./pages/DepartmentDetails/DepartmentDetails";
 import { SettingsProvider } from "./components/Settings/Settings";
-import SettingsPage from "./pages/SettingsPage";
+import SettingsPage from "./components/Settings/SettingsPage";
 import PrescriptionPage from "./pages/PrescriptionPage";
 import { RootState } from "./app/store";
 import { SnackbarProvider } from "./ui/SnackbarContext";
+import Printers from "./components/Settings/Printers";
 
 const App: React.FC = () => {
   const { isLoggedIn, role } = useSelector((state: RootState) => state.auth);
@@ -43,6 +44,7 @@ const App: React.FC = () => {
                     <Route path="/login" element={<Navigate to="/" />} />
                     <Route path="/profile" element={<Profile />} />
                     <Route path="/settings" element={<SettingsPage />} />
+                    <Route path="/settings/printers" element={<Printers />} />
                     <Route
                       path="/prescription"
                       element={

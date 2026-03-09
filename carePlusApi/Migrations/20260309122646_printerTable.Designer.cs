@@ -4,6 +4,7 @@ using CarePlusApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace carePlusApi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260309122646_printerTable")]
+    partial class printerTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -440,33 +443,6 @@ namespace carePlusApi.Migrations
                     b.HasIndex("DepartmentId");
 
                     b.ToTable("Nurses");
-                });
-
-            modelBuilder.Entity("carePlusApi.Models.Printer", b =>
-                {
-                    b.Property<int>("PrinterId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PrinterId"));
-
-                    b.Property<bool>("DefaultPrinter")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("EntryDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("PrinterDescription")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PrinterName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("PrinterId");
-
-                    b.ToTable("Printers");
                 });
 
             modelBuilder.Entity("carePlusApi.Models.Room", b =>

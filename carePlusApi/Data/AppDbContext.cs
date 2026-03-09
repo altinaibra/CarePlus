@@ -22,5 +22,7 @@ namespace CarePlusApi.Data
         public DbSet<Administrator> Administrators { get; set; }
         public DbSet<Room> Rooms { get; set; }
         public DbSet<Prescription> Prescriptions { get; set; }
+
+        public DbSet<Printer> Printers { get; set; }
     }
 }

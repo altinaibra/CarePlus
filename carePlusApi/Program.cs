@@ -7,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using carePlusApi.Repository;
+using carePlusApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +20,7 @@ builder.Services.AddScoped<DepartmentRepository>();
 builder.Services.AddScoped<DepartmentDetailsRepository>();
 builder.Services.AddScoped<PrescriptionRepository>();
 builder.Services.AddScoped<RoomRepository>();
+builder.Services.AddScoped<PrinterRepository>();
 
 builder.Services.AddScoped<AuthService>();
 

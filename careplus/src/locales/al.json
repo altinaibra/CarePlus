@@ -120,6 +120,18 @@
     "printers": "Printerat",
     "changePassword": "Ndrysho Fjalëkalimin",
     "description": "Menaxho printerat për sistemin",
-    "passwordDescription": "Përditëso fjalëkalimin e llogarisë tënde"
+    "passwordDescription": "Përditëso fjalëkalimin e llogarisë tënde",
+    "fillAllFields": "Plotëso të gjitha fushat",
+    "passwordsDontMatch": "Fjalëkalimet nuk përputhen"
+  },
+  "printers": {
+    "printers": "Printerët",
+    "printerName": "Emri i printerit",
+    "printersDescription": "Përshkrimi i printerit",
+    "description": "Përshkrimi",
+    "updatePrinter": "Përditëso Printerin",
+    "addPrinter": "Shto Printer",
+    "edit": "Ndrysho",
+    "delete": "Fshi"
   }
 }
