@@ -134,14 +134,17 @@ const PrescriptionPage: React.FC = () => {
               {t("settings.hasAllergies")}
             </span>
           </label>
+
           {hasAllergies && (
-            <input
-              type="text"
-              value={allergies}
-              onChange={(e) => setAllergies(e.target.value)}
-              className={styles.input + " mt-2"}
-              placeholder={t("settings.allergiesPlaceholder")}
-            />
+            <div className="mt-2">
+              <input
+                type="text"
+                value={allergies}
+                onChange={(e) => setAllergies(e.target.value)}
+                className={styles.input}
+                placeholder={t("settings.allergiesPlaceholder")}
+              />
+            </div>
           )}
         </div>
 
@@ -164,8 +167,9 @@ const PrescriptionPage: React.FC = () => {
             placeholder={t("settings.prescriptionPlaceholder")}
           />
         </div>
-
-        <div className="mb-4 flex justify-end mt-28">
+        <div
+          className={`mb-4 flex justify-end ${hasAllergies ? "mt-12" : "mt-28"}`}
+        >
           <div className="w-1/5">
             <label className={styles.label + " text-right"}>
               {t("settings.doctorSignature")}

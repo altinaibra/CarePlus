@@ -4,18 +4,19 @@ import { useNavigate } from "react-router-dom";
 import { authAPI } from "../../app/api";
 import { useSnackbar } from "../../ui/SnackbarContext";
 import { FaCog } from "react-icons/fa";
+import Printers from "./Printers"; // import your existing Printers component
 
 const settingsOptions = [
   {
     titleKey: "settingsPage.printers",
     descriptionKey: "settingsPage.description",
-    path: "/settings/printers",
+    modal: "printers",
     color: "bg-slate-700 dark:bg-[oklch(47.6%_0.114_61.907)]",
   },
   {
     titleKey: "settingsPage.changePassword",
     descriptionKey: "settingsPage.passwordDescription",
-    path: "/settings/change-password",
+    modal: "changePassword",
     color: "bg-slate-700 dark:bg-[oklch(47.6%_0.114_61.907)]",
   },
 ];
@@ -25,23 +26,26 @@ const SettingsPage: React.FC = () => {
   const navigate = useNavigate();
   const { showSnackbar } = useSnackbar();
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [activeModal, setActiveModal] = useState<
+    "printers" | "changePassword" | null
+  >(null);
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
 
-  const handleOpenModal = () => {
-    setIsModalOpen(true);
-    setCurrentPassword("");
-    setNewPassword("");
-    setConfirmPassword("");
-    setError("");
+  const handleOpenModal = (modal: "printers" | "changePassword") => {
+    setActiveModal(modal);
+
+    if (modal === "changePassword") {
+      setCurrentPassword("");
+      setNewPassword("");
+      setConfirmPassword("");
+      setError("");
+    }
   };
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
+  const handleCloseModal = () => setActiveModal(null);
 
   const handleSubmit = async () => {
     if (!currentPassword || !newPassword || !confirmPassword) {
@@ -64,7 +68,7 @@ const SettingsPage: React.FC = () => {
       });
 
       showSnackbar(t("settingsPage.passwordChangedSuccessfully"), "success");
-      setIsModalOpen(false);
+      handleCloseModal();
     } catch (err) {
       showSnackbar(t("settingsPage.failedToChangePassword"), "error");
     }
@@ -84,13 +88,9 @@ const SettingsPage: React.FC = () => {
         {settingsOptions.map((option) => (
           <button
             key={option.titleKey}
-            onClick={() => {
-              if (option.titleKey === "settingsPage.changePassword") {
-                handleOpenModal();
-              } else {
-                navigate(option.path); // ✅ React Router navigation
-              }
-            }}
+            onClick={() =>
+              handleOpenModal(option.modal as "printers" | "changePassword")
+            }
             className="block text-left p-5 bg-white dark:[background-color:oklch(20.5%_0_0)] border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] rounded-lg shadow hover:shadow-lg transition"
           >
             <div
@@ -106,56 +106,69 @@ const SettingsPage: React.FC = () => {
         ))}
       </div>
 
-      {isModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="bg-white dark:[background-color:oklch(20.5%_0_0)] border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] p-6 rounded-lg w-3xl">
-            <h2 className="text-xl font-bold mb-4">
-              {t("settingsPage.changePassword")}
-            </h2>
-            {error && <p className="text-red-500 mb-2">{error}</p>}
+      {/* Modal Overlay */}
+      {activeModal && (
+        <div className="fixed inset-0 flex z-50">
+          {/* Background overlay */}
+          <div
+            className="absolute inset-0 bg-black bg-opacity-50"
+            onClick={handleCloseModal}
+          />
 
-            <input
-              type="password"
-              placeholder={t("settingsPage.currentPassword")}
-              value={currentPassword}
-              onChange={(e) => setCurrentPassword(e.target.value)}
-              className="w-full mb-3 p-2 border rounded 
-                         bg-white dark:[background-color:oklch(20.5%_0_0)] 
-                         border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)]"
-            />
-            <input
-              type="password"
-              placeholder={t("settingsPage.newPassword")}
-              value={newPassword}
-              onChange={(e) => setNewPassword(e.target.value)}
-              className="w-full mb-3 p-2 border rounded 
-                         bg-white dark:[background-color:oklch(20.5%_0_0)] 
-                         border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)]"
-            />
-            <input
-              type="password"
-              placeholder={t("settingsPage.confirmPassword")}
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              className="w-full mb-3 p-2 border rounded 
-                         bg-white dark:[background-color:oklch(20.5%_0_0)] 
-                         border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)]"
-            />
+          {/* Modal content */}
+          <div
+            className={`ml-auto w-[400px] h-full bg-white dark:[background-color:oklch(20.5%_0_0)] shadow-xl transform transition-transform duration-300 ${
+              activeModal ? "translate-x-0" : "translate-x-full"
+            }`}
+          >
+            <div className="p-6 h-full overflow-y-auto">
+              {activeModal === "changePassword" && (
+                <>
+                  <h2 className="text-xl font-bold mb-4">
+                    {t("settingsPage.changePassword")}
+                  </h2>
+                  {error && <p className="text-red-500 mb-2">{error}</p>}
 
-            <div className="flex justify-end gap-3 mt-4">
-              <button
-                onClick={handleCloseModal}
-                className="px-4 py-2 bg-white dark:[background-color:oklch(20.5%_0_0)] border rounded
-                           border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] hover:bg-gray-400"
-              >
-                {t("settingsPage.cancel")}
-              </button>
-              <button
-                onClick={handleSubmit}
-                className="px-4 py-2 rounded bg-slate-700 dark:[background-color:oklch(47.6%_0.114_61.907)] border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] text-white hover:bg-blue-700"
-              >
-                {t("settingsPage.save")}
-              </button>
+                  <input
+                    type="password"
+                    placeholder={t("settingsPage.currentPassword")}
+                    value={currentPassword}
+                    onChange={(e) => setCurrentPassword(e.target.value)}
+                    className="w-full mb-3 p-2 border rounded bg-white dark:[background-color:oklch(20.5%_0_0)] border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)]"
+                  />
+                  <input
+                    type="password"
+                    placeholder={t("settingsPage.newPassword")}
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    className="w-full mb-3 p-2 border rounded bg-white dark:[background-color:oklch(20.5%_0_0)] border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)]"
+                  />
+                  <input
+                    type="password"
+                    placeholder={t("settingsPage.confirmPassword")}
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    className="w-full mb-3 p-2 border rounded bg-white dark:[background-color:oklch(20.5%_0_0)] border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)]"
+                  />
+
+                  <div className="flex justify-end gap-3 mt-4">
+                    <button
+                      onClick={handleCloseModal}
+                      className="px-4 py-2 bg-white dark:[background-color:oklch(20.5%_0_0)] border rounded border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] hover:bg-gray-400"
+                    >
+                      {t("settingsPage.cancel")}
+                    </button>
+                    <button
+                      onClick={handleSubmit}
+                      className="px-4 py-2 rounded bg-slate-700 dark:[background-color:oklch(47.6%_0.114_61.907)] border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] text-white hover:bg-blue-700"
+                    >
+                      {t("settingsPage.save")}
+                    </button>
+                  </div>
+                </>
+              )}
+
+              {activeModal === "printers" && <Printers />}
             </div>
           </div>
         </div>

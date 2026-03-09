@@ -53,34 +53,39 @@ const Header: React.FC = () => {
     localStorage.setItem("language", lang);
   };
 
-  const menuItems: MenuItem[] = [
-    { path: "/", label: t("sidebar.home"), Icon: FaHome },
-    {
-      path: "/patients",
-      label: t("sidebar.patients"),
-      Icon: FaUsers,
-    },
-    {
-      path: "/doctors",
-      label: t("sidebar.doctors"),
-      Icon: FaUserMd,
-    },
-    {
-      path: "/appointments",
-      label: t("sidebar.appointments"),
-      Icon: FaCalendarAlt,
-    },
-    ...(role === "doctor"
-      ? [
-          {
-            path: "/prescription",
-            label: t("header.prescription") || "Prescription",
-            Icon: FaPrescriptionBottleAlt,
-          },
-        ]
-      : []),
-  ];
-
+const menuItems: MenuItem[] = [
+  { path: "/", label: t("sidebar.home"), Icon: FaHome },
+  {
+    path: "/patients",
+    label: t("sidebar.patients"),
+    Icon: FaUsers,
+  },
+  // shfaq doctors vetem nese role nuk eshte doctor
+  ...(role !== "doctor"
+    ? [
+        {
+          path: "/doctors",
+          label: t("sidebar.doctors"),
+          Icon: FaUserMd,
+        },
+      ]
+    : []),
+  {
+    path: "/appointments",
+    label: t("sidebar.appointments"),
+    Icon: FaCalendarAlt,
+  },
+  // shfaq prescription vetem nese role === doctor
+  ...(role === "doctor"
+    ? [
+        {
+          path: "/prescription",
+          label: t("header.prescription") || "Prescription",
+          Icon: FaPrescriptionBottleAlt,
+        },
+      ]
+    : []),
+];
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (

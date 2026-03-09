@@ -20,6 +20,7 @@ import PrescriptionPage from "./pages/PrescriptionPage";
 import { RootState } from "./app/store";
 import { SnackbarProvider } from "./ui/SnackbarContext";
 import Printers from "./components/Settings/Printers";
+import ChatWidget from "./components/ChatWidget";
 
 const App: React.FC = () => {
   const { isLoggedIn, role } = useSelector((state: RootState) => state.auth);
@@ -60,6 +61,7 @@ const App: React.FC = () => {
                       element={<DepartmentDetails />}
                     />
                   </Routes>
+                  {/* <ChatWidget /> */}
                 </div>
               </div>
             </>

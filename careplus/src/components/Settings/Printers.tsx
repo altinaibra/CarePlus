@@ -91,28 +91,27 @@ const Printers: React.FC = () => {
   return (
     <div className={PrinterStyles.container}>
       <h1 className="text-2xl font-bold mb-6">{t("printers.printers")}</h1>
-      <p className="mb-4">{t("printers.printersDescription")}</p>
 
-      <div className="mb-6 flex items-center gap-3">
+      <div className="mb-6 flex flex-col gap-3">
         <input
           type="text"
           placeholder="Printer Name"
           value={newPrinterName}
           onChange={(e) => setNewPrinterName(e.target.value)}
-          className="flex-1 px-4 py-2 bg-white dark:[background-color:oklch(20.5%_0_0)] border rounded
-                           border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-600"
+          className="w-full px-4 py-2 bg-white dark:[background-color:oklch(20.5%_0_0)] border rounded
+             border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] text-black dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-600"
         />
         <input
           type="text"
           placeholder="Description"
           value={newPrinterDescription}
           onChange={(e) => setNewPrinterDescription(e.target.value)}
-          className="flex-1 px-4 py-2 bg-white dark:[background-color:oklch(20.5%_0_0)] border rounded
-                           border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-600"
+          className="w-full px-4 py-2 bg-white dark:[background-color:oklch(20.5%_0_0)] border rounded
+             border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] text-black dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-600"
         />
         <label className="flex items-center gap-2 cursor-pointer">
           <input
-            type="checkbox" // use checkbox for toggle instead of radio
+            type="checkbox"
             checked={isDefaultPrinter}
             onChange={() => setIsDefaultPrinter((prev) => !prev)}
             className="w-4 h-4 accent-[oklch(47.6%_0.114_61.907)]"
@@ -129,6 +128,8 @@ const Printers: React.FC = () => {
         </button>
       </div>
 
+      <div className="border-t border-gray-300 dark:border-gray-600 my-4"></div>
+
       {printers.map((printer) => (
         <div key={printer.printerId} className={PrinterStyles.card}>
           <div className="flex-1">
@@ -140,15 +141,14 @@ const Printers: React.FC = () => {
 
           <div className="flex items-center gap-3">
             <label className="flex items-center gap-2 cursor-pointer">
-              <span>{t("printers.default")}</span>
               <input
                 type="checkbox"
                 checked={printer.defaultPrinter}
                 onChange={() => handleToggleDefault(printer)}
                 className="
-                w-5 h-5 rounded border-gray-300 dark:border-gray-600
-                focus:ring-2 focus:ring-[oklch(47.6%_0.114_61.907)]
-                accent-[oklch(47.6%_0.114_61.907)]
+               w-5 h-5 rounded border-gray-300 dark:border-gray-600
+              focus:ring-2 focus:ring-[oklch(47.6%_0.114_61.907)]
+              accent-gray-700 dark:accent-[oklch(47.6%_0.114_61.907)]
               "
               />
             </label>
