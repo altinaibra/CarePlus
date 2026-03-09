@@ -138,6 +138,11 @@
     "updatePrinter": "Update Printer",
     "addPrinter": "Add printer",
     "edit": "Edit",
-    "delete": "Delete"
+    "delete": "Delete",
+    "default": "Default Printer"
+  },
+  "departments": {
+    "mainServices": "Main Services",
+    "details": "Details"
   }
 }

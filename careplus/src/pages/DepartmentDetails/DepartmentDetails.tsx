@@ -19,6 +19,7 @@ import {
   FaMapMarkerAlt,
   FaProcedures,
 } from "react-icons/fa";
+import { useTranslation } from "react-i18next";
 
 interface Department {
   id: number;
@@ -39,7 +40,6 @@ type DepartmentMeta = {
   }>;
 };
 
-// Default UI metadata (colors, icons) for departments
 const departmentColors: Record<string, string> = {
   Cardiology: "bg-red-200",
   Radiology: "bg-blue-200",
@@ -120,7 +120,7 @@ const DepartmentDetails: React.FC = () => {
   const [department, setDepartment] = useState<Department | null>(null);
   const [details, setDetails] = useState<DepartmentDetailsInfo | null>(null);
   const [loading, setLoading] = useState(true);
-
+  const { t, i18n } = useTranslation();
   useEffect(() => {
     if (!id) return;
 
@@ -153,7 +153,6 @@ const DepartmentDetails: React.FC = () => {
   const bgColor = departmentColors[department.name] || departmentColors.default;
   const meta = departmentMeta[department.name] || departmentMeta.default;
 
-  // Merge API data with default metadata
   const services =
     details?.services
       ?.split(";")
@@ -214,7 +213,7 @@ const DepartmentDetails: React.FC = () => {
 
         <div className="rounded-lg border border-gray-200 dark:border-gray-700 p-4">
           <h2 className="text-lg font-semibold mb-3 text-gray-900 dark:text-gray-100">
-            Shërbimet kryesore
+            {t("mainServices")}
           </h2>
           <ul className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
             {services.map((s) => (
@@ -228,7 +227,7 @@ const DepartmentDetails: React.FC = () => {
 
         <div className="rounded-lg border border-gray-200 dark:border-gray-700 p-4 mt-4">
           <h2 className="text-lg font-semibold mb-3 text-gray-900 dark:text-gray-100">
-            Detaje
+            {t("details")}
           </h2>
           <div className="space-y-3">
             {highlights.map((h) => {

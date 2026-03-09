@@ -1,4 +1,3 @@
-
 const styles = {
   container: "min-h-screen flex items-center justify-center",
   card: "p-10 max-w-2xl rounded-lg shadow-md bg-white dark:bg-gray-800",

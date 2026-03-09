@@ -3,19 +3,20 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { authAPI } from "../../app/api";
 import { useSnackbar } from "../../ui/SnackbarContext";
+import { FaCog } from "react-icons/fa";
 
 const settingsOptions = [
   {
     titleKey: "settingsPage.printers",
     descriptionKey: "settingsPage.description",
     path: "/settings/printers",
-    color: "bg-green-600",
+    color: "bg-slate-700 dark:bg-[oklch(47.6%_0.114_61.907)]",
   },
   {
     titleKey: "settingsPage.changePassword",
     descriptionKey: "settingsPage.passwordDescription",
     path: "/settings/change-password",
-    color: "bg-blue-600",
+    color: "bg-slate-700 dark:bg-[oklch(47.6%_0.114_61.907)]",
   },
 ];
 
@@ -71,7 +72,13 @@ const SettingsPage: React.FC = () => {
 
   return (
     <div className="p-5 max-w-5xl mx-auto">
-      <h2 className="text-2xl font-bold mb-6">{t("settings.settings")}</h2>
+      <h2 className="flex items-center text-2xl font-bold mb-6 gap-2">
+        <FaCog
+          className="text-gray-700 dark:text-[oklch(47.6%_0.114_61.907)]"
+          size={24}
+        />
+        {t("settings.Settings")}
+      </h2>
 
       <div className="flex flex-col gap-6">
         {settingsOptions.map((option) => (

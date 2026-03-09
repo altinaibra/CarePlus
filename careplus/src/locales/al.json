@@ -132,6 +132,11 @@
     "updatePrinter": "Përditëso Printerin",
     "addPrinter": "Shto Printer",
     "edit": "Ndrysho",
-    "delete": "Fshi"
+    "delete": "Fshi",
+    "default": "Default Printer"
+  },
+  "departments": {
+    "mainServices": "Shërbimet kryesore",
+    "details": "Detajet"
   }
 }
