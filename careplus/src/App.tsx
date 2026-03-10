@@ -19,7 +19,7 @@ import SettingsPage from "./components/Settings/SettingsPage";
 import PrescriptionPage from "./pages/PrescriptionPage";
 import { RootState } from "./app/store";
 import { SnackbarProvider } from "./ui/SnackbarContext";
-import Printers from "./components/Settings/Printers";
+import Printers from "./components/Settings/Modals/Printers";
 import ChatWidget from "./components/ChatWidget";
 
 const App: React.FC = () => {

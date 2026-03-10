@@ -4,7 +4,10 @@ import { useNavigate } from "react-router-dom";
 import { authAPI } from "../../app/api";
 import { useSnackbar } from "../../ui/SnackbarContext";
 import { FaCog } from "react-icons/fa";
-import Printers from "./Printers"; // import your existing Printers component
+import Printers from "./Modals/Printers"; 
+import ChangePassword from "./Modals/ChangePassword";
+import DepartmentSettings from "./Modals/DepartmentSettings";
+import RoomSettings from "./Modals/RoomSettings";
 
 const settingsOptions = [
   {
@@ -19,6 +22,19 @@ const settingsOptions = [
     modal: "changePassword",
     color: "bg-slate-700 dark:bg-[oklch(47.6%_0.114_61.907)]",
   },
+  {
+    titleKey: "settingsPage.departments",
+    descriptionKey: "settingsPage.departmentDescription",
+    modal: "departments",
+    color: "bg-slate-700 dark:bg-[oklch(47.6%_0.114_61.907)]",
+  },
+
+  {
+    titleKey: "settingsPage.rooms",
+    descriptionKey: "settingsPage.roomDescription",
+    modal: "rooms",
+    color: "bg-slate-700 dark:bg-[oklch(47.6%_0.114_61.907)]",
+  },
 ];
 
 const SettingsPage: React.FC = () => {
@@ -27,7 +43,7 @@ const SettingsPage: React.FC = () => {
   const { showSnackbar } = useSnackbar();
 
   const [activeModal, setActiveModal] = useState<
-    "printers" | "changePassword" | null
+    "printers" | "changePassword" | "departments" | "rooms" | null
   >(null);
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -106,69 +122,25 @@ const SettingsPage: React.FC = () => {
         ))}
       </div>
 
-      {/* Modal Overlay */}
       {activeModal && (
         <div className="fixed inset-0 flex z-50">
-          {/* Background overlay */}
           <div
             className="absolute inset-0 bg-black bg-opacity-50"
             onClick={handleCloseModal}
           />
 
-          {/* Modal content */}
           <div
-            className={`ml-auto w-[400px] h-full bg-white dark:[background-color:oklch(20.5%_0_0)] shadow-xl transform transition-transform duration-300 ${
+            className={`ml-auto w-[600px] h-full bg-white dark:[background-color:oklch(20.5%_0_0)] shadow-xl transform transition-transform duration-300 ${
               activeModal ? "translate-x-0" : "translate-x-full"
             }`}
           >
             <div className="p-6 h-full overflow-y-auto">
               {activeModal === "changePassword" && (
-                <>
-                  <h2 className="text-xl font-bold mb-4">
-                    {t("settingsPage.changePassword")}
-                  </h2>
-                  {error && <p className="text-red-500 mb-2">{error}</p>}
-
-                  <input
-                    type="password"
-                    placeholder={t("settingsPage.currentPassword")}
-                    value={currentPassword}
-                    onChange={(e) => setCurrentPassword(e.target.value)}
-                    className="w-full mb-3 p-2 border rounded bg-white dark:[background-color:oklch(20.5%_0_0)] border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)]"
-                  />
-                  <input
-                    type="password"
-                    placeholder={t("settingsPage.newPassword")}
-                    value={newPassword}
-                    onChange={(e) => setNewPassword(e.target.value)}
-                    className="w-full mb-3 p-2 border rounded bg-white dark:[background-color:oklch(20.5%_0_0)] border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)]"
-                  />
-                  <input
-                    type="password"
-                    placeholder={t("settingsPage.confirmPassword")}
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    className="w-full mb-3 p-2 border rounded bg-white dark:[background-color:oklch(20.5%_0_0)] border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)]"
-                  />
-
-                  <div className="flex justify-end gap-3 mt-4">
-                    <button
-                      onClick={handleCloseModal}
-                      className="px-4 py-2 bg-white dark:[background-color:oklch(20.5%_0_0)] border rounded border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] hover:bg-gray-400"
-                    >
-                      {t("settingsPage.cancel")}
-                    </button>
-                    <button
-                      onClick={handleSubmit}
-                      className="px-4 py-2 rounded bg-slate-700 dark:[background-color:oklch(47.6%_0.114_61.907)] border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] text-white hover:bg-blue-700"
-                    >
-                      {t("settingsPage.save")}
-                    </button>
-                  </div>
-                </>
+                <ChangePassword onClose={handleCloseModal} />
               )}
-
               {activeModal === "printers" && <Printers />}
+              {activeModal === "departments" && <DepartmentSettings />}
+              {activeModal === "rooms" && <RoomSettings />}
             </div>
           </div>
         </div>

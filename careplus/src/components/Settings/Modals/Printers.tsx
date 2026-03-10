@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { PrinterStyles } from "../../styles/PrinterStyles";
+import { PrinterStyles } from "../../../styles/PrinterStyles";
 import { FaTrash } from "react-icons/fa";
-import { Printer, printerAPI } from "../../app/api";
+import { Printer, printerAPI } from "../../../app/api";
 
 const Printers: React.FC = () => {
   const { t } = useTranslation();
