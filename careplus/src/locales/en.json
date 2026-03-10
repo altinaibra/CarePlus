@@ -146,7 +146,8 @@
     "selectDepartment": "Select department",
     "roomAdded": "Room added successfully",
     "roomDeleted": "Room deleted successfully",
-    "roomUpdated": "Room updated"
+    "roomUpdated": "Room updated",
+    "departmentUpdated": "Department updated"
   },
   "printers": {
     "printers": "Printers",

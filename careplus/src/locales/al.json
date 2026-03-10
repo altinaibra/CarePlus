@@ -145,7 +145,8 @@
     "selectDepartment": "Zgjidh departamentin",
     "roomAdded": "Dhoma u shtua me sukses",
     "roomDeleted": "Dhoma u fshi me sukses",
-    "roomUpdated": "Dhoma u përditësua"
+    "roomUpdated": "Dhoma u përditësua",
+    "departmentUpdated": "Departamenti u përditësua"
   },
   "printers": {
     "printers": "Printerët",
