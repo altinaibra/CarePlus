@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { authAPI } from "../../app/api";
 import { useSnackbar } from "../../ui/SnackbarContext";
 import { FaCog } from "react-icons/fa";
-import Printers from "./Modals/Printers"; 
+import Printers from "./Modals/Printers";
 import ChangePassword from "./Modals/ChangePassword";
 import DepartmentSettings from "./Modals/DepartmentSettings";
 import RoomSettings from "./Modals/RoomSettings";
@@ -100,7 +100,7 @@ const SettingsPage: React.FC = () => {
         {t("settings.Settings")}
       </h2>
 
-      <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-2">
         {settingsOptions.map((option) => (
           <button
             key={option.titleKey}

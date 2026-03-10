@@ -2,16 +2,20 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSnackbar } from "../../../ui/SnackbarContext";
 import { Room, roomAPI } from "../../../app/api";
-import { FaTrash } from "react-icons/fa";
+import { FaTrash, FaSave, FaEdit } from "react-icons/fa";
 
 const RoomSettings: React.FC = () => {
   const { t } = useTranslation();
   const { showSnackbar } = useSnackbar();
 
   const [rooms, setRooms] = useState<Room[]>([]);
-
   const [roomNumber, setRoomNumber] = useState("");
   const [totalBeds, setTotalBeds] = useState<number>(1);
+
+  // Track which room is in edit mode
+  const [editingRoomId, setEditingRoomId] = useState<number | null>(null);
+  const [editedRoomNumber, setEditedRoomNumber] = useState("");
+  const [editedTotalBeds, setEditedTotalBeds] = useState<number>(1);
 
   useEffect(() => {
     fetchData();
@@ -44,7 +48,6 @@ const RoomSettings: React.FC = () => {
 
       setRoomNumber("");
       setTotalBeds(1);
-
       fetchData();
     } catch (error) {
       console.error(error);
@@ -54,9 +57,36 @@ const RoomSettings: React.FC = () => {
   const deleteRoom = async (id: number | string) => {
     try {
       await roomAPI.delete(id);
-
       showSnackbar(t("settingsPage.roomDeleted"), "success");
+      fetchData();
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
+  const startEdit = (room: Room) => {
+    setEditingRoomId(Number(room.id));
+    setEditedRoomNumber(room.roomNumber);
+    setEditedTotalBeds(room.totalBeds);
+  };
+
+  const saveEdit = async (roomId: number | string) => {
+    if (!editedRoomNumber) {
+      showSnackbar(t("settingsPage.fillAllFields"), "error");
+      return;
+    }
+
+    try {
+      await roomAPI.update(roomId, {
+        roomNumber: editedRoomNumber,
+        totalBeds: editedTotalBeds,
+        availableBeds:
+          editedTotalBeds -
+          (rooms.find((r) => r.id === roomId)?.occupiedBeds || 0),
+      });
+
+      showSnackbar(t("settingsPage.roomUpdated"), "success");
+      setEditingRoomId(null);
       fetchData();
     } catch (error) {
       console.error(error);
@@ -67,16 +97,13 @@ const RoomSettings: React.FC = () => {
     <div>
       <h2 className="text-xl font-bold mb-4">{t("settingsPage.rooms")}</h2>
 
-      <div className="flex gap-2 mb-4">
+      {/* Add new room */}
+      <div className="flex flex-wrap gap-2 mb-4">
         <div className="flex-1 flex flex-col">
-          <label
-            htmlFor="roomNumber"
-            className="mb-1 text-gray-700 dark:text-gray-300 text-sm"
-          >
+          <label className="mb-1 text-gray-700 dark:text-gray-300 text-sm">
             {t("settingsPage.roomNumber")}
           </label>
           <input
-            id="roomNumber"
             value={roomNumber}
             onChange={(e) => setRoomNumber(e.target.value)}
             placeholder={t("settingsPage.roomNumber")}
@@ -85,14 +112,10 @@ const RoomSettings: React.FC = () => {
         </div>
 
         <div className="flex-1 flex flex-col">
-          <label
-            htmlFor="totalBeds"
-            className="mb-1 text-gray-700 dark:text-gray-300 text-sm"
-          >
+          <label className="mb-1 text-gray-700 dark:text-gray-300 text-sm">
             {t("settingsPage.totalBeds")}
           </label>
           <input
-            id="totalBeds"
             type="number"
             value={totalBeds}
             onChange={(e) => setTotalBeds(Number(e.target.value))}
@@ -108,29 +131,72 @@ const RoomSettings: React.FC = () => {
           {t("settingsPage.add")}
         </button>
       </div>
+
       <div className="border-t border-gray-300 dark:border-gray-600 my-4"></div>
 
+      {/* Rooms list */}
       <div className="flex flex-col gap-2">
         {rooms.map((room) => (
           <div
             key={room.id}
-            className="flex justify-between items-center p-3 bg-white dark:[background-color:oklch(20.5%_0_0)] border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] text-white rounded"
+            className="flex justify-between items-center p-3 bg-white dark:[background-color:oklch(20.5%_0_0)] border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] rounded"
           >
-            <div>
-              <p className="font-semibold text-gray-700 dark:text-gray-300">
-                {t("settingsPage.room")} {room.roomNumber}
-              </p>
-              <p className="text-sm text-gray-500">
-                {t("settingsPage.totalBeds")}: {room.totalBeds}
-              </p>
-            </div>
+            {editingRoomId === room.id ? (
+              <div className="flex-1 flex flex-wrap gap-2">
+                <input
+                  value={editedRoomNumber}
+                  onChange={(e) => setEditedRoomNumber(e.target.value)}
+                  className="p-2 flex-1 rounded 
+                  bg-white dark:[background-color:oklch(20.5%_0_0)]
+                  border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)]
+                  text-gray-900 dark:text-white"
+                />
 
-            <button
-              onClick={() => deleteRoom(room.id)}
-              className="px-2 h-8 rounded text-white hover:opacity-80 transition bg-slate-700 dark:[background-color:oklch(47.6%_0.114_61.907)]"
-            >
-              <FaTrash />
-            </button>
+                <input
+                  type="number"
+                  value={editedTotalBeds}
+                  onChange={(e) => setEditedTotalBeds(Number(e.target.value))}
+                  className="p-2 w-24 rounded 
+                  bg-white dark:[background-color:oklch(20.5%_0_0)]
+                  border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)]
+                  text-gray-900 dark:text-white"
+                />
+              </div>
+            ) : (
+              <div>
+                <p className="font-semibold text-gray-700 dark:text-gray-300">
+                  {t("settingsPage.room")} {room.roomNumber}
+                </p>
+                <p className="text-sm text-gray-500">
+                  {t("settingsPage.totalBeds")}: {room.totalBeds}
+                </p>
+              </div>
+            )}
+
+            <div className="flex gap-2">
+              {editingRoomId === room.id ? (
+                <button
+                  onClick={() => saveEdit(room.id)}
+                  className="px-2 h-8 rounded  bg-gray-500  dark:[background-color:oklch(20.5%_0_0)] border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] text-white rounded hover:bg-gray-500"
+                >
+                  <FaSave />
+                </button>
+              ) : (
+                <button
+                  onClick={() => startEdit(room)}
+                  className="px-2 h-8 rounded bg-gray-500  dark:[background-color:oklch(20.5%_0_0)] border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] text-white rounded hover:bg-gray-500"
+                >
+                  <FaEdit />
+                </button>
+              )}
+
+              <button
+                onClick={() => deleteRoom(room.id)}
+                className="px-2 h-8 rounded text-white hover:opacity-80 transition bg-slate-700 dark:[background-color:oklch(47.6%_0.114_61.907)]"
+              >
+                <FaTrash />
+              </button>
+            </div>
           </div>
         ))}
       </div>

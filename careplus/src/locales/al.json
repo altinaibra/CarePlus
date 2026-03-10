@@ -144,7 +144,8 @@
     "totalBeds": "Numri i shtretërve",
     "selectDepartment": "Zgjidh departamentin",
     "roomAdded": "Dhoma u shtua me sukses",
-    "roomDeleted": "Dhoma u fshi me sukses"
+    "roomDeleted": "Dhoma u fshi me sukses",
+    "roomUpdated": "Dhoma u përditësua"
   },
   "printers": {
     "printers": "Printerët",

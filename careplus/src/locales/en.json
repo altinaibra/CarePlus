@@ -145,7 +145,8 @@
     "totalBeds": "Total beds",
     "selectDepartment": "Select department",
     "roomAdded": "Room added successfully",
-    "roomDeleted": "Room deleted successfully"
+    "roomDeleted": "Room deleted successfully",
+    "roomUpdated": "Room updated"
   },
   "printers": {
     "printers": "Printers",
