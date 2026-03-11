@@ -84,66 +84,74 @@ const AppointmentForm: React.FC = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className={styles.formContainer}>
-      <h3 className={styles.header}>{t("appointments.addNew")}</h3>
+    <form
+      onSubmit={handleSubmit}
+      className="flex flex-col justify-between h-full p-5 border rounded-lg bg-white dark:bg-[oklch(20.5%_0_0)] dark:border-[oklch(47.6%_0.114_61.907)] shadow-sm text-gray-900 dark:text-gray-100"
+    >
+      <h3 className="text-lg font-bold mb-4">{t("appointments.addNew")}</h3>
 
-      <select
-        name="patientId"
-        value={formData.patientId}
-        onChange={handleChange}
-        required
-        className={styles.input}
+      <div className="space-y-3">
+        <select
+          name="patientId"
+          value={formData.patientId}
+          onChange={handleChange}
+          required
+          className="block w-full p-2 border rounded bg-white dark:bg-[oklch(20.5%_0_0)] dark:border-[oklch(47.6%_0.114_61.907)] text-gray-900 dark:text-gray-100"
+        >
+          <option value="">{t("appointments.selectPatient")}</option>
+          {patients.map((p) => (
+            <option key={p.id} value={p.id}>
+              {p.firstName} {p.lastName}
+            </option>
+          ))}
+        </select>
+
+        <select
+          name="doctorId"
+          value={formData.doctorId}
+          onChange={handleChange}
+          required
+          className="block w-full p-2 border rounded bg-white dark:bg-[oklch(20.5%_0_0)] dark:border-[oklch(47.6%_0.114_61.907)] text-gray-900 dark:text-gray-100"
+        >
+          <option value="">{t("appointments.selectDoctor")}</option>
+          {doctors.map((d) => (
+            <option key={d.id} value={d.id}>
+              Dr. {d.firstName} {d.lastName}
+            </option>
+          ))}
+        </select>
+
+        <input
+          type="date"
+          name="date"
+          value={formData.date}
+          onChange={handleChange}
+          required
+          className="block w-full p-2 border rounded bg-white dark:bg-[oklch(20.5%_0_0)] dark:border-[oklch(47.6%_0.114_61.907)] text-gray-900 dark:text-gray-100"
+        />
+        <input
+          type="time"
+          name="time"
+          value={formData.time}
+          onChange={handleChange}
+          required
+          className="block w-full p-2 border rounded bg-white dark:bg-[oklch(20.5%_0_0)] dark:border-[oklch(47.6%_0.114_61.907)] text-gray-900 dark:text-gray-100"
+        />
+        <textarea
+          name="reason"
+          placeholder={t("appointments.reason")}
+          value={formData.reason}
+          onChange={handleChange}
+          required
+          className="block w-full p-2 border rounded bg-white dark:bg-[oklch(20.5%_0_0)] dark:border-[oklch(47.6%_0.114_61.907)] text-gray-900 dark:text-gray-100"
+          style={{ minHeight: "80px" }}
+        />
+      </div>
+
+      <button
+        type="submit"
+        className="mt-auto px-5 py-2 bg-slate-700 dark:bg-[oklch(47.6%_0.114_61.907)] text-white rounded cursor-pointer hover:bg-slate-800 transition font-semibold"
       >
-        <option value="">{t("appointments.selectPatient")}</option>
-        {patients.map((p) => (
-          <option key={p.id} value={p.id}>
-            {p.firstName} {p.lastName}
-          </option>
-        ))}
-      </select>
-
-      <select
-        name="doctorId"
-        value={formData.doctorId}
-        onChange={handleChange}
-        required
-        className={styles.input}
-      >
-        <option value="">{t("appointments.selectDoctor")}</option>
-        {doctors.map((d) => (
-          <option key={d.id} value={d.id}>
-            Dr. {d.firstName} {d.lastName}
-          </option>
-        ))}
-      </select>
-      <input
-        type="date"
-        name="date"
-        value={formData.date}
-        onChange={handleChange}
-        required
-        className={`${styles.input} custom-date-input`}
-      />
-
-      <input
-        type="time"
-        name="time"
-        value={formData.time}
-        onChange={handleChange}
-        required
-        className={`${styles.input} custom-time-input`}
-      />
-      <textarea
-        name="reason"
-        placeholder={t("appointments.reason")}
-        value={formData.reason}
-        onChange={handleChange}
-        required
-        className={styles.textarea}
-        style={{ minHeight: "80px" }}
-      />
-
-      <button type="submit" className={styles.buttonPrimary}>
         {t("appointments.addButton")}
       </button>
     </form>

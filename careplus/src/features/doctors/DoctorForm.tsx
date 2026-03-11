@@ -42,7 +42,7 @@ const DoctorForm: React.FC = () => {
       return;
     }
 
-    dispatch(createDoctor(formData)); 
+    dispatch(createDoctor(formData));
 
     setFormData({
       firstName: "",
@@ -56,15 +56,69 @@ const DoctorForm: React.FC = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className={styles.form}>
+    <form
+      onSubmit={handleSubmit}
+      className="flex flex-col justify-between h-full p-5 border rounded-lg bg-white dark:bg-[oklch(20.5%_0_0)] dark:border-[oklch(47.6%_0.114_61.907)] shadow-sm text-gray-900 dark:text-gray-100"
+    >
       <h3 className={styles.header}>{t("doctors.addNew")}</h3>
 
-      <div style={{ display: "flex", gap: "8px" }}>
+      <div className="flex flex-col gap-3">
+        <div className="flex gap-2">
+          <input
+            type="text"
+            name="firstName"
+            placeholder={t("doctors.firstName")}
+            value={formData.firstName}
+            onChange={handleChange}
+            required
+            className={styles.input}
+          />
+          <input
+            type="text"
+            name="lastName"
+            placeholder={t("doctors.lastName")}
+            value={formData.lastName}
+            onChange={handleChange}
+            required
+            className={styles.inputLast}
+          />
+        </div>
+
         <input
           type="text"
-          name="firstName"
-          placeholder={t("doctors.firstName")}
-          value={formData.firstName}
+          name="speciality"
+          placeholder={t("doctors.speciality")}
+          value={formData.speciality}
+          onChange={handleChange}
+          required
+          className={styles.input}
+        />
+
+        <input
+          type="email"
+          name="email"
+          placeholder={t("doctors.email")}
+          value={formData.email}
+          onChange={handleChange}
+          required
+          className={styles.input}
+        />
+
+        <input
+          type="tel"
+          name="phone"
+          placeholder={t("doctors.phone")}
+          value={formData.phone}
+          onChange={handleChange}
+          required
+          className={styles.input}
+        />
+
+        <input
+          type="password"
+          name="password"
+          placeholder={t("doctors.password")}
+          value={formData.password}
           onChange={handleChange}
           required
           className={styles.input}
@@ -72,66 +126,19 @@ const DoctorForm: React.FC = () => {
 
         <input
           type="text"
-          name="lastName"
-          placeholder={t("doctors.lastName")}
-          value={formData.lastName}
+          name="licenseNumber"
+          placeholder={t("doctors.license")}
+          value={formData.licenseNumber}
           onChange={handleChange}
           required
           className={styles.inputLast}
         />
       </div>
 
-      <input
-        type="text"
-        name="speciality"
-        placeholder={t("doctors.speciality")}
-        value={formData.speciality}
-        onChange={handleChange}
-        required
-        className={styles.input}
-      />
-
-      <input
-        type="email"
-        name="email"
-        placeholder={t("doctors.email")}
-        value={formData.email}
-        onChange={handleChange}
-        required
-        className={styles.input}
-      />
-
-      <input
-        type="tel"
-        name="phone"
-        placeholder={t("doctors.phone")}
-        value={formData.phone}
-        onChange={handleChange}
-        required
-        className={styles.input}
-      />
-
-      <input
-        type="password"
-        name="password"
-        placeholder={t("doctors.password")}
-        value={formData.password}
-        onChange={handleChange}
-        required
-        className={styles.input}
-      />
-
-      <input
-        type="text"
-        name="licenseNumber" // was "licenseNumber"
-        placeholder={t("doctors.license")}
-        value={formData.licenseNumber}
-        onChange={handleChange}
-        required
-        className={styles.inputLast}
-      />
-
-      <button type="submit" className={styles.submitButton}>
+      <button
+        type="submit"
+        className="mt-auto px-5 py-2 bg-slate-700 dark:bg-[oklch(47.6%_0.114_61.907)] text-white rounded cursor-pointer hover:bg-slate-800 transition font-semibold"
+      >
         {t("doctors.addButton")}
       </button>
     </form>

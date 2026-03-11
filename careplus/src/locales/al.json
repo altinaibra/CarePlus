@@ -56,7 +56,9 @@
     "noPatients": "Nuk ka pacientë të regjistruar.",
     "addButton": "Shto Pacientin",
     "password": "Fjalëkalimi",
-    "create": "Shto pacient"
+    "create": "Shto pacient",
+    "female": "Female",
+    "male": "Male"
   },
   "doctors": {
     "title": "Menaxhimi i Doktorëve",
@@ -91,7 +93,7 @@
     "selectPatient": "Selekto Pacientin",
     "selectDoctor": "Selekto Doktorin",
     "addAppointment": "Shto Takime",
-    "filterByDate": "Filter by date"
+    "filterByDate": "Filtro sipas datës"
   },
   "settings": {
     "settings": "Cilesimet",
