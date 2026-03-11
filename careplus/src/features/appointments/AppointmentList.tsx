@@ -22,7 +22,7 @@ const AppointmentList: React.FC = () => {
   );
 
   const [filterDate, setFilterDate] = useState<string>("");
-
+  const [searchText, setSearchText] = useState("");
   const appointments = apiAppointments.map((a) => {
     const dateTime =
       (a as any).AppointmentDate ?? (a as any).appointmentDate ?? "";
@@ -53,27 +53,32 @@ const AppointmentList: React.FC = () => {
 
   return (
     <div className={styles.container}>
-
       <div className="mb-4 flex items-center gap-4">
+        <input
+          type="text"
+          placeholder={t("appointments.search") || "Search..."}
+          value={searchText}
+          onChange={(e) => setSearchText(e.target.value)}
+          className="p-2 bg-white dark:[background-color:oklch(20.5%_0_0)] border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] text-gray-900 dark:text-gray-100 rounded focus:outline-none focus:ring-2 focus:ring-slate-700"
+        />
         <label className="font-semibold">
           {t("appointments.filterByDate")}:
         </label>
         <input
           type="date"
-          className="p-2 custom-date-input bg-white dark:[background-color:oklch(20.5%_0_0)] border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] text-white rounded hover:bg-gray-500"
+          className="p-2 custom-date-input bg-white dark:[background-color:oklch(20.5%_0_0)] border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] text-gray-900 dark:text-gray-100 rounded hover:bg-gray-100 dark:hover:bg-[oklch(25%_0_0)]"
           value={filterDate}
           onChange={(e) => setFilterDate(e.target.value)}
         />
         {filterDate && (
           <button
-            className="px-3 py-1 bg-white dark:[background-color:oklch(20.5%_0_0)] border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] text-white rounded hover:bg-gray-500 rounded"
+            className="px-3 py-1 bg-white dark:[background-color:oklch(20.5%_0_0)] border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] text-gray-900 dark:text-gray-100 rounded hover:bg-gray-100 dark:hover:bg-[oklch(25%_0_0)]"
             onClick={() => setFilterDate("")}
           >
             {t("appointments.clear")}
           </button>
         )}
       </div>
-
       {error && <p className={styles.errorText}>Error: {error}</p>}
 
       {filteredAppointments.length === 0 && !loading ? (

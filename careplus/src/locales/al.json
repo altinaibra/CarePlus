@@ -93,7 +93,9 @@
     "selectPatient": "Selekto Pacientin",
     "selectDoctor": "Selekto Doktorin",
     "addAppointment": "Shto Takime",
-    "filterByDate": "Filtro sipas datës"
+    "filterByDate": "Filtro sipas datës",
+    "clear": "Fshij",
+    "search": "Kërko..."
   },
   "settings": {
     "settings": "Cilesimet",
