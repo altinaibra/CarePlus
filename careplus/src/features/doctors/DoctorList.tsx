@@ -28,7 +28,8 @@ const DoctorList: React.FC = () => {
           <table className={styles.table}>
             <thead>
               <tr className={styles.theadRow}>
-                <th className={styles.th}>{t("doctors.name")}</th>
+                <th className={styles.th}>{t("doctors.firstName")}</th>
+                <th className={styles.th}>{t("doctors.lastName")}</th>
                 <th className={styles.th}>{t("doctors.speciality")}</th>
                 <th className={styles.th}>{t("doctors.email")}</th>
                 <th className={styles.th}>{t("doctors.phone")}</th>
@@ -39,7 +40,8 @@ const DoctorList: React.FC = () => {
             <tbody>
               {doctors.map((doctor) => (
                 <tr key={doctor.id} className={styles.trHover}>
-                  <td className={styles.td}>{doctor.name}</td>
+                  <td className={styles.td}>{doctor.firstName}</td>
+                  <td className={styles.td}>{doctor.lastName}</td>
                   <td className={styles.td}>{doctor.speciality}</td>
                   <td className={styles.td}>{doctor.email}</td>
                   <td className={styles.td}>{doctor.phone}</td>
