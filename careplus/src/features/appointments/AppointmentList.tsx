@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { fetchAppointments, deleteAppointmentAsync } from "./appointmentsSlice";
@@ -21,6 +21,8 @@ const AppointmentList: React.FC = () => {
     (state) => state.appointments.error,
   );
 
+  const [filterDate, setFilterDate] = useState<string>("");
+
   const appointments = apiAppointments.map((a) => {
     const dateTime =
       (a as any).AppointmentDate ?? (a as any).appointmentDate ?? "";
@@ -40,17 +42,41 @@ const AppointmentList: React.FC = () => {
       status: (a as any).Status ?? (a as any).status ?? "Scheduled",
     };
   });
+
+  const filteredAppointments = filterDate
+    ? appointments.filter((a) => a.date === filterDate)
+    : appointments;
+
   useEffect(() => {
     dispatch(fetchAppointments());
   }, [dispatch]);
 
   return (
     <div className={styles.container}>
-      <h3 className={styles.header}>{t("appointments.list")}</h3>
+
+      <div className="mb-4 flex items-center gap-4">
+        <label className="font-semibold">
+          {t("appointments.filterByDate")}:
+        </label>
+        <input
+          type="date"
+          className="p-2 custom-date-input bg-white dark:[background-color:oklch(20.5%_0_0)] border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] text-white rounded hover:bg-gray-500"
+          value={filterDate}
+          onChange={(e) => setFilterDate(e.target.value)}
+        />
+        {filterDate && (
+          <button
+            className="px-3 py-1 bg-white dark:[background-color:oklch(20.5%_0_0)] border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] text-white rounded hover:bg-gray-500 rounded"
+            onClick={() => setFilterDate("")}
+          >
+            {t("appointments.clear")}
+          </button>
+        )}
+      </div>
 
       {error && <p className={styles.errorText}>Error: {error}</p>}
 
-      {appointments.length === 0 && !loading ? (
+      {filteredAppointments.length === 0 && !loading ? (
         <p className={styles.emptyText}>{t("appointments.noAppointments")}</p>
       ) : (
         <div className={styles.tableWrapper}>
@@ -66,7 +92,7 @@ const AppointmentList: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {appointments.map((appointment) => (
+              {filteredAppointments.map((appointment) => (
                 <tr key={appointment.id} className={styles.trHover}>
                   <td className={styles.td}>{appointment.patientName}</td>
                   <td className={styles.td}>{appointment.doctorName}</td>

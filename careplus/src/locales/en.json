@@ -90,7 +90,8 @@
     "addButton": "Add Appointment",
     "selectPatient": "Select Patient",
     "selectDoctor": "Select Doctor",
-    "addAppointment": "Add Appointment"
+    "addAppointment": "Add Appointment",
+    "filterByDate": "Filtro sipas datës"
   },
   "settings": {
     "Settings": "Settings",

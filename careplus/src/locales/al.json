@@ -90,7 +90,8 @@
     "addButton": "Shto Takimin",
     "selectPatient": "Selekto Pacientin",
     "selectDoctor": "Selekto Doktorin",
-    "addAppointment": "Shto Takime"
+    "addAppointment": "Shto Takime",
+    "filterByDate": "Filter by date"
   },
   "settings": {
     "settings": "Cilesimet",

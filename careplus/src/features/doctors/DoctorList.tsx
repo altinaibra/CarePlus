@@ -19,7 +19,6 @@ const DoctorList: React.FC = () => {
 
   return (
     <div className={styles.container}>
-      <h3 className={styles.header}>{t("doctors.list")}</h3>
       {error && <p className={styles.errorText}>Error: {error}</p>}
       {doctors.length === 0 && !loading ? (
         <p className={styles.emptyText}>{t("doctors.noDoctors")}</p>

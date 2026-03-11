@@ -25,7 +25,6 @@ const PatientList: React.FC = () => {
 
   return (
     <div>
-      <h3 className="text-lg font-bold mb-4">{t("patients.list")}</h3>
 
       {patients.length === 0 && !loading ? (
         <p className="text-gray-600 dark:text-gray-300">
