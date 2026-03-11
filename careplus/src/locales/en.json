@@ -89,7 +89,8 @@
     "noAppointments": "No registered appointments.",
     "addButton": "Add Appointment",
     "selectPatient": "Select Patient",
-    "selectDoctor": "Select Doctor"
+    "selectDoctor": "Select Doctor",
+    "addAppointment": "Add Appointment"
   },
   "settings": {
     "Settings": "Settings",

@@ -89,7 +89,8 @@
     "noAppointments": "Nuk ka takime të regjistruara.",
     "addButton": "Shto Takimin",
     "selectPatient": "Selekto Pacientin",
-    "selectDoctor": "Selekto Doktorin"
+    "selectDoctor": "Selekto Doktorin",
+    "addAppointment": "Shto Takime"
   },
   "settings": {
     "settings": "Cilesimet",
