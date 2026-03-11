@@ -53,19 +53,19 @@ export interface APIDoctor {
   id: ID;
   firstName: string;
   lastName: string;
-  specialty?: string;
+  speciality?: string;
   email?: string;
   phone?: string;
-  license_number?: string;
+  licenseNumber?: string;
 }
 
 export interface CreateDoctorDto {
   firstName: string;
   lastName: string;
-  specialty: string;
+  speciality: string;
   email: string;
   phone: string;
-  license_number: string;
+  licenseNumber: string;
   password: string;
 }
 
@@ -195,8 +195,7 @@ export interface Room {
 }
 
 export const roomAPI = {
-  getAll: (): Promise<AxiosResponse<Room[]>> =>
-    axiosInstance.get("/rooms"),
+  getAll: (): Promise<AxiosResponse<Room[]>> => axiosInstance.get("/rooms"),
 
   getById: (id: ID): Promise<AxiosResponse<Room>> =>
     axiosInstance.get(`/rooms/${id}`),
@@ -255,7 +254,7 @@ export interface Printer {
 
 export const printerAPI = {
   getAll: (): Promise<AxiosResponse<Printer[]>> =>
-    axiosInstance.get("/Printer"), 
+    axiosInstance.get("/Printer"),
 
   getById: (id: ID): Promise<AxiosResponse<Printer>> =>
     axiosInstance.get(`/Printer/${id}`),

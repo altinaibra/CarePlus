@@ -55,7 +55,8 @@
     "delete": "Fshij",
     "noPatients": "Nuk ka pacientë të regjistruar.",
     "addButton": "Shto Pacientin",
-    "password": "Fjalëkalimi"
+    "password": "Fjalëkalimi",
+    "create": "Shto pacient"
   },
   "doctors": {
     "title": "Menaxhimi i Doktorëve",
@@ -71,7 +72,8 @@
     "delete": "Fshij",
     "noDoctors": "Nuk ka doktorë të regjistruar.",
     "addButton": "Shto Doktorin",
-    "password": "Fjalëkalimi"
+    "password": "Fjalëkalimi",
+    "addDoctor": "Shto doktorë"
   },
   "appointments": {
     "title": "Menaxhimi i Takimeve",

@@ -55,7 +55,8 @@
     "delete": "Delete",
     "noPatients": "No registered patients.",
     "addButton": "Add Patient",
-    "password": "Password"
+    "password": "Password",
+    "create": "Create Patient"
   },
   "doctors": {
     "title": "Doctor Management",
@@ -71,7 +72,8 @@
     "delete": "Delete",
     "noDoctors": "No registered doctors.",
     "addButton": "Add Doctor",
-    "password": "Password"
+    "password": "Password",
+    "addDoctor": "Create Doctor"
   },
   "appointments": {
     "title": "Appointment Management",

@@ -5,10 +5,10 @@ import { createDoctor } from "./doctorsSlice";
 import { AppDispatch } from "../../app/store";
 import styles from "../../styles/DoctorFormStyles";
 
-interface CreateDoctorDto {
+interface CreateDoctorForm {
   firstName: string;
   lastName: string;
-  speciality: string;
+  speciality: string; // frontend name
   email: string;
   phone: string;
   licenseNumber: string;
@@ -19,7 +19,7 @@ const DoctorForm: React.FC = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch<AppDispatch>();
 
-  const [formData, setFormData] = useState<CreateDoctorDto>({
+  const [formData, setFormData] = useState<CreateDoctorForm>({
     firstName: "",
     lastName: "",
     speciality: "",
@@ -36,7 +36,13 @@ const DoctorForm: React.FC = () => {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(createDoctor(formData));
+
+    if (!formData.speciality.trim() || !formData.licenseNumber.trim()) {
+      alert("Specialization and License Number are required.");
+      return;
+    }
+
+    dispatch(createDoctor(formData)); 
 
     setFormData({
       firstName: "",
@@ -117,7 +123,7 @@ const DoctorForm: React.FC = () => {
 
       <input
         type="text"
-        name="licenseNumber"
+        name="licenseNumber" // was "licenseNumber"
         placeholder={t("doctors.license")}
         value={formData.licenseNumber}
         onChange={handleChange}
