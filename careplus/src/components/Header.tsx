@@ -22,7 +22,8 @@ import LanguageSelector from "../locales/LanguageSelector";
 import ThemeToggle from "../context/ThemeToggle";
 import { RootState } from "../app/store";
 import HeaderStyles from "../styles/HeaderStyles";
-import { laboratoryAPI } from "../app/laboratory";
+import { laboratoryAPI } from "../app/laboratoryApi";
+import ApplicationLogo from "../assets/images/ApplicationLogo";
 
 interface MenuItem {
   path: string;
@@ -53,17 +54,15 @@ const Header: React.FC = () => {
   const handleLabToggle = () => {
     if (!user) return;
     const newStatus = !labEnabled;
-    setLabEnabled(newStatus); // update local state
+    setLabEnabled(newStatus);
 
-    // Ruaj statusin në backend
     laboratoryAPI
       .toggleStatus({ userId: user, status: newStatus })
       .then((res) => {
         console.log("Lab status updated:", res.data.status);
       })
       .catch((err) => {
-        console.error("Error updating lab status:", err);
-        setLabEnabled(!newStatus); // rollback në rast gabimi
+        setLabEnabled(!newStatus);
       });
   };
   const getRoleLabel = (role: string): string => {

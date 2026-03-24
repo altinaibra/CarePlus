@@ -23,7 +23,6 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({
     setPrinters((prev) => prev.filter((p) => p !== printer));
   const { showSnackbar } = useSnackbar();
   const changePassword = (newPassword: string) => {
-    console.log("Password changed to:", newPassword);
     showSnackbar("Password changed successfully!");
   };
 

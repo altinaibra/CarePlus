@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import LaboratoryPageStyles from "../styles/LaboratoryPageStyles";
-import { typesOfAnalysesAPI, TypeOfAnalyses } from "../app/typesOfAnalyses";
+import { typesOfAnalysesAPI, TypeOfAnalyses } from "../app/typesOfAnalysesApi";
 import { Currency, currencyAPI } from "../app/currenciesApi";
 import { useTranslation } from "react-i18next";
 
@@ -9,7 +9,11 @@ const LaboratoryPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedLabs, setSelectedLabs] = useState<Set<number>>(new Set());
   const [currencies, setCurrencies] = useState<Currency[]>([]);
-  const { t, i18n } = useTranslation();
+  const [editingPriceId, setEditingPriceId] = useState<number | null>(null);
+  const [tempPrices, setTempPrices] = useState<Record<number, number>>({});
+  const { t } = useTranslation();
+
+  // Fetch currencies
   useEffect(() => {
     const fetchCurrencies = async () => {
       try {
@@ -19,19 +23,26 @@ const LaboratoryPage: React.FC = () => {
         console.error("Error fetching currencies:", error);
       }
     };
-
     fetchCurrencies();
   }, []);
+
+  // Fetch lab types
   useEffect(() => {
     const fetchLabs = async () => {
       try {
         const response = await typesOfAnalysesAPI.getAll();
         setLabTypes(response.data);
+
+        // initialize tempPrices
+        const initialPrices: Record<number, number> = {};
+        response.data.forEach((lab: TypeOfAnalyses) => {
+          initialPrices[lab.id] = lab.price;
+        });
+        setTempPrices(initialPrices);
       } catch (error) {
         console.error("Error fetching lab types:", error);
       }
     };
-
     fetchLabs();
   }, []);
 
@@ -47,16 +58,37 @@ const LaboratoryPage: React.FC = () => {
     else newSet.add(id);
     setSelectedLabs(newSet);
   };
+
   const totalPrice = labTypes
     .filter((lab) => selectedLabs.has(lab.id))
-    .reduce((sum, lab) => sum + lab.price, 0);
+    .reduce((sum, lab) => sum + (tempPrices[lab.id] ?? lab.price), 0);
 
   const handlePrint = () => {
-    const selected = labTypes.filter((lab) => selectedLabs.has(lab.id));
+    const selected = labTypes
+      .filter((lab) => selectedLabs.has(lab.id))
+      .map((lab) => ({ ...lab, price: tempPrices[lab.id] ?? lab.price }));
     console.log("Selected labs for invoice:", selected);
     console.log("Total price:", totalPrice);
   };
+
   const mainCurrency = currencies.find((c) => c.isMainCurrency);
+
+  const handlePriceChange = (labId: number, value: string) => {
+    setTempPrices((prev) => ({
+      ...prev,
+      [labId]: parseFloat(value) || 0,
+    }));
+  };
+
+  const handlePriceKeyDown = (
+    labId: number,
+    e: React.KeyboardEvent<HTMLInputElement>,
+  ) => {
+    if (e.key === "Enter" || e.key === "Escape") {
+      setEditingPriceId(null); // stop editing
+    }
+  };
+
   return (
     <div className={LaboratoryPageStyles.container}>
       <h2 className={LaboratoryPageStyles.title}>{t("laboratory.types")}</h2>
@@ -125,13 +157,7 @@ const LaboratoryPage: React.FC = () => {
                       className="sr-only"
                     />
                     <span
-                      className={`
-                      w-5 h-5 flex items-center justify-center 
-                      rounded-md font-bold text-white
-                      bg-slate-700 dark:bg-[oklch(47.6%_0.114_61.907)]
-                      ${selectedLabs.has(lab.id) ? "bg-blue-600" : ""}
-                      transition
-                    `}
+                      className={`w-5 h-5 flex items-center justify-center rounded-md font-bold text-white bg-slate-700 dark:bg-[oklch(47.6%_0.114_61.907)] ${selectedLabs.has(lab.id) ? "bg-blue-600" : ""} transition`}
                     >
                       {selectedLabs.has(lab.id) && "✔"}
                     </span>
@@ -140,7 +166,33 @@ const LaboratoryPage: React.FC = () => {
                 <td className={LaboratoryPageStyles.td}>{lab.name}</td>
                 <td className={LaboratoryPageStyles.td}>{lab.description}</td>
                 <td className={LaboratoryPageStyles.td}>
-                  {lab.price.toFixed(2)} {mainCurrency?.currencySymbol}
+                  {editingPriceId === lab.id ? (
+                    <input
+                      type="text"
+                      value={tempPrices[lab.id]}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        if (/^\d*\.?\d*$/.test(val)) {
+                          setTempPrices((prev) => ({
+                            ...prev,
+                            [lab.id]: parseFloat(val) || 0,
+                          }));
+                        }
+                      }}
+                      onBlur={() => setEditingPriceId(null)}
+                      onKeyDown={(e) => handlePriceKeyDown(lab.id, e)}
+                      autoFocus
+                      className="w-24 border rounded px-1 text-right"
+                    />
+                  ) : (
+                    <span
+                      className="cursor-pointer"
+                      onClick={() => setEditingPriceId(lab.id)}
+                    >
+                      {tempPrices[lab.id].toFixed(2)}{" "}
+                      {mainCurrency?.currencySymbol}
+                    </span>
+                  )}
                 </td>
                 <td className={LaboratoryPageStyles.td}>{lab.unit}</td>
               </tr>

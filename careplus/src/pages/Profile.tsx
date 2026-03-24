@@ -45,16 +45,12 @@ const Profile: React.FC = () => {
         const storedUserId = localStorage.getItem("userId");
         const storedRole = localStorage.getItem("userRole");
 
-        console.log("USER ID:", storedUserId);
-        console.log("ROLE:", storedRole);
-
         if (!storedUserId || !storedRole) return;
 
         setUserId(storedUserId);
 
         if (storedRole === "patient") {
           const res = await patientAPI.getById(storedUserId);
-          console.log("PATIENT:", res.data);
 
           setProfileData({
             firstName: res.data.firstName,
@@ -67,7 +63,6 @@ const Profile: React.FC = () => {
 
         if (storedRole === "doctor" || storedRole === "admin") {
           const res = await doctorAPI.getById(storedUserId);
-          console.log("DOCTOR:", res.data);
 
           setProfileData({
             firstName: res.data.firstName,
@@ -78,7 +73,6 @@ const Profile: React.FC = () => {
           });
         }
       } catch (err: any) {
-        console.error("PROFILE ERROR:", err);
         showSnackbar(t("Failed to fetch profile data"), "error");
       }
     };
