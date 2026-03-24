@@ -21,6 +21,7 @@ import { RootState } from "./app/store";
 import { SnackbarProvider } from "./ui/SnackbarContext";
 import Printers from "./components/Settings/Modals/Printers";
 import ChatWidget from "./components/ChatWidget";
+import LaboratoryPage from "./pages/LaboratoryPage";
 
 const App: React.FC = () => {
   const { isLoggedIn, role } = useSelector((state: RootState) => state.auth);
@@ -38,6 +39,7 @@ const App: React.FC = () => {
                     <Route path="/" element={<Home />} />
                     <Route path="/patients" element={<PatientsPage />} />
                     <Route path="/doctors" element={<DoctorsPage />} />
+                    <Route path="/laboratory" element={<LaboratoryPage />} />
                     <Route
                       path="/appointments"
                       element={<AppointmentsPage />}
