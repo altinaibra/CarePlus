@@ -1,16 +1,30 @@
 import React, { useEffect, useState } from "react";
 import LaboratoryPageStyles from "../styles/LaboratoryPageStyles";
 import { typesOfAnalysesAPI, TypeOfAnalyses } from "../app/typesOfAnalyses";
+import { Currency, currencyAPI } from "../app/currenciesApi";
 
 const LaboratoryPage: React.FC = () => {
   const [labTypes, setLabTypes] = useState<TypeOfAnalyses[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedLabs, setSelectedLabs] = useState<Set<number>>(new Set());
+    const [currencies, setCurrencies] = useState<Currency[]>([]);
+  useEffect(() => {
+    const fetchCurrencies = async () => {
+      try {
+        const response = await currencyAPI.getAll();
+        setCurrencies(response.data);
+      } catch (error) {
+        console.error("Error fetching currencies:", error);
+      }
+    };
 
+    fetchCurrencies();
+  }, []);
   useEffect(() => {
     const fetchLabs = async () => {
       try {
         const response = await typesOfAnalysesAPI.getAll();
-        setLabTypes(response.data); // vendos të dhënat nga API
+        setLabTypes(response.data);
       } catch (error) {
         console.error("Error fetching lab types:", error);
       }
@@ -25,45 +39,69 @@ const LaboratoryPage: React.FC = () => {
       (lab.description?.toLowerCase() || "").includes(searchTerm.toLowerCase()),
   );
 
+  const toggleLabSelection = (id: number) => {
+    const newSet = new Set(selectedLabs);
+    if (newSet.has(id)) newSet.delete(id);
+    else newSet.add(id);
+    setSelectedLabs(newSet);
+  };
+  const totalPrice = labTypes
+    .filter((lab) => selectedLabs.has(lab.id))
+    .reduce((sum, lab) => sum + lab.price, 0);
+
+  const handlePrint = () => {
+    const selected = labTypes.filter((lab) => selectedLabs.has(lab.id));
+    console.log("Selected labs for invoice:", selected);
+    console.log("Total price:", totalPrice);
+  };
+const mainCurrency = currencies.find((c) => c.isMainCurrency);
   return (
     <div className={LaboratoryPageStyles.container}>
       <h2 className={LaboratoryPageStyles.title}>Types of Analyses</h2>
-      <div className="relative mb-4 max-w-md">
-        <span className="absolute inset-y-0 left-2 flex items-center text-gray-500 dark:text-gray-300">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M10 4a6 6 0 016 6c0 1.39-.47 2.67-1.26 3.68l4.29 4.29-1.42 1.42-4.29-4.29A6 6 0 1110 4z"
-            />
-          </svg>
-        </span>
 
-        <input
-          type="text"
-          placeholder="Search by name or description..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="
-            w-full p-2 pl-9
-            bg-white dark:[background-color:oklch(20.5%_0_0)]
-            border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)]
-            text-gray-900 dark:text-gray-100
-            rounded-md
-          "
-        />
+      <div className="flex items-center mb-4 w-full">
+        <div className="relative flex-1 max-w-md">
+          <span className="absolute inset-y-0 left-2 flex items-center text-gray-500 dark:text-gray-300">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M10 4a6 6 0 016 6c0 1.39-.47 2.67-1.26 3.68l4.29 4.29-1.42 1.42-4.29-4.29A6 6 0 1110 4z"
+              />
+            </svg>
+          </span>
+
+          <input
+            type="text"
+            placeholder="Search by name or description..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full p-2 pl-9 bg-white dark:[background-color:oklch(20.5%_0_0)] border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] text-gray-900 dark:text-gray-100 rounded-md"
+          />
+        </div>
+
+        <div className="ml-auto">
+          <button
+            className="px-4 py-2 rounded-md font-bold text-white bg-slate-700 dark:[background-color:oklch(47.6%_0.114_61.907)] hover:bg-slate-800 transition"
+            onClick={handlePrint}
+            disabled={selectedLabs.size === 0}
+          >
+            Print
+          </button>
+        </div>
       </div>
 
       <table className={LaboratoryPageStyles.table}>
         <thead>
           <tr>
+            <th></th>
             <th className={LaboratoryPageStyles.th}>Name</th>
             <th className={LaboratoryPageStyles.th}>Description</th>
             <th className={LaboratoryPageStyles.th}>Price</th>
@@ -74,17 +112,38 @@ const LaboratoryPage: React.FC = () => {
           {filteredLabs.length > 0 ? (
             filteredLabs.map((lab) => (
               <tr key={lab.id} className={LaboratoryPageStyles.trHover}>
+                <td className={LaboratoryPageStyles.td}>
+                  <label className="inline-flex items-center cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={selectedLabs.has(lab.id)}
+                      onChange={() => toggleLabSelection(lab.id)}
+                      className="sr-only"
+                    />
+                    <span
+                      className={`
+                      w-5 h-5 flex items-center justify-center 
+                      rounded-md font-bold text-white
+                      bg-slate-700 dark:bg-[oklch(47.6%_0.114_61.907)]
+                      ${selectedLabs.has(lab.id) ? "bg-blue-600" : ""}
+                      transition
+                    `}
+                    >
+                      {selectedLabs.has(lab.id) && "✔"}
+                    </span>
+                  </label>
+                </td>
                 <td className={LaboratoryPageStyles.td}>{lab.name}</td>
                 <td className={LaboratoryPageStyles.td}>{lab.description}</td>
                 <td className={LaboratoryPageStyles.td}>
-                  {lab.price.toFixed(2)}
+                  {lab.price.toFixed(2)} {mainCurrency?.currencySymbol}
                 </td>
                 <td className={LaboratoryPageStyles.td}>{lab.unit}</td>
               </tr>
             ))
           ) : (
             <tr>
-              <td className={LaboratoryPageStyles.td} colSpan={4}>
+              <td className={LaboratoryPageStyles.td} colSpan={5}>
                 No analyses found.
               </td>
             </tr>

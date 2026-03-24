@@ -14,15 +14,12 @@ const PatientList: React.FC = () => {
   ) as PatientWithContact[];
   const loading = useSelector((state: RootState) => state.patients.loading);
   const error = useSelector((state: RootState) => state.patients.error);
-
-  // 🔍 NEW — search state
   const [search, setSearch] = useState("");
 
   useEffect(() => {
     dispatch(fetchPatients());
   }, [dispatch]);
 
-  // 🔍 NEW — filter patients by name or lastname
   const filteredPatients = patients.filter((p) => {
     const fullName = `${p.firstName} ${p.lastName}`.toLowerCase();
     return fullName.includes(search.toLowerCase());

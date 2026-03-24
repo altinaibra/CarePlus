@@ -28,5 +28,6 @@ namespace CarePlusApi.Data
        public DbSet<LoginResponse> LoginResponses { get; set; }
         public DbSet<Laboratory> Laboratories { get; set; }
         public DbSet<TypeOfAnalyses> TypesofAnalyses { get; set; }
+        public DbSet<Currency> Currencies { get; set; }
     }
 }
