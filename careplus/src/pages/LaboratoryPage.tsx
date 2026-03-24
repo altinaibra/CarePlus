@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import LaboratoryPageStyles from "../styles/LaboratoryPageStyles";
 import { typesOfAnalysesAPI, TypeOfAnalyses } from "../app/typesOfAnalyses";
 import { Currency, currencyAPI } from "../app/currenciesApi";
+import { useTranslation } from "react-i18next";
 
 const LaboratoryPage: React.FC = () => {
   const [labTypes, setLabTypes] = useState<TypeOfAnalyses[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedLabs, setSelectedLabs] = useState<Set<number>>(new Set());
-    const [currencies, setCurrencies] = useState<Currency[]>([]);
+  const [currencies, setCurrencies] = useState<Currency[]>([]);
+  const { t, i18n } = useTranslation();
   useEffect(() => {
     const fetchCurrencies = async () => {
       try {
@@ -54,10 +56,10 @@ const LaboratoryPage: React.FC = () => {
     console.log("Selected labs for invoice:", selected);
     console.log("Total price:", totalPrice);
   };
-const mainCurrency = currencies.find((c) => c.isMainCurrency);
+  const mainCurrency = currencies.find((c) => c.isMainCurrency);
   return (
     <div className={LaboratoryPageStyles.container}>
-      <h2 className={LaboratoryPageStyles.title}>Types of Analyses</h2>
+      <h2 className={LaboratoryPageStyles.title}>{t("laboratory.types")}</h2>
 
       <div className="flex items-center mb-4 w-full">
         <div className="relative flex-1 max-w-md">
@@ -93,7 +95,7 @@ const mainCurrency = currencies.find((c) => c.isMainCurrency);
             onClick={handlePrint}
             disabled={selectedLabs.size === 0}
           >
-            Print
+            {t("laboratory.types")}
           </button>
         </div>
       </div>
@@ -102,10 +104,12 @@ const mainCurrency = currencies.find((c) => c.isMainCurrency);
         <thead>
           <tr>
             <th></th>
-            <th className={LaboratoryPageStyles.th}>Name</th>
-            <th className={LaboratoryPageStyles.th}>Description</th>
-            <th className={LaboratoryPageStyles.th}>Price</th>
-            <th className={LaboratoryPageStyles.th}>Unit</th>
+            <th className={LaboratoryPageStyles.th}>{t("laboratory.name")}</th>
+            <th className={LaboratoryPageStyles.th}>
+              {t("laboratory.description")}
+            </th>
+            <th className={LaboratoryPageStyles.th}>{t("laboratory.price")}</th>
+            <th className={LaboratoryPageStyles.th}>{t("laboratory.unit")}</th>
           </tr>
         </thead>
         <tbody>
@@ -144,7 +148,7 @@ const mainCurrency = currencies.find((c) => c.isMainCurrency);
           ) : (
             <tr>
               <td className={LaboratoryPageStyles.td} colSpan={5}>
-                No analyses found.
+                {t("noAnalysesFound")}
               </td>
             </tr>
           )}

@@ -173,5 +173,14 @@
   "departments": {
     "mainServices": "Shërbimet kryesore",
     "details": "Detajet"
+  },
+  "laboratory": {
+    "types": "Llojet e Analizave",
+    "print": "Printo",
+    "name": "Emri",
+    "description": "Përshkrimi",
+    "price": "Çmimi",
+    "unit": "Njësia",
+    "noAnalysesFound": "Nuk u gjetën analiza."
   }
 }

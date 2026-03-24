@@ -8,7 +8,7 @@
     "Albanian": "Albanian",
     "English": "English",
     "prescription": "Prescription",
-    "laboratory":"Laboratory"
+    "laboratory": "Laboratory"
   },
   "sidebar": {
     "home": "Home",
@@ -174,5 +174,14 @@
   "departments": {
     "mainServices": "Main Services",
     "details": "Details"
+  },
+  "laboratory": {
+    "types": "Types of Analyses",
+    "print": "Print",
+    "name": "Name",
+    "description": "Description",
+    "price": "Price",
+    "unit": "Unit",
+    "noAnalysesFound": "No analyses found."
   }
 }
