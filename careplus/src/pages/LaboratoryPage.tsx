@@ -1,54 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { Laboratory } from "../app/laboratory";
 import LaboratoryPageStyles from "../styles/LaboratoryPageStyles";
+import { typesOfAnalysesAPI, TypeOfAnalyses } from "../app/typesOfAnalyses";
 
 const LaboratoryPage: React.FC = () => {
-  const [labTypes, setLabTypes] = useState<Laboratory[]>([]);
+  const [labTypes, setLabTypes] = useState<TypeOfAnalyses[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    const defaultLabs: Laboratory[] = [
-      {
-        id: 1,
-        name: "Complete Blood Count",
-        description:
-          "Measures red & white blood cells, hemoglobin, hematocrit, and platelets",
-        price: 25,
-        unit: "test",
-        status: true,
-        userId: "lab1",
-      },
-      {
-        id: 2,
-        name: "Blood Glucose",
-        description: "Measures the level of glucose in the blood",
-        price: 15,
-        unit: "mg/dL",
-        status: true,
-        userId: "lab1",
-      },
-      {
-        id: 3,
-        name: "Cholesterol Test",
-        description: "Measures total cholesterol, LDL, HDL, and triglycerides",
-        price: 30,
-        unit: "mg/dL",
-        status: true,
-        userId: "lab1",
-      },
-      {
-        id: 4,
-        name: "Urine Analysis",
-        description:
-          "Checks for kidney function, infection, and metabolic disorders",
-        price: 20,
-        unit: "sample",
-        status: true,
-        userId: "lab1",
-      },
-    ];
+    const fetchLabs = async () => {
+      try {
+        const response = await typesOfAnalysesAPI.getAll();
+        setLabTypes(response.data); // vendos të dhënat nga API
+      } catch (error) {
+        console.error("Error fetching lab types:", error);
+      }
+    };
 
-    setLabTypes(defaultLabs);
+    fetchLabs();
   }, []);
 
   const filteredLabs = labTypes.filter(
@@ -59,7 +27,7 @@ const LaboratoryPage: React.FC = () => {
 
   return (
     <div className={LaboratoryPageStyles.container}>
-      <h2 className={LaboratoryPageStyles.title}>Laboratory Analyses</h2>
+      <h2 className={LaboratoryPageStyles.title}>Types of Analyses</h2>
       <div className="relative mb-4 max-w-md">
         <span className="absolute inset-y-0 left-2 flex items-center text-gray-500 dark:text-gray-300">
           <svg
@@ -84,9 +52,7 @@ const LaboratoryPage: React.FC = () => {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           className="
-            w-full
-            p-2
-            pl-9
+            w-full p-2 pl-9
             bg-white dark:[background-color:oklch(20.5%_0_0)]
             border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)]
             text-gray-900 dark:text-gray-100

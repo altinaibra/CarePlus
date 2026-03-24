@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using carePlusApi.Migrations;
 using carePlusApi.Models;
 using CarePlusApi.Models;
 using Microsoft.EntityFrameworkCore;
@@ -26,5 +27,6 @@ namespace CarePlusApi.Data
         public DbSet<Printer> Printers { get; set; }
        public DbSet<LoginResponse> LoginResponses { get; set; }
         public DbSet<Laboratory> Laboratories { get; set; }
+        public DbSet<TypeOfAnalyses> TypesofAnalyses { get; set; }
     }
 }
