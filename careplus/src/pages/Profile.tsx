@@ -2,7 +2,8 @@ import React, { useEffect, useState, ChangeEvent, FormEvent } from "react";
 import styles from "../styles/ProfileStyles";
 import { useTranslation } from "react-i18next";
 import { useSnackbar } from "../ui/SnackbarContext";
-import { patientAPI, doctorAPI, APIDoctor } from "../app/api";
+import { patientAPI, doctorAPI } from "../app/api";
+import axiosInstance from "../app/axiosInstance";
 
 interface ProfileData {
   firstName: string;
@@ -15,6 +16,7 @@ interface ProfileData {
 const Profile: React.FC = () => {
   const { t } = useTranslation();
   const { showSnackbar } = useSnackbar();
+
   const [profileData, setProfileData] = useState<ProfileData>({
     firstName: "",
     lastName: "",
@@ -22,53 +24,67 @@ const Profile: React.FC = () => {
     email: "",
     contact: "",
   });
-  const [userId, setUserId] = useState<number | string | null>(null); 
+  const [userId, setUserId] = useState<string | null>(null);
 
-  const role = localStorage.getItem("role"); 
-  const username = localStorage.getItem("username"); 
+  const role = localStorage.getItem("userRole"); // "patient", "doctor", or "admin"
+  const username = localStorage.getItem("username");
+  const token = localStorage.getItem("authToken");
 
+  // Set Authorization header for all API requests
+  useEffect(() => {
+    if (token) {
+      axiosInstance.defaults.headers.common["Authorization"] =
+        `Bearer ${token}`;
+    }
+  }, [token]);
+
+  // Fetch profile on mount
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        if (!role || !username) return;
+        const storedUserId = localStorage.getItem("userId");
+        const storedRole = localStorage.getItem("userRole");
 
-        if (role === "patient") {
-          const res = await patientAPI.getAll();
-          const patient = res.data.find(
-            (p) => p.email === username || p.id.toString() === username,
-          );
-          if (patient) {
-            setUserId(patient.id);
-            setProfileData({
-              firstName: patient.firstName,
-              lastName: patient.lastName,
-              age: patient.age?.toString() || "",
-              email: patient.email || "",
-              contact: patient.phone || "",
-            });
-          }
-        } else if (role === "doctor" || role === "admin") {
-          const res = await doctorAPI.getAll();
-          const doctor = res.data.find((d) => d.email === username);
-          if (doctor) {
-            setUserId(doctor.id);
-            setProfileData({
-              firstName: doctor.firstName,
-              lastName: doctor.lastName,
-              age: "", 
-              email: doctor.email || "",
-              contact: doctor.phone || "",
-            });
-          }
+        console.log("USER ID:", storedUserId);
+        console.log("ROLE:", storedRole);
+
+        if (!storedUserId || !storedRole) return;
+
+        setUserId(storedUserId);
+
+        if (storedRole === "patient") {
+          const res = await patientAPI.getById(storedUserId);
+          console.log("PATIENT:", res.data);
+
+          setProfileData({
+            firstName: res.data.firstName,
+            lastName: res.data.lastName,
+            age: res.data.age?.toString() || "",
+            email: res.data.email || "",
+            contact: res.data.phone || "",
+          });
         }
-      } catch (err) {
-        console.error(err);
+
+        if (storedRole === "doctor" || storedRole === "admin") {
+          const res = await doctorAPI.getById(storedUserId);
+          console.log("DOCTOR:", res.data);
+
+          setProfileData({
+            firstName: res.data.firstName,
+            lastName: res.data.lastName,
+            age: "",
+            email: res.data.email || "",
+            contact: res.data.phone || "",
+          });
+        }
+      } catch (err: any) {
+        console.error("PROFILE ERROR:", err);
         showSnackbar(t("Failed to fetch profile data"), "error");
       }
     };
 
     fetchProfile();
-  }, [role, username, showSnackbar, t]);
+  }, [showSnackbar, t]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -77,7 +93,7 @@ const Profile: React.FC = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!userId) return;
+    if (!userId || !role) return;
 
     try {
       if (role === "patient") {
@@ -88,7 +104,7 @@ const Profile: React.FC = () => {
           email: profileData.email,
           phone: profileData.contact,
         });
-      } else if (role === "doctor") {
+      } else if (role === "doctor" || role === "admin") {
         await doctorAPI.update(userId, {
           firstName: profileData.firstName,
           lastName: profileData.lastName,
@@ -98,8 +114,8 @@ const Profile: React.FC = () => {
       }
 
       showSnackbar(t("Profile saved successfully!"), "success");
-    } catch (err) {
-      console.error(err);
+    } catch (err: any) {
+      console.error("PROFILE SAVE ERROR:", err);
       showSnackbar(t("Failed to save profile"), "error");
     }
   };
@@ -129,6 +145,15 @@ const Profile: React.FC = () => {
             />
           </div>
         ))}
+
+        <button
+          type="submit"
+          className={
+            styles.button || "mt-4 px-4 py-2 bg-blue-600 text-white rounded"
+          }
+        >
+          {t("Save Profile")}
+        </button>
       </form>
     </div>
   );

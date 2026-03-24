@@ -24,5 +24,6 @@ namespace CarePlusApi.Data
         public DbSet<Prescription> Prescriptions { get; set; }
 
         public DbSet<Printer> Printers { get; set; }
+       public DbSet<LoginResponse> LoginResponses { get; set; }
     }
 }

@@ -9,9 +9,10 @@ export interface LoginRequest {
 }
 
 export interface LoginResponse {
-  token: string;
-  role: string;
+  id: number;
   username: string;
+  role: string;
+  token: string;
 }
 export interface ChangePasswordRequest {
   username: string;

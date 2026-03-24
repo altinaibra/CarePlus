@@ -23,6 +23,7 @@ namespace CarePlusApi.Controllers
                 var result = await _authService.LoginAsync(loginDto);
                 return Ok(new
                 {
+                    id = result.id,
                     token = result.token,
                     role = result.role,
                     username = result.username

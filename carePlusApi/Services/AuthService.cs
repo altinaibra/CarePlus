@@ -19,7 +19,7 @@ namespace CarePlusApi.Services
             _userRepository = userRepository;
         }
 
-        public async Task<(string token, string role, string username)> LoginAsync(LoginDto loginDto)
+        public async Task<(int id, string token, string role, string username)> LoginAsync(LoginDto loginDto)
         {
             if (string.IsNullOrEmpty(loginDto.Username))
                 throw new Exception("Username must be provided.");
@@ -34,7 +34,7 @@ namespace CarePlusApi.Services
 
             var token = GenerateJwtToken(user);
 
-            return (token, user.Role, user.Username);
+            return (user.Id, token, user.Role, user.Username);
         }
 
         public async Task ChangePasswordAsync(ChangePasswordDto dto)
