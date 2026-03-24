@@ -11,12 +11,14 @@ import {
   FaUsers,
   FaCalendarAlt,
   FaPrescriptionBottleAlt,
+  FaFlask,
 } from "react-icons/fa";
 
 import LanguageSelector from "../locales/LanguageSelector";
 import ThemeToggle from "../context/ThemeToggle";
 import { RootState } from "../app/store";
 import HeaderStyles from "../styles/HeaderStyles";
+import { laboratoryAPI } from "../app/laboratory";
 
 interface MenuItem {
   path: string;
@@ -30,10 +32,36 @@ const Header: React.FC = () => {
   const role = useSelector((state: RootState) => state.auth.role);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [labEnabled, setLabEnabled] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const [labEnabled, setLabEnabled] = useState(false);
 
+  useEffect(() => {
+    // Merr statusin e laboratorit për user-in kur mount-on
+    if (user) {
+      laboratoryAPI
+        .getByUser(user)
+        .then((res) => setLabEnabled(res.data.status))
+        .catch((err) => console.error("Error fetching lab status:", err));
+    }
+  }, [user]);
+
+  const handleLabToggle = () => {
+    if (!user) return;
+    const newStatus = !labEnabled;
+    setLabEnabled(newStatus); // update local state
+
+    // Ruaj statusin në backend
+    laboratoryAPI
+      .toggleStatus({ userId: user, status: newStatus })
+      .then((res) => {
+        console.log("Lab status updated:", res.data.status);
+      })
+      .catch((err) => {
+        console.error("Error updating lab status:", err);
+        setLabEnabled(!newStatus); // rollback në rast gabimi
+      });
+  };
   const getRoleLabel = (role: string): string => {
     const roles: Record<string, string> = {
       doctor: t("login.doctor"),
@@ -80,6 +108,15 @@ const Header: React.FC = () => {
             path: "/prescription",
             label: t("header.prescription") || "Prescription",
             Icon: FaPrescriptionBottleAlt,
+          },
+        ]
+      : []),
+    ...(labEnabled
+      ? [
+          {
+            path: "/laboratory",
+            label: t("header.laboratory") || "Laboratory",
+            Icon: FaFlask,
           },
         ]
       : []),
@@ -177,7 +214,6 @@ const Header: React.FC = () => {
                     {t("header.prescription") || "Prescription"}
                   </Link>
                 )}
-
                 <button
                   onClick={handleLogout}
                   className={HeaderStyles.dropdownButton}
@@ -188,7 +224,7 @@ const Header: React.FC = () => {
                   <span>{t("header.laboratory")}</span>
 
                   <button
-                    onClick={() => setLabEnabled(!labEnabled)}
+                    onClick={handleLabToggle}
                     className={`
                     relative inline-flex h-5 w-10 items-center rounded-full transition
                     ${labEnabled ? "bg-slate-700 dark:[background-color:oklch(47.6%_0.114_61.907)] hover:bg-slate-800" : "bg-gray-300 dark:bg-gray-600"}

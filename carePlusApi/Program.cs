@@ -8,6 +8,7 @@ using Microsoft.OpenApi.Models;
 using System.Text;
 using carePlusApi.Repository;
 using carePlusApi.Models;
+using carePlusApi.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +22,7 @@ builder.Services.AddScoped<DepartmentDetailsRepository>();
 builder.Services.AddScoped<PrescriptionRepository>();
 builder.Services.AddScoped<RoomRepository>();
 builder.Services.AddScoped<PrinterRepository>();
+builder.Services.AddScoped<ILaboratoryRepository, LaboratoryRepository>();
 
 builder.Services.AddScoped<AuthService>();
 
