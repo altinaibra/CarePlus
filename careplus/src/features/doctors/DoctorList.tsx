@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react"; // + useState
 import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { fetchDoctors, deleteDoctorAsync } from "./doctorsSlice";
@@ -13,14 +13,64 @@ const DoctorList: React.FC = () => {
   const loading = useSelector((state: RootState) => state.doctors.loading);
   const error = useSelector((state: RootState) => state.doctors.error);
 
+  const [searchText, setSearchText] = useState("");
+
   useEffect(() => {
     dispatch(fetchDoctors());
   }, [dispatch]);
 
+  const filteredDoctors = doctors.filter((doctor) => {
+    const fullName = `${doctor.firstName} ${doctor.lastName}`.toLowerCase();
+    const speciality = doctor.speciality?.toLowerCase() || "";
+
+    return (
+      fullName.includes(searchText.toLowerCase()) ||
+      speciality.includes(searchText.toLowerCase())
+    );
+  });
+
   return (
     <div className={styles.container}>
+      <div className="relative mb-4">
+        <span className="absolute inset-y-0 left-2 flex items-center text-gray-500 dark:text-gray-300">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-5 w-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M10 4a6 6 0 016 6c0 1.39-.47 2.67-1.26 3.68l4.29 4.29-1.42 1.42-4.29-4.29A6 6 0 1110 4z"
+            />
+          </svg>
+        </span>
+
+        <input
+          type="text"
+          placeholder={t("doctors.search") || "Search..."}
+          value={searchText}
+          onChange={(e) => setSearchText(e.target.value)}
+          className="
+            w-5xl
+            p-2 pl-9
+            bg-white dark:[background-color:oklch(20.5%_0_0)]
+            border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)]
+            text-gray-900 dark:text-gray-100
+            rounded
+            focus:outline-none
+            focus:ring-2
+            focus:ring-slate-700
+          "
+        />
+      </div>
+
       {error && <p className={styles.errorText}>Error: {error}</p>}
-      {doctors.length === 0 && !loading ? (
+
+      {filteredDoctors.length === 0 && !loading ? (
         <p className={styles.emptyText}>{t("doctors.noDoctors")}</p>
       ) : (
         <div className={styles.tableWrapper}>
@@ -37,7 +87,7 @@ const DoctorList: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {doctors.map((doctor) => (
+              {filteredDoctors.map((doctor) => (
                 <tr key={doctor.id} className={styles.trHover}>
                   <td className={styles.td}>{doctor.firstName}</td>
                   <td className={styles.td}>{doctor.lastName}</td>

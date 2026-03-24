@@ -7,7 +7,8 @@
     "appointments": "Terminet",
     "albanian": "Shqip",
     "english": "Anglisht",
-    "prescription": "Përshkrimi"
+    "prescription": "Përshkrimi",
+    "laboratory": "Laboratori"
   },
   "sidebar": {
     "home": "Home",
@@ -58,7 +59,8 @@
     "password": "Fjalëkalimi",
     "create": "Shto pacient",
     "female": "Female",
-    "male": "Male"
+    "male": "Male",
+    "search": "Kërko..."
   },
   "doctors": {
     "title": "Menaxhimi i Doktorëve",
@@ -75,7 +77,8 @@
     "noDoctors": "Nuk ka doktorë të regjistruar.",
     "addButton": "Shto Doktorin",
     "password": "Fjalëkalimi",
-    "addDoctor": "Shto doktorë"
+    "addDoctor": "Shto doktorë",
+    "search": "Kërko..."
   },
   "appointments": {
     "title": "Menaxhimi i Takimeve",

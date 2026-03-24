@@ -30,7 +30,7 @@ const Header: React.FC = () => {
   const role = useSelector((state: RootState) => state.auth.role);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const [labEnabled, setLabEnabled] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -53,39 +53,37 @@ const Header: React.FC = () => {
     localStorage.setItem("language", lang);
   };
 
-const menuItems: MenuItem[] = [
-  { path: "/", label: t("sidebar.home"), Icon: FaHome },
-  {
-    path: "/patients",
-    label: t("sidebar.patients"),
-    Icon: FaUsers,
-  },
-  // shfaq doctors vetem nese role nuk eshte doctor
-  ...(role !== "doctor"
-    ? [
-        {
-          path: "/doctors",
-          label: t("sidebar.doctors"),
-          Icon: FaUserMd,
-        },
-      ]
-    : []),
-  {
-    path: "/appointments",
-    label: t("sidebar.appointments"),
-    Icon: FaCalendarAlt,
-  },
-  // shfaq prescription vetem nese role === doctor
-  ...(role === "doctor"
-    ? [
-        {
-          path: "/prescription",
-          label: t("header.prescription") || "Prescription",
-          Icon: FaPrescriptionBottleAlt,
-        },
-      ]
-    : []),
-];
+  const menuItems: MenuItem[] = [
+    { path: "/", label: t("sidebar.home"), Icon: FaHome },
+    {
+      path: "/patients",
+      label: t("sidebar.patients"),
+      Icon: FaUsers,
+    },
+    ...(role !== "doctor"
+      ? [
+          {
+            path: "/doctors",
+            label: t("sidebar.doctors"),
+            Icon: FaUserMd,
+          },
+        ]
+      : []),
+    {
+      path: "/appointments",
+      label: t("sidebar.appointments"),
+      Icon: FaCalendarAlt,
+    },
+    ...(role === "doctor"
+      ? [
+          {
+            path: "/prescription",
+            label: t("header.prescription") || "Prescription",
+            Icon: FaPrescriptionBottleAlt,
+          },
+        ]
+      : []),
+  ];
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (
@@ -186,6 +184,24 @@ const menuItems: MenuItem[] = [
                 >
                   {t("header.logout") || "Logout"}
                 </button>
+                <div className="px-4 py-2 flex items-center justify-between text-sm text-gray-800 dark:text-gray-200">
+                  <span>{t("header.laboratory")}</span>
+
+                  <button
+                    onClick={() => setLabEnabled(!labEnabled)}
+                    className={`
+                    relative inline-flex h-5 w-10 items-center rounded-full transition
+                    ${labEnabled ? "bg-slate-700 dark:[background-color:oklch(47.6%_0.114_61.907)] hover:bg-slate-800" : "bg-gray-300 dark:bg-gray-600"}
+                  `}
+                  >
+                    <span
+                      className={`
+                      inline-block h-4 w-4 transform rounded-full bg-white transition
+                      ${labEnabled ? "translate-x-5" : "translate-x-1"}
+                    `}
+                    />
+                  </button>
+                </div>
               </div>
             )}
           </div>

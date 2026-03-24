@@ -54,13 +54,43 @@ const AppointmentList: React.FC = () => {
   return (
     <div className={styles.container}>
       <div className="mb-4 flex items-center gap-4">
-        <input
-          type="text"
-          placeholder={t("appointments.search") || "Search..."}
-          value={searchText}
-          onChange={(e) => setSearchText(e.target.value)}
-          className="p-2 bg-white dark:[background-color:oklch(20.5%_0_0)] border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] text-gray-900 dark:text-gray-100 rounded focus:outline-none focus:ring-2 focus:ring-slate-700"
-        />
+        <div className="relative">
+          <span className="absolute inset-y-0 left-2 flex items-center text-gray-500 dark:text-gray-300">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M10 4a6 6 0 016 6c0 1.39-.47 2.67-1.26 3.68l4.29 4.29-1.42 1.42-4.29-4.29A6 6 0 1110 4z"
+              />
+            </svg>
+          </span>
+
+          <input
+            type="text"
+            placeholder={t("appointments.search") || "Search..."}
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+            className="
+              w-full
+              p-2
+              pl-9
+              bg-white dark:[background-color:oklch(20.5%_0_0)]
+              border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)]
+              text-gray-900 dark:text-gray-100
+              rounded
+              focus:outline-none
+              focus:ring-2
+              focus:ring-slate-700
+            "
+          />
+        </div>
         <label className="font-semibold">
           {t("appointments.filterByDate")}:
         </label>

@@ -7,7 +7,8 @@
     "appointments": "Appointments",
     "Albanian": "Albanian",
     "English": "English",
-    "prescription": "Prescription"
+    "prescription": "Prescription",
+    "laboratory":"Laboratory"
   },
   "sidebar": {
     "home": "Home",
@@ -58,7 +59,8 @@
     "password": "Password",
     "create": "Create Patient",
     "female": "Female",
-    "male": "Male"
+    "male": "Male",
+    "search": "Search..."
   },
   "doctors": {
     "title": "Doctor Management",
@@ -75,7 +77,8 @@
     "noDoctors": "No registered doctors.",
     "addButton": "Add Doctor",
     "password": "Password",
-    "addDoctor": "Create Doctor"
+    "addDoctor": "Create Doctor",
+    "search": "Search..."
   },
   "appointments": {
     "title": "Appointment Management",
