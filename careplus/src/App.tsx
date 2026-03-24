@@ -63,7 +63,6 @@ const App: React.FC = () => {
                       element={<DepartmentDetails />}
                     />
                   </Routes>
-                  {/* <ChatWidget /> */}
                 </div>
               </div>
             </>

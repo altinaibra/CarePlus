@@ -15,7 +15,7 @@ const styles = {
   buttonPrimary:
     "px-4 py-2 bg-slate-700 dark:bg-[oklch(47.6%_0.114_61.907)] text-white rounded hover:bg-blue-700",
   buttonSecondary:
-    "px-4 py-2 bg-white dark:[background-color:oklch(20.5%_0_0)] border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] text-white rounded hover:bg-gray-500",
+    "px-4 py-2 bg-white dark:[background-color:oklch(20.5%_0_0)] border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] dark:text-white text-gray-700 rounded hover:bg-gray-500",
   signatureInput:
     "w-full p-2 border-b border-gray-300 dark:border-[oklch(47.6%_0.114_61.907)] bg-transparent text-gray-900 dark:text-gray-100 focus:outline-none focus:border-slate-700 dark:focus:border-[oklch(47.6%_0.114_61.907)] placeholder:text-gray-400 dark:placeholder:text-gray-500",
 };

@@ -81,7 +81,6 @@ const DepartmentSettings: React.FC = () => {
         {t("settingsPage.departments")}
       </h2>
 
-      {/* Add Department */}
       <div className="flex gap-2 mb-4">
         <input
           value={newDepartment}
@@ -100,7 +99,6 @@ const DepartmentSettings: React.FC = () => {
 
       <div className="border-t border-gray-300 dark:border-gray-600 my-4"></div>
 
-      {/* Departments list */}
       <div className="flex flex-col gap-2">
         {departments.map((dept) => (
           <div

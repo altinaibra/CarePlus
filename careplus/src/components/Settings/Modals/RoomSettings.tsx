@@ -97,7 +97,6 @@ const RoomSettings: React.FC = () => {
     <div>
       <h2 className="text-xl font-bold mb-4">{t("settingsPage.rooms")}</h2>
 
-      {/* Add new room */}
       <div className="flex flex-wrap gap-2 mb-4">
         <div className="flex-1 flex flex-col">
           <label className="mb-1 text-gray-700 dark:text-gray-300 text-sm">
@@ -134,7 +133,6 @@ const RoomSettings: React.FC = () => {
 
       <div className="border-t border-gray-300 dark:border-gray-600 my-4"></div>
 
-      {/* Rooms list */}
       <div className="flex flex-col gap-2">
         {rooms.map((room) => (
           <div

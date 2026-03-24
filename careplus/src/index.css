@@ -28,7 +28,6 @@ body,
 }
 
 @layer components {
-  /* Animated highlights that travel along the existing border (inside only). */
   .orbit-borders {
     position: relative;
     --orbit-outer: rgba(51, 65, 85, 0.9);
@@ -44,12 +43,11 @@ body,
   .orbit-borders::after {
     content: "";
     position: absolute;
-    inset: 0; /* never outside the existing border */
+    inset: 0;
     border-radius: inherit;
     pointer-events: none;
     z-index: 0;
 
-    /* conic highlight that we clip into a thin ring */
     background: conic-gradient(
       from 0deg,
       transparent 0deg,
@@ -65,16 +63,15 @@ body,
     mask-composite: exclude;
   }
 
-  /* Outer highlight: sits exactly on the border line */
   .orbit-borders::before {
-    padding: 1px; /* ring thickness */
+    padding: 1px; 
     color: var(--orbit-outer);
     animation: orbitBorder 2.2s linear infinite;
   }
 
-  /* Inner highlight: a second ring closer to content */
+
   .orbit-borders::after {
-    inset: 4px; /* inside, near the border */
+    inset: 4px; 
     padding: 1px;
     color: var(--orbit-inner);
     animation: orbitBorderReverse 3.0s linear infinite;
@@ -147,5 +144,5 @@ code {
 /* Dark mode */
 .dark .custom-time-input::-webkit-calendar-picker-indicator,
 .dark .custom-time-input::-webkit-clear-button {
-  filter: invert(1); /* bëhet #fff */
+  filter: invert(1); 
 }
