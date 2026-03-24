@@ -30,7 +30,7 @@ const HeaderStyles = {
     "flex items-center gap-2 p-2 rounded-full bg-gray-200 text-gray-900 hover:bg-gray-300 dark:[background-color:oklch(20.5%_0_0)] dark:text-gray-100 dark:hover:[background-color:oklch(20.5%_0_0)] transition",
 
   dropdown:
-    "absolute right-0 mt-2 w-44 bg-white dark:[background-color:oklch(20.5%_0_0)] text-gray-900 dark:text-gray-100 rounded-md shadow-lg py-2 z-20 flex flex-col border border-gray-200 dark:[border-color:oklch(47.6%_0.114_61.907)]",
+    "absolute right-0 mt-2 w-56 bg-white dark:[background-color:oklch(20.5%_0_0)] text-gray-900 dark:text-gray-100 rounded-md shadow-lg py-2 z-20 flex flex-col border border-gray-200 dark:[border-color:oklch(47.6%_0.114_61.907)]",
 
   dropdownItem:
     "block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700",

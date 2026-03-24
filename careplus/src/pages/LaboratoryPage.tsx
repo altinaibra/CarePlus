@@ -95,7 +95,7 @@ const LaboratoryPage: React.FC = () => {
             onClick={handlePrint}
             disabled={selectedLabs.size === 0}
           >
-            {t("laboratory.types")}
+            {t("laboratory.print")}
           </button>
         </div>
       </div>

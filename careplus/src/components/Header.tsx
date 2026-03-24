@@ -12,6 +12,10 @@ import {
   FaCalendarAlt,
   FaPrescriptionBottleAlt,
   FaFlask,
+  FaSignOutAlt,
+  FaPrescriptionBottle,
+  FaCog,
+  FaUser,
 } from "react-icons/fa";
 
 import LanguageSelector from "../locales/LanguageSelector";
@@ -83,11 +87,15 @@ const Header: React.FC = () => {
 
   const menuItems: MenuItem[] = [
     { path: "/", label: t("sidebar.home"), Icon: FaHome },
-    {
-      path: "/patients",
-      label: t("sidebar.patients"),
-      Icon: FaUsers,
-    },
+    ...(role !== "patient"
+      ? [
+          {
+            path: "/patients",
+            label: t("sidebar.patients"),
+            Icon: FaUsers,
+          },
+        ]
+      : []),
     ...(role !== "doctor"
       ? [
           {
@@ -170,10 +178,9 @@ const Header: React.FC = () => {
               className={HeaderStyles.userButton}
             >
               {React.createElement(
-                FaUserMd as React.ComponentType<{ size?: number }>,
-                { size: 22 },
+                role === "doctor" || role === "admin" ? FaUserMd : FaUser,
+                { size: 22, className: "inline mr-2" },
               )}
-
               <span className="text-sm">
                 <strong>{user ?? ""}</strong> ({getRoleLabel(role ?? "")})
               </span>
@@ -186,6 +193,7 @@ const Header: React.FC = () => {
                   className={HeaderStyles.dropdownItem}
                   onClick={() => setDropdownOpen(false)}
                 >
+                  <FaUser className="inline mr-2" />
                   {t("header.profile") || "Profile"}
                 </Link>
 
@@ -194,6 +202,7 @@ const Header: React.FC = () => {
                   className={HeaderStyles.dropdownItem}
                   onClick={() => setDropdownOpen(false)}
                 >
+                  <FaCog className="inline mr-2" />
                   {t("header.settings") || "Settings"}
                 </Link>
 
@@ -202,6 +211,7 @@ const Header: React.FC = () => {
                   className={HeaderStyles.dropdownItem}
                   onClick={() => setDropdownOpen(false)}
                 >
+                  <FaCalendarAlt className="inline mr-2" />
                   {t("header.appointments") || "Appointments"}
                 </Link>
 
@@ -211,30 +221,34 @@ const Header: React.FC = () => {
                     className={HeaderStyles.dropdownItem}
                     onClick={() => setDropdownOpen(false)}
                   >
+                    <FaPrescriptionBottle className="inline mr-2" />
                     {t("header.prescription") || "Prescription"}
                   </Link>
                 )}
+
                 <button
                   onClick={handleLogout}
                   className={HeaderStyles.dropdownButton}
                 >
+                  <FaSignOutAlt className="inline mr-2" />
                   {t("header.logout") || "Logout"}
                 </button>
+
                 <div className="px-4 py-2 flex items-center justify-between text-sm text-gray-800 dark:text-gray-200">
                   <span>{t("header.laboratory")}</span>
 
                   <button
                     onClick={handleLabToggle}
                     className={`
-                    relative inline-flex h-5 w-10 items-center rounded-full transition
-                    ${labEnabled ? "bg-slate-700 dark:[background-color:oklch(47.6%_0.114_61.907)] hover:bg-slate-800" : "bg-gray-300 dark:bg-gray-600"}
-                  `}
+          relative inline-flex h-5 w-10 items-center rounded-full transition
+          ${labEnabled ? "bg-slate-700 dark:[background-color:oklch(47.6%_0.114_61.907)] hover:bg-slate-800" : "bg-gray-300 dark:bg-gray-600"}
+        `}
                   >
                     <span
                       className={`
-                      inline-block h-4 w-4 transform rounded-full bg-white transition
-                      ${labEnabled ? "translate-x-5" : "translate-x-1"}
-                    `}
+            inline-block h-4 w-4 transform rounded-full bg-white transition
+            ${labEnabled ? "translate-x-5" : "translate-x-1"}
+          `}
                     />
                   </button>
                 </div>
