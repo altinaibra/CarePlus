@@ -83,15 +83,13 @@ const Home: React.FC = () => {
                 <div
                   key={room.id}
                   className={`
-                    relative
+                    relative border-animated
                     w-full sm:w-[calc(50%-1.25rem)] lg:w-[calc(33.333%-1.25rem)]
-                    border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)]
                     rounded-lg p-5 shadow-md bg-white dark:[background-color:oklch(20.5%_0_0)]
                     text-gray-900 dark:text-gray-100
-                    before:content-[''] before:absolute before:inset-0 before:rounded-lg before:border-2 before:border-dashed before:border-slate-400/70 dark:before:border-white/25 before:animate-borderSpinSlow before:pointer-events-none
-                    after:content-[''] after:absolute after:inset-1 after:rounded-lg after:border-2 after:border-dotted after:border-slate-400/40 dark:after:border-white/15 after:animate-borderSpinReverse after:pointer-events-none
                   `}
                 >
+                  <div></div> 
                   <div className="relative z-10">
                     <h3 className="text-lg font-semibold mb-2">
                       {t("home.roomLabel", { number: room.roomNumber }) ||

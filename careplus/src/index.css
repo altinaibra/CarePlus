@@ -9,24 +9,82 @@ body,
   overflow: hidden;
 }
 
-@keyframes orbitBorder {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.border-animated {
+  position: relative;
+  overflow: hidden;
 }
 
-@keyframes orbitBorderReverse {
-  from {
-    transform: rotate(360deg);
-  }
-  to {
-    transform: rotate(0deg);
-  }
+/* Top border */
+.border-animated::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 2px;
+  background: #8fa2b8;
+  animation: move-top 2s linear infinite;
 }
 
+/* Right border */
+.border-animated::after {
+  content: "";
+  position: absolute;
+  top: -100%;
+  right: 0;
+  width: 2px;
+  height: 100%;
+  background: #8fa2b8;
+  animation: move-right 2s linear infinite;
+  animation-delay: 0.5s;
+}
+
+/* Bottom border */
+.border-animated div::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: -100%;
+  width: 100%;
+  height: 2px;
+  background: #8fa2b8;
+  animation: move-bottom 2s linear infinite;
+  animation-delay: 1s;
+}
+
+/* Left border */
+.border-animated div::after {
+  content: "";
+  position: absolute;
+  bottom: -100%;
+  left: 0;
+  width: 2px;
+  height: 100%;
+  background: #8fa2b8;
+  animation: move-left 2s linear infinite;
+  animation-delay: 1.5s;
+}
+
+/* Keyframes */
+@keyframes move-top {
+  from { left: -100%; }
+  to   { left: 100%; }
+}
+
+@keyframes move-right {
+  from { top: -100%; }
+  to   { top: 100%; }
+}
+
+@keyframes move-bottom {
+  from { right: -100%; }
+  to   { right: 100%; }
+}
+
+@keyframes move-left {
+  from { bottom: -100%; }
+  to   { bottom: 100%; }
+}
 @layer components {
   .orbit-borders {
     position: relative;
@@ -35,8 +93,8 @@ body,
   }
 
   .dark .orbit-borders {
-    --orbit-outer: rgba(255, 255, 255, 0.85);
-    --orbit-inner: rgba(255, 255, 255, 0.35);
+      --orbit-outer: oklch(47.6% 0.114 61.907);
+    --orbit-inner: oklch(47.6% 0.114 61.907 / 0.35);
   }
 
   .orbit-borders::before,

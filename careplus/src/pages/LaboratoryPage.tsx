@@ -182,7 +182,7 @@ const LaboratoryPage: React.FC = () => {
                       onBlur={() => setEditingPriceId(null)}
                       onKeyDown={(e) => handlePriceKeyDown(lab.id, e)}
                       autoFocus
-                      className="w-24 border rounded px-1 text-right"
+                      className="w-20 border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] rounded-md bg-white dark:[background-color:oklch(20.5%_0_0)] text-gray-900 dark:text-gray-100 rounded"
                     />
                   ) : (
                     <span
