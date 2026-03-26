@@ -232,25 +232,26 @@ const Header: React.FC = () => {
                   <FaSignOutAlt className="inline mr-2" />
                   {t("header.logout") || "Logout"}
                 </button>
+                {role !== "patient" && (
+                  <div className="px-4 py-2 flex items-center justify-between text-sm text-gray-800 dark:text-gray-200">
+                    <span>{t("header.laboratory")}</span>
 
-                <div className="px-4 py-2 flex items-center justify-between text-sm text-gray-800 dark:text-gray-200">
-                  <span>{t("header.laboratory")}</span>
-
-                  <button
-                    onClick={handleLabToggle}
-                    className={`
-          relative inline-flex h-5 w-10 items-center rounded-full transition
-          ${labEnabled ? "bg-slate-700 dark:[background-color:oklch(47.6%_0.114_61.907)] hover:bg-slate-800" : "bg-gray-300 dark:bg-gray-600"}
-        `}
-                  >
-                    <span
+                    <button
+                      onClick={handleLabToggle}
                       className={`
-            inline-block h-4 w-4 transform rounded-full bg-white transition
-            ${labEnabled ? "translate-x-5" : "translate-x-1"}
-          `}
-                    />
-                  </button>
-                </div>
+                      relative inline-flex h-5 w-10 items-center rounded-full transition
+                      ${labEnabled ? "bg-slate-700 dark:[background-color:oklch(47.6%_0.114_61.907)] hover:bg-slate-800" : "bg-gray-300 dark:bg-gray-600"}
+                    `}
+                    >
+                      <span
+                        className={`
+                      inline-block h-4 w-4 transform rounded-full bg-white transition
+                      ${labEnabled ? "translate-x-5" : "translate-x-1"}
+                    `}
+                      />
+                    </button>
+                  </div>
+                )}
               </div>
             )}
           </div>

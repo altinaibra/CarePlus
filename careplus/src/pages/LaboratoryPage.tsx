@@ -206,6 +206,16 @@ const LaboratoryPage: React.FC = () => {
           )}
         </tbody>
       </table>
+
+      <div className="mt-4 flex justify-end">
+        <div className="flex items-center gap-3 p-4">
+          <h3 className="text-lg font-bold">{t("Total")}:</h3>
+
+          <p className="text-xl font-semibold px-3 py-1 border-b border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] rounded-md bg-white dark:[background-color:oklch(20.5%_0_0)] text-gray-900 dark:text-gray-100">
+            {totalPrice.toFixed(2)} {mainCurrency?.currencySymbol}
+          </p>
+        </div>
+      </div>
     </div>
   );
 };
