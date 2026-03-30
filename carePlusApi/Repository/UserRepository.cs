@@ -16,8 +16,11 @@ namespace CarePlusApi.Repository
 
         public async Task<User?> GetByUsernameAsync(string username)
         {
+            var normalizedUsername = username.Trim().ToLowerInvariant();
             return await _context.Users
-                .FirstOrDefaultAsync(u => u.Username == username);
+                .FirstOrDefaultAsync(u =>
+                    (u.Username != null && u.Username.ToLower() == normalizedUsername) ||
+                    (u.Email != null && u.Email.ToLower() == normalizedUsername));
         }
 
         public async Task<User> CreateAsync(User user)

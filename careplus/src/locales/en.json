@@ -158,7 +158,8 @@
     "roomAdded": "Room added successfully",
     "roomDeleted": "Room deleted successfully",
     "roomUpdated": "Room updated",
-    "departmentUpdated": "Department updated"
+    "departmentUpdated": "Department updated",
+    "patientsStatistics": "Patient Count Statistics"
   },
   "printers": {
     "printers": "Printers",

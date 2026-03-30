@@ -8,6 +8,7 @@ import Printers from "./Modals/Printers";
 import ChangePassword from "./Modals/ChangePassword";
 import DepartmentSettings from "./Modals/DepartmentSettings";
 import RoomSettings from "./Modals/RoomSettings";
+import PatientsChart from "../../features/patients/PatientsChart";
 
 const settingsOptions = [
   {
@@ -35,6 +36,12 @@ const settingsOptions = [
     modal: "rooms",
     color: "bg-slate-700 dark:bg-[oklch(47.6%_0.114_61.907)]",
   },
+  {
+    titleKey: "settingsPage.patientsStatistics",
+    descriptionKey: "settingsPage.patientsStatistics",
+    modal: "patients",
+    color: "bg-slate-700 dark:bg-[oklch(47.6%_0.114_61.907)]",
+  },
 ];
 
 const SettingsPage: React.FC = () => {
@@ -43,7 +50,7 @@ const SettingsPage: React.FC = () => {
   const { showSnackbar } = useSnackbar();
 
   const [activeModal, setActiveModal] = useState<
-    "printers" | "changePassword" | "departments" | "rooms" | null
+    "printers" | "changePassword" | "departments" | "rooms" | "patients" | null
   >(null);
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -141,6 +148,8 @@ const SettingsPage: React.FC = () => {
               {activeModal === "printers" && <Printers />}
               {activeModal === "departments" && <DepartmentSettings />}
               {activeModal === "rooms" && <RoomSettings />}
+
+              {activeModal === "patients" && <PatientsChart />}
             </div>
           </div>
         </div>

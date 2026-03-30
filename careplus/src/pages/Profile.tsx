@@ -2,7 +2,7 @@ import React, { useEffect, useState, ChangeEvent, FormEvent } from "react";
 import styles from "../styles/ProfileStyles";
 import { useTranslation } from "react-i18next";
 import { useSnackbar } from "../ui/SnackbarContext";
-import { patientAPI, doctorAPI } from "../app/api";
+import { patientAPI, doctorAPI, adminAPI } from "../app/api";
 import axiosInstance from "../app/axiosInstance";
 
 interface ProfileData {
@@ -25,12 +25,10 @@ const Profile: React.FC = () => {
     contact: "",
   });
   const [userId, setUserId] = useState<string | null>(null);
+  const [role, setRole] = useState<string | null>(null);
 
-  const role = localStorage.getItem("userRole"); // "patient", "doctor", or "admin"
-  const username = localStorage.getItem("username");
   const token = localStorage.getItem("authToken");
 
-  // Set Authorization header for all API requests
   useEffect(() => {
     if (token) {
       axiosInstance.defaults.headers.common["Authorization"] =
@@ -38,7 +36,6 @@ const Profile: React.FC = () => {
     }
   }, [token]);
 
-  // Fetch profile on mount
   useEffect(() => {
     const fetchProfile = async () => {
       try {
@@ -47,9 +44,11 @@ const Profile: React.FC = () => {
 
         if (!storedUserId || !storedRole) return;
 
+        const normalizedRole = storedRole.toLowerCase();
         setUserId(storedUserId);
+        setRole(normalizedRole);
 
-        if (storedRole === "patient") {
+        if (normalizedRole === "patient") {
           const res = await patientAPI.getById(storedUserId);
 
           setProfileData({
@@ -59,14 +58,26 @@ const Profile: React.FC = () => {
             email: res.data.email || "",
             contact: res.data.phone || "",
           });
-        }
-
-        if (storedRole === "doctor" || storedRole === "admin") {
+        } else if (normalizedRole === "doctor") {
           const res = await doctorAPI.getById(storedUserId);
 
           setProfileData({
             firstName: res.data.firstName,
             lastName: res.data.lastName,
+            age: "",
+            email: res.data.email || "",
+            contact: res.data.phone || "",
+          });
+        } else if (
+          normalizedRole === "admin" ||
+          normalizedRole === "administrator"
+        ) {
+          const res = await adminAPI.getById(storedUserId);
+          const [first, ...rest] = (res.data.name || "").split(" ");
+
+          setProfileData({
+            firstName: first || "",
+            lastName: rest.join(" ") || "",
             age: "",
             email: res.data.email || "",
             contact: res.data.phone || "",
@@ -98,10 +109,16 @@ const Profile: React.FC = () => {
           email: profileData.email,
           phone: profileData.contact,
         });
-      } else if (role === "doctor" || role === "admin") {
+      } else if (role === "doctor") {
         await doctorAPI.update(userId, {
           firstName: profileData.firstName,
           lastName: profileData.lastName,
+          email: profileData.email,
+          phone: profileData.contact,
+        });
+      } else if (role === "admin") {
+        await adminAPI.update(userId, {
+          name: `${profileData.firstName} ${profileData.lastName}`.trim(),
           email: profileData.email,
           phone: profileData.contact,
         });
@@ -114,11 +131,16 @@ const Profile: React.FC = () => {
     }
   };
 
+  const fieldsToRender: (keyof ProfileData)[] =
+    role === "patient"
+      ? ["firstName", "lastName", "age", "email", "contact"]
+      : ["firstName", "lastName", "email", "contact"];
+
   return (
     <div className={styles.container}>
       <h2 className={styles.title}>{t("Profile")}</h2>
       <form onSubmit={handleSubmit} className={styles.form}>
-        {(Object.keys(profileData) as (keyof ProfileData)[]).map((field) => (
+        {fieldsToRender.map((field) => (
           <div key={field}>
             <label className={styles.label}>
               {t(field.replace(/([A-Z])/g, " $1"))}:

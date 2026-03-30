@@ -157,7 +157,8 @@
     "roomAdded": "Dhoma u shtua me sukses",
     "roomDeleted": "Dhoma u fshi me sukses",
     "roomUpdated": "Dhoma u përditësua",
-    "departmentUpdated": "Departamenti u përditësua"
+    "departmentUpdated": "Departamenti u përditësua",
+    "patientsStatistics": "Statistika rreth pacientave"
   },
   "printers": {
     "printers": "Printerët",

@@ -90,6 +90,21 @@ export const doctorAPI = {
     axiosInstance.delete(`/doctors/${id}`),
 };
 
+export interface Admin {
+  id: ID;
+  name: string;
+  email?: string;
+  phone?: string;
+}
+
+export const adminAPI = {
+  getById: (id: ID): Promise<AxiosResponse<Admin>> =>
+    axiosInstance.get(`/administrators/${id}`),
+
+  update: (id: ID, data: Partial<Admin>): Promise<AxiosResponse<Admin>> =>
+    axiosInstance.put(`/administrators/${id}`, data),
+};
+
 // ----- APPOINTMENTS -----
 export interface Patient {
   id: ID;
