@@ -9,11 +9,20 @@ export interface LoginRequest {
 }
 
 export interface LoginResponse {
-  id: number;
+  userId: number;
+  profileId: number;
   username: string;
   role: string;
   token: string;
 }
+
+export interface AuthUser {
+  id: number;
+  username: string;
+  email: string;
+  role: string;
+}
+
 export interface ChangePasswordRequest {
   username: string;
   currentPassword: string;
@@ -25,6 +34,8 @@ export const authAPI = {
 
   changePassword: (data: ChangePasswordRequest): Promise<AxiosResponse<void>> =>
     axiosInstance.post("/auth/change-password", data),
+  getUser: (id: ID): Promise<AxiosResponse<AuthUser>> =>
+    axiosInstance.get(`/auth/user/${id}`),
 };
 
 export interface Patient {
@@ -103,6 +114,22 @@ export const adminAPI = {
 
   update: (id: ID, data: Partial<Admin>): Promise<AxiosResponse<Admin>> =>
     axiosInstance.put(`/administrators/${id}`, data),
+};
+
+export interface Nurse {
+  id: ID;
+  name: string;
+  email?: string;
+  phone?: string;
+  licenseNumber?: string;
+  departmentId?: number;
+}
+
+export const nurseAPI = {
+  getById: (id: ID): Promise<AxiosResponse<Nurse>> =>
+    axiosInstance.get(`/nurses/${id}`),
+  update: (id: ID, data: Partial<Nurse>): Promise<AxiosResponse<Nurse>> =>
+    axiosInstance.put(`/nurses/${id}`, data),
 };
 
 // ----- APPOINTMENTS -----

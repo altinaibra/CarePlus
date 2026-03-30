@@ -27,9 +27,10 @@ const LoginForm = () => {
 
     try {
       const response = await authAPI.login(formData);
-      const { id, token, role, username } = response.data;
+      const { userId, profileId, token, role, username } = response.data;
       const normalizedRole = role.toLowerCase();
-      localStorage.setItem("userId", id.toString());
+      localStorage.setItem("userId", userId.toString());
+      localStorage.setItem("profileId", profileId.toString());
       localStorage.setItem("authToken", token);
       localStorage.setItem("userRole", normalizedRole);
       localStorage.setItem("username", username);

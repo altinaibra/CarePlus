@@ -1,4 +1,5 @@
 ﻿using carePlusApi.DTO;
+using carePlusApi.Models;
 using CarePlusApi.Data;
 using CarePlusApi.Models;
 using CarePlusApi.Helpers;
@@ -24,7 +25,7 @@ namespace CarePlusApi.Services
             _context = context;
         }
 
-        public async Task<(int id, string token, string role, string username)> LoginAsync(LoginDto loginDto)
+        public async Task<(int userId, int profileId, string token, string role, string username)> LoginAsync(LoginDto loginDto)
         {
             if (string.IsNullOrEmpty(loginDto.Username))
                 throw new Exception("Username must be provided.");
@@ -58,12 +59,39 @@ namespace CarePlusApi.Services
             {
                 var admin = await _context.Administrators
                     .FirstOrDefaultAsync(a => (a.Email != null && a.Email.ToLower() == normalizedEmail) || (a.Name != null && a.Name.ToLower() == normalizedUsername));
-                if (admin != null) profileId = admin.Id;
+                if (admin == null)
+                {
+                    admin = new carePlusApi.Models.Administrator
+                    {
+                        Name = user.Username,
+                        Email = user.Email,
+                        Password = user.Password,
+                        Phone = string.Empty,
+                    };
+                    _context.Administrators.Add(admin);
+                    await _context.SaveChangesAsync();
+                }
+
+                profileId = admin.Id;
+            }
+            else if (string.Equals(user.Role, "nurse", StringComparison.OrdinalIgnoreCase))
+            {
+                var nurse = await _context.Nurses
+                    .FirstOrDefaultAsync(n => (n.Email != null && n.Email.ToLower() == normalizedEmail) || (n.Name != null && n.Name.ToLower() == normalizedUsername));
+                if (nurse != null)
+                {
+                    profileId = nurse.Id;
+                }
             }
 
             var normalizedRole = NormalizeRole(user.Role);
             var token = GenerateJwtToken(user);
-            return (profileId, token, normalizedRole, user.Username);
+            return (user.Id, profileId, token, normalizedRole, user.Username);
+        }
+
+        public async Task<User?> GetUserByIdAsync(int id)
+        {
+            return await _context.Users.FindAsync(id);
         }
 
         public async Task ChangePasswordAsync(ChangePasswordDto dto)
