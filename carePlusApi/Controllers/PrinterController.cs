@@ -71,6 +71,19 @@ namespace carePlusApi.Controllers
             return Ok();
         }
 
+        // POST: /api/Printer/PrintPrescription
+        [HttpPost("PrintPrescription")]
+        public async Task<IActionResult> PrintPrescription([FromBody] PrescriptionPrintRequest printRequest)
+        {
+            if (printRequest == null || string.IsNullOrWhiteSpace(printRequest.PatientName))
+                return BadRequest("No prescription data supplied for printing.");
+
+            var result = await _repository.PrintPrescriptionAsync(printRequest);
+            if (!result) return BadRequest("Default printer not found or print failed.");
+
+            return Ok();
+        }
+
         // DELETE: /api/Printer/{id}
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)

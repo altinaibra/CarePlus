@@ -137,6 +137,80 @@ namespace carePlusApi.Repository
             return true;
         }
 
+        public async Task<bool> PrintPrescriptionAsync(PrescriptionPrintRequest request)
+        {
+            if (request == null)
+                return false;
+
+            var defaultPrinter = await _context.Printers.FirstOrDefaultAsync(p => p.DefaultPrinter);
+            if (defaultPrinter == null)
+                return false;
+
+            using var printDocument = new PrintDocument();
+            printDocument.PrinterSettings.PrinterName = defaultPrinter.PrinterName;
+            if (!printDocument.PrinterSettings.IsValid)
+                return false;
+
+            printDocument.DefaultPageSettings.PaperSize = new PaperSize("A4", 827, 1169);
+            printDocument.DefaultPageSettings.Landscape = false;
+            printDocument.DefaultPageSettings.Margins = new Margins(50, 50, 50, 50);
+
+            printDocument.PrintPage += (sender, e) =>
+            {
+                var graphics = e.Graphics;
+                var titleFont = new Font("Arial", 16, FontStyle.Bold);
+                var sectionFont = new Font("Arial", 11, FontStyle.Bold);
+                var bodyFont = new Font("Arial", 10, FontStyle.Regular);
+                float y = e.MarginBounds.Top;
+                var lineHeight = bodyFont.GetHeight(graphics) + 6;
+
+                graphics.DrawString("PRESCRIPTION", titleFont, Brushes.Black, e.MarginBounds.Left, y);
+                y += lineHeight * 2;
+
+                graphics.DrawString($"Patient: {request.PatientName}", sectionFont, Brushes.Black, e.MarginBounds.Left, y);
+                y += lineHeight;
+                graphics.DrawString($"Age: {request.PatientAge}", bodyFont, Brushes.Black, e.MarginBounds.Left, y);
+                graphics.DrawString($"Gender: {request.PatientGender}", bodyFont, Brushes.Black, e.MarginBounds.Left + 250, y);
+                y += lineHeight;
+                graphics.DrawString($"Date: {(string.IsNullOrWhiteSpace(request.PrintDate) ? DateTime.Now.ToString("dd.MM.yyyy") : request.PrintDate)}", bodyFont, Brushes.Black, e.MarginBounds.Left, y);
+                y += lineHeight * 2;
+
+                if (request.HasAllergies && !string.IsNullOrWhiteSpace(request.Allergies))
+                {
+                    graphics.DrawString("Allergies:", sectionFont, Brushes.Black, e.MarginBounds.Left, y);
+                    y += lineHeight;
+                    var allergyRect = new RectangleF(e.MarginBounds.Left, y, e.MarginBounds.Width, e.MarginBounds.Bottom - y);
+                    graphics.DrawString(request.Allergies, bodyFont, Brushes.Black, allergyRect);
+                    y += graphics.MeasureString(request.Allergies, bodyFont, e.MarginBounds.Width).Height + lineHeight;
+                }
+
+                graphics.DrawString("Diagnosis:", sectionFont, Brushes.Black, e.MarginBounds.Left, y);
+                y += lineHeight;
+                var diagnosisRect = new RectangleF(e.MarginBounds.Left, y, e.MarginBounds.Width, e.MarginBounds.Bottom - y);
+                graphics.DrawString(request.Diagnosis, bodyFont, Brushes.Black, diagnosisRect);
+                y += graphics.MeasureString(request.Diagnosis, bodyFont, e.MarginBounds.Width).Height + lineHeight;
+
+                graphics.DrawString("Prescription:", sectionFont, Brushes.Black, e.MarginBounds.Left, y);
+                y += lineHeight;
+                var prescriptionRect = new RectangleF(e.MarginBounds.Left, y, e.MarginBounds.Width, e.MarginBounds.Bottom - y);
+                graphics.DrawString(request.Prescription, bodyFont, Brushes.Black, prescriptionRect);
+                y += graphics.MeasureString(request.Prescription, bodyFont, e.MarginBounds.Width).Height + lineHeight;
+
+                if (!string.IsNullOrWhiteSpace(request.DoctorSignature))
+                {
+                    y += lineHeight;
+                    graphics.DrawString("Doctor Signature:", sectionFont, Brushes.Black, e.MarginBounds.Left, y);
+                    y += lineHeight;
+                    graphics.DrawString(request.DoctorSignature, bodyFont, Brushes.Black, e.MarginBounds.Left, y);
+                }
+
+                e.HasMorePages = false;
+            };
+
+            printDocument.Print();
+            return true;
+        }
+
         private bool CheckIfPrinterIsOnline(Printer printer)
         {
             return true; 

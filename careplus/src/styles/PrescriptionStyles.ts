@@ -2,7 +2,7 @@ const styles = {
   container: "min-h-screen bg-gray-100 dark:bg-[oklch(20.5%_0_0)] py-10",
   buttonPrint:
     "px-8 py-2 bg-slate-700 dark:bg-[oklch(47.6%_0.114_61.907)] text-white rounded hover:bg-gray-800 dark:hover:bg-gray-700 transition",
-  card: "w-[50%] mx-auto bg-white dark:bg-[oklch(23%_0_0)] rounded-[10px] shadow-md dark:shadow-none p-8 h-[80vh]",
+  card: "w-full max-w-5xl mx-auto bg-white dark:bg-[oklch(23%_0_0)] rounded-[10px] shadow-md dark:shadow-none p-8",
   iconWrapper: "mx-auto flex justify-start mb-4",
   gridContainer: "grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4",
   label: "block mb-1 font-semibold text-gray-700 dark:text-gray-300",

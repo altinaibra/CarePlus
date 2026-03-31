@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import PharmacyIcon from "../SVG/PharmacyIcon";
 import { useTheme } from "../context/ThemeContext";
 import { prescriptionAPI } from "../app/api";
+import { printerAPI } from "../app/printer";
 import styles from "..//styles/PrescriptionStyles";
 import { useSnackbar } from "../ui/SnackbarContext";
 
@@ -12,6 +13,7 @@ const PrescriptionPage: React.FC = () => {
   const [patientGender, setPatientGender] = useState("");
   const [diagnosis, setDiagnosis] = useState("");
   const [prescription, setPrescription] = useState("");
+  const [doctorSignature, setDoctorSignature] = useState("");
   const [hasAllergies, setHasAllergies] = useState(false);
   const [allergies, setAllergies] = useState("");
 
@@ -36,6 +38,7 @@ const PrescriptionPage: React.FC = () => {
       setAllergies("");
       setDiagnosis("");
       setPrescription("");
+      setDoctorSignature("");
     } catch (error) {
       console.error(error);
       showSnackbar(t("prescription.error"), "error");
@@ -43,7 +46,25 @@ const PrescriptionPage: React.FC = () => {
   };
 
   const handleClose = () => showSnackbar("Closing page...", "warning");
-  const handlePrint = () => window.print();
+  const handlePrint = async () => {
+    try {
+      await printerAPI.printPrescription({
+        patientName,
+        patientAge: Number(patientAge) || 0,
+        patientGender,
+        hasAllergies,
+        allergies: hasAllergies ? allergies : "",
+        diagnosis,
+        prescription,
+        doctorSignature,
+        printDate: new Date().toLocaleDateString(),
+      });
+      showSnackbar("Print request sent to default printer.", "success");
+    } catch (error) {
+      console.error(error);
+      showSnackbar("Failed to send print request.", "error");
+    }
+  };
 
   return (
     <div className={styles.container}>
@@ -176,7 +197,8 @@ const PrescriptionPage: React.FC = () => {
             </label>
             <input
               type="text"
-              onChange={(e) => setPrescription(e.target.value)}
+              value={doctorSignature}
+              onChange={(e) => setDoctorSignature(e.target.value)}
               className={styles.signatureInput}
             />
           </div>
