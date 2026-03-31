@@ -159,7 +159,11 @@
     "roomDeleted": "Room deleted successfully",
     "roomUpdated": "Room updated",
     "departmentUpdated": "Department updated",
-    "patientsStatistics": "Patient Count Statistics"
+    "patientsStatistics": "Patient Count Statistics",
+    "byDay": "Patients by Day",
+    "byWeek": "Patients by Week",
+    "byMonth": "Patients by Month",
+    "fetchError": "Error loading patient statistics"
   },
   "printers": {
     "printers": "Printers",

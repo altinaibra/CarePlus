@@ -60,7 +60,11 @@
     "create": "Shto pacient",
     "female": "Female",
     "male": "Male",
-    "search": "Kërko..."
+    "search": "Kërko...",
+    "byDay": "Pacientët sipas Ditës",
+    "byWeek": "Pacientët sipas Javës",
+    "byMonth": "Pacientët sipas Muajit",
+    "fetchError": "Gabim gjatë ngarkimit të të dhënave të pacientëve"
   },
   "doctors": {
     "title": "Menaxhimi i Doktorëve",
