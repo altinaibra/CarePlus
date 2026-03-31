@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSnackbar } from "../../../ui/SnackbarContext";
+import { PatientCategoriesStyles } from "../../../styles/PatientCategoriesStyles";
 
 type Category = {
   id: number;
@@ -34,58 +35,50 @@ const PatientCategoriesSettings: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col h-full">
-      <div className="mb-4">
-        <h2 className="text-xl font-bold mb-2">
+    <div className={PatientCategoriesStyles.container}>
+      <div className={PatientCategoriesStyles.headerWrapper}>
+        <h2 className={PatientCategoriesStyles.headerTitle}>
           {t("settingsPage.patientCategories")}
         </h2>
-        <p className="text-gray-600 dark:text-gray-300">
+        <p className={PatientCategoriesStyles.headerDescription}>
           {t("settingsPage.patientCategoriesDescription")}
         </p>
       </div>
 
-      <div className="grid gap-3 mb-4">
+      <div className={PatientCategoriesStyles.inputGrid}>
         <input
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder={t("settingsPage.categoryName")}
-          className="w-full p-2 border rounded bg-white dark:[background-color:oklch(20.5%_0_0)] border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)]"
+          className={PatientCategoriesStyles.input}
         />
         <textarea
           value={details}
           onChange={(e) => setDetails(e.target.value)}
           placeholder={t("settingsPage.categoryDetails")}
-          className="w-full p-2 border rounded min-h-[100px] bg-white dark:[background-color:oklch(20.5%_0_0)] border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)]"
+          className={PatientCategoriesStyles.textarea}
         />
-        <button
-          onClick={addCategory}
-          className="px-4 py-2 rounded bg-slate-700 dark:bg-[oklch(47.6%_0.114_61.907)] text-white hover:bg-slate-800"
-        >
+        <button onClick={addCategory} className={PatientCategoriesStyles.addButton}>
           {t("settingsPage.addCategory")}
         </button>
       </div>
 
-      <div className="space-y-3">
+      <div className={PatientCategoriesStyles.categoriesList}>
         {categories.length === 0 ? (
-          <p className="text-gray-600 dark:text-gray-300">
+          <p className={PatientCategoriesStyles.noCategoriesText}>
             {t("settingsPage.noCategories")}
           </p>
         ) : (
           categories.map((category) => (
-            <div
-              key={category.id}
-              className="p-3 border rounded bg-white dark:[background-color:oklch(20.5%_0_0)] border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)]"
-            >
-              <div className="flex justify-between items-start gap-3">
-                <div>
-                  <h3 className="font-semibold">{category.name}</h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-300">
-                    {category.details}
-                  </p>
+            <div key={category.id} className={PatientCategoriesStyles.categoryItem}>
+              <div className={PatientCategoriesStyles.categoryContent}>
+                <div className={PatientCategoriesStyles.categoryInfo}>
+                  <h3 className={PatientCategoriesStyles.categoryTitle}>{category.name}</h3>
+                  <p className={PatientCategoriesStyles.categoryDetails}>{category.details}</p>
                 </div>
                 <button
                   onClick={() => deleteCategory(category.id)}
-                  className="px-3 py-1 rounded bg-red-500 text-white hover:bg-red-600"
+                  className={PatientCategoriesStyles.deleteButton}
                 >
                   {t("settingsPage.delete")}
                 </button>

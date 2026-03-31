@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import type { RootState } from "../../../app/store";
 import { holidayAPI, type Holiday } from "../../../app/calendar";
 import { FaTrash, FaSave, FaEdit } from "react-icons/fa";
+import { CalendarSettingsStyles } from "../../../styles/CalendarSettingsStyles";
 
 const CalendarSettings: React.FC = () => {
   const { t } = useTranslation();
@@ -16,7 +17,6 @@ const CalendarSettings: React.FC = () => {
   const [name, setName] = useState("");
   const [date, setDate] = useState("");
   const [comment, setComment] = useState("");
-
   const [editingId, setEditingId] = useState<Holiday["id"] | null>(null);
   const [editedName, setEditedName] = useState("");
   const [editedDate, setEditedDate] = useState("");
@@ -37,18 +37,13 @@ const CalendarSettings: React.FC = () => {
 
   const addHoliday = async () => {
     if (!isAdmin) {
-      showSnackbar(
-        t("calendar.adminOnly", "Only administrators can edit holidays."),
-        "error",
-      );
+      showSnackbar(t("calendar.adminOnly"), "error");
       return;
     }
-
     if (!name || !date) {
       showSnackbar(t("calendar.fillAllFields"), "error");
       return;
     }
-
     try {
       await holidayAPI.create({ name, date, comment });
       showSnackbar(t("calendar.holidayAdded"), "success");
@@ -62,14 +57,7 @@ const CalendarSettings: React.FC = () => {
   };
 
   const deleteHoliday = async (id: Holiday["id"]) => {
-    if (!isAdmin) {
-      showSnackbar(
-        t("calendar.adminOnly", "Only administrators can edit holidays."),
-        "error",
-      );
-      return;
-    }
-
+    if (!isAdmin) return showSnackbar(t("calendar.adminOnly"), "error");
     try {
       await holidayAPI.delete(id);
       showSnackbar(t("calendar.holidayDeleted"), "success");
@@ -87,18 +75,9 @@ const CalendarSettings: React.FC = () => {
   };
 
   const saveEdit = async (id: Holiday["id"]) => {
-    if (!isAdmin) {
-      showSnackbar(
-        t("calendar.adminOnly", "Only administrators can edit holidays."),
-        "error",
-      );
-      return;
-    }
-
-    if (!editedName || !editedDate) {
-      showSnackbar(t("calendar.fillAllFields"), "error");
-      return;
-    }
+    if (!isAdmin) return showSnackbar(t("calendar.adminOnly"), "error");
+    if (!editedName || !editedDate)
+      return showSnackbar(t("calendar.fillAllFields"), "error");
 
     try {
       await holidayAPI.update(id, {
@@ -106,7 +85,6 @@ const CalendarSettings: React.FC = () => {
         date: editedDate,
         comment: editedComment,
       });
-
       showSnackbar(t("calendar.holidayUpdated"), "success");
       setEditingId(null);
       setEditedComment("");
@@ -117,185 +95,122 @@ const CalendarSettings: React.FC = () => {
   };
 
   return (
-    <div>
-      <h2 className="text-xl font-bold mb-4">{t("settingsPage.calendar")}</h2>
+    <div className={CalendarSettingsStyles.container}>
+      <h2 className={CalendarSettingsStyles.header}>
+        {t("settingsPage.calendar")}
+      </h2>
 
-      {isAdmin ? (
-        <div className="flex flex-col gap-2 mb-4">
-          <div className="flex flex-wrap gap-2">
-            <div className="flex-1 flex flex-col">
-              <label className="mb-1 text-gray-700 dark:text-gray-300 text-sm">
+      {isAdmin && (
+        <div className={CalendarSettingsStyles.adminForm}>
+          <div className={CalendarSettingsStyles.inputGroupWrapper}>
+            <div className={CalendarSettingsStyles.inputGroup}>
+              <label className={CalendarSettingsStyles.label}>
                 {t("calendar.holidayName")}
               </label>
               <input
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="
-            p-2 bg-white dark:bg-[oklch(20.5%_0_0)]
-            border border-gray-300 dark:border-[oklch(47.6%_0.114_61.907)]
-            text-gray-900 dark:text-white rounded
-          "
+                className={CalendarSettingsStyles.input}
               />
             </div>
-
-            <div className="flex-1 flex flex-col">
-              <label className="mb-1 text-gray-700 dark:text-gray-300 text-sm">
+            <div className={CalendarSettingsStyles.inputGroup}>
+              <label className={CalendarSettingsStyles.label}>
                 {t("calendar.holidayDate")}
               </label>
               <input
                 type="date"
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
-                className="
-                custom-date-input
-                p-2 w-full rounded
-                bg-white dark:bg-[oklch(20.5%_0_0)]
-                border border-gray-300 dark:border-[oklch(47.6%_0.114_61.907)]
-                text-gray-900 dark:text-gray-100
-                "
+                className={CalendarSettingsStyles.dateInput}
               />
             </div>
           </div>
-
-          <div className="flex flex-col">
-            <label className="mb-1 text-gray-700 dark:text-gray-300 text-sm">
-              {t("calendar.holidayComment", "Comment")}
+          <div className={CalendarSettingsStyles.inputGroup}>
+            <label className={CalendarSettingsStyles.label}>
+              {t("calendar.holidayComment")}
             </label>
             <input
               value={comment}
               onChange={(e) => setComment(e.target.value)}
-              className="
-            block w-full p-2 rounded
-            bg-white dark:bg-[oklch(20.5%_0_0)]
-            border border-gray-300 dark:border-[oklch(47.6%_0.114_61.907)]
-            text-gray-900 dark:text-gray-100
-            "
-              placeholder={t(
-                "calendar.commentPlaceholder",
-                "Add an optional comment",
-              )}
+              className={CalendarSettingsStyles.commentInput}
+              placeholder={t("calendar.commentPlaceholder")}
             />
           </div>
-
           <button
             onClick={addHoliday}
-            className="
-            px-4 py-2 mt-2
-            bg-slate-700 dark:bg-[oklch(47.6%_0.114_61.907)]
-            text-white rounded
-        "
+            className={CalendarSettingsStyles.addButton}
           >
             {t("calendar.add")}
           </button>
         </div>
-      ) : (
-        <div className="mb-4 text-sm text-gray-600 dark:text-gray-300"></div>
       )}
 
-      <div className="border-t border-gray-300 dark:border-gray-600 my-4"></div>
+      <div className={CalendarSettingsStyles.divider}></div>
 
       <div className="flex flex-col gap-2">
         {holidays.map((holiday) => (
-          <div
-            key={holiday.id}
-            className="flex justify-between items-center p-3 
-            bg-white dark:[background-color:oklch(20.5%_0_0)]
-            border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)]
-            rounded"
-          >
+          <div key={holiday.id} className={CalendarSettingsStyles.holidayItem}>
             {editingId === holiday.id ? (
-              <div className="flex-1 flex flex-wrap gap-2">
+              <div className={CalendarSettingsStyles.holidayEditWrapper}>
                 <input
                   value={editedName}
                   onChange={(e) => setEditedName(e.target.value)}
-                  className="
-                    p-2 flex-1 rounded
-                    bg-white dark:bg-[oklch(20.5%_0_0)]
-                    border border-gray-300 dark:border-[oklch(47.6%_0.114_61.907)]
-                    text-gray-900 dark:text-white
-                "
+                  className={CalendarSettingsStyles.editInput}
                 />
-
                 <input
                   type="date"
                   value={editedDate}
                   onChange={(e) => setEditedDate(e.target.value)}
-                  className="
-                custom-date-input
-                orbit-borders
-                p-2 w-full rounded
-                bg-white dark:bg-[oklch(20.5%_0_0)]
-                border border-gray-300 dark:border-[oklch(47.6%_0.114_61.907)]
-                text-gray-900 dark:text-gray-100
-                "
+                  className={CalendarSettingsStyles.editDateInput}
                 />
                 <input
                   value={editedComment}
                   onChange={(e) => setEditedComment(e.target.value)}
-                  className="
-                    p-2 w-full rounded
-                    bg-white dark:bg-[oklch(20.5%_0_0)]
-                    border border-gray-300 dark:border-[oklch(47.6%_0.114_61.907)]
-                    text-gray-900 dark:text-white
-                "
-                  placeholder={t(
-                    "calendar.commentPlaceholder",
-                    "Add an optional comment",
-                  )}
+                  placeholder={t("calendar.commentPlaceholder")}
+                  className={CalendarSettingsStyles.editCommentInput}
                 />
               </div>
             ) : (
-              <div>
-                <p className="font-semibold text-gray-700 dark:text-gray-300">
+              <div className={CalendarSettingsStyles.holidayInfo}>
+                <p className={CalendarSettingsStyles.holidayName}>
                   {holiday.name}
                 </p>
-
-                <p className="text-sm text-gray-500 dark:text-gray-400">
+                <p className={CalendarSettingsStyles.holidayDate}>
                   {holiday.date}
                 </p>
-
-                {holiday.comment ? (
-                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                {holiday.comment && (
+                  <p className={CalendarSettingsStyles.holidayComment}>
                     {holiday.comment}
                   </p>
-                ) : null}
+                )}
               </div>
             )}
 
-            {isAdmin ? (
-              <div className="flex gap-2">
+            {isAdmin && (
+              <div className={CalendarSettingsStyles.adminButtonsWrapper}>
                 {editingId === holiday.id ? (
                   <button
                     onClick={() => saveEdit(holiday.id)}
-                    className="px-2 h-8 rounded bg-gray-500 
-                    dark:[background-color:oklch(20.5%_0_0)]
-                    border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)]
-                    text-white"
+                    className={CalendarSettingsStyles.saveButton}
                   >
                     <FaSave />
                   </button>
                 ) : (
                   <button
                     onClick={() => startEdit(holiday)}
-                    className="px-2 h-8 rounded bg-gray-500 
-                    dark:[background-color:oklch(20.5%_0_0)]
-                    border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)]
-                    text-white"
+                    className={CalendarSettingsStyles.editButton}
                   >
                     <FaEdit />
                   </button>
                 )}
-
                 <button
                   onClick={() => deleteHoliday(holiday.id)}
-                  className="px-2 h-8 rounded bg-slate-700 
-                  dark:[background-color:oklch(47.6%_0.114_61.907)]
-                  text-white hover:opacity-80 transition"
+                  className={CalendarSettingsStyles.deleteButton}
                 >
                   <FaTrash />
                 </button>
               </div>
-            ) : null}
+            )}
           </div>
         ))}
       </div>
