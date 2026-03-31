@@ -162,7 +162,9 @@
     "roomDeleted": "Dhoma u fshi me sukses",
     "roomUpdated": "Dhoma u përditësua",
     "departmentUpdated": "Departamenti u përditësua",
-    "patientsStatistics": "Statistika rreth pacientave"
+    "patientsStatistics": "Statistika rreth pacientave",
+    "calendar": "Kalendari i festave",
+    "calendarDescription": "Menaxho ngjarjet dhe pushimet e kalendrit"
   },
   "printers": {
     "printers": "Printerët",
@@ -187,5 +189,18 @@
     "price": "Çmimi",
     "unit": "Njësia",
     "noAnalysesFound": "Nuk u gjetën analiza."
+  },
+  "calendar": {
+    "calendar": "Kalendari i festave",
+    "calendarDescription": "Menaxho ngjarjet dhe pushimet e kalendrit",
+    "calendar.calendar": "Kalendar i Festave",
+    "calendar.calendarDescription": "Menaxhoni ditët e festave zyrtare",
+    "calendar.holidayName": "Emri i festës",
+    "calendar.holidayDate": "Data e festës",
+    "calendar.holidayAdded": "Festa u shtua",
+    "calendar.holidayUpdated": "Festa u përditësua",
+    "calendar.holidayDeleted": "Festa u fshi",
+    "calendar.adminOnly": "Vetëm administratori mund të ndryshojë festat",
+    "calendar.viewOnly": "Vetëm administratori mund të shtojë ose redaktojë festat."
   }
 }

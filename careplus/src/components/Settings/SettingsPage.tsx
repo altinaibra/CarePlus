@@ -9,6 +9,7 @@ import ChangePassword from "./Modals/ChangePassword";
 import DepartmentSettings from "./Modals/DepartmentSettings";
 import RoomSettings from "./Modals/RoomSettings";
 import PatientsChart from "../../features/patients/PatientsChart";
+import CalendarSettings from "./Modals/CalendarSettings";
 
 const settingsOptions = [
   {
@@ -42,6 +43,12 @@ const settingsOptions = [
     modal: "patients",
     color: "bg-slate-700 dark:bg-[oklch(47.6%_0.114_61.907)]",
   },
+  {
+    titleKey: "settingsPage.calendar",
+    descriptionKey: "settingsPage.calendarDescription",
+    modal: "calendar",
+    color: "bg-slate-700 dark:bg-[oklch(47.6%_0.114_61.907)]",
+  },
 ];
 
 const SettingsPage: React.FC = () => {
@@ -50,7 +57,13 @@ const SettingsPage: React.FC = () => {
   const { showSnackbar } = useSnackbar();
 
   const [activeModal, setActiveModal] = useState<
-    "printers" | "changePassword" | "departments" | "rooms" | "patients" | null
+    | "printers"
+    | "changePassword"
+    | "departments"
+    | "rooms"
+    | "patients"
+    | "calendar"
+    | null
   >(null);
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -107,7 +120,7 @@ const SettingsPage: React.FC = () => {
         {t("settings.Settings")}
       </h2>
 
-      <div className="flex flex-col gap-2">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {settingsOptions.map((option) => (
           <button
             key={option.titleKey}
@@ -150,6 +163,7 @@ const SettingsPage: React.FC = () => {
               {activeModal === "rooms" && <RoomSettings />}
 
               {activeModal === "patients" && <PatientsChart />}
+              {activeModal === "calendar" && <CalendarSettings />}
             </div>
           </div>
         </div>

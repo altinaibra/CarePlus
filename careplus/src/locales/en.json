@@ -163,7 +163,9 @@
     "byDay": "Patients by Day",
     "byWeek": "Patients by Week",
     "byMonth": "Patients by Month",
-    "fetchError": "Error loading patient statistics"
+    "fetchError": "Error loading patient statistics",
+    "calendar": "Calendar",
+    "calendarDescription": "Manage calendar events and holidays"
   },
   "printers": {
     "printers": "Printers",
@@ -188,5 +190,15 @@
     "price": "Price",
     "unit": "Unit",
     "noAnalysesFound": "No analyses found."
+  },
+  "calendar": {
+    "calendar": "Calendar",
+    "calendarDescription": "Manage calendar events and holidays",
+    "holidayName": "Holiday Name",
+    "holidayDate": "Holiday Date",
+    "holidayAdded": "Holiday added",
+    "holidayDeleted": "Holiday deleted",
+    "holidayUpdated": "Holiday updated",
+    "fillAllFields": "Fill all fields"
   }
 }
