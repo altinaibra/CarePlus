@@ -92,16 +92,15 @@ const LoginForm = () => {
           className="block w-full px-3 py-2 pr-10 border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] rounded-md bg-white dark:[background-color:oklch(20.5%_0_0)] text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-slate-700"
         />
 
-        {/* Ikona brenda input-it, absolute */}
         <button
           type="button"
           onClick={() => setShowPassword(!showPassword)}
-          className="absolute right-3 top-1/2 transform -translate-y-1/12 text-gray-500 dark:text-gray-400"
+          className="absolute right-3 top-[72%] transform -translate-y-1/2 text-gray-500 dark:text-gray-400"
         >
           {showPassword ? (
-            <AiOutlineEyeInvisible size={20} />
+            <AiOutlineEyeInvisible size={23} />
           ) : (
-            <AiOutlineEye size={20} />
+            <AiOutlineEye size={23} />
           )}
         </button>
       </div>
