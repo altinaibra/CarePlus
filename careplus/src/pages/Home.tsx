@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { departmentAPI, roomAPI, type Room } from "../app/api";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { logout } from "../features/auth/authSlice";
 
 interface Department {
   id: string | number;
@@ -13,6 +15,12 @@ const Home: React.FC = () => {
   const [departments, setDepartments] = useState<Department[]>([]);
   const [allRooms, setAllRooms] = useState<Room[]>([]);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const handleLogout = (): void => {
+    dispatch(logout());
+    navigate("/login");
+  };
 
   useEffect(() => {
     fetchDepartmentsAndRooms();
@@ -35,6 +43,20 @@ const Home: React.FC = () => {
   const openDepartment = (id: string | number) => {
     navigate(`/departments/${id}`);
   };
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        handleLogout();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []); 
 
   return (
     <div className="p-10 text-center">
