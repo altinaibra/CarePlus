@@ -11,7 +11,7 @@ type DisplayAppointment = {
   id: ApiAppointment["id"];
   patientName: string;
   doctorName: string;
-  date: string;
+  date: string; 
   time: string;
   reason: string;
   status: string;
@@ -42,6 +42,16 @@ const AppointmentList: React.FC = () => {
           (a as any).AppointmentDate ?? (a as any).appointmentDate ?? "";
         const [datePart, timePart] = dateTime.split("T");
 
+        // Format date as DD.MM.YYYY
+        let formattedDate = "";
+        if (datePart) {
+          const d = new Date(datePart);
+          const day = String(d.getDate()).padStart(2, "0");
+          const month = String(d.getMonth() + 1).padStart(2, "0"); // Months are 0-indexed
+          const year = d.getFullYear();
+          formattedDate = `${day}.${month}.${year}`;
+        }
+
         return {
           id: a.id,
           patientName: a.patient
@@ -50,7 +60,8 @@ const AppointmentList: React.FC = () => {
           doctorName: a.doctor
             ? `Dr. ${a.doctor.firstName} ${a.doctor.lastName}`
             : "Unknown",
-          date: datePart || "",
+          date: formattedDate,
+          rawDate: datePart || "",
           time: timePart?.substring(0, 5) || "",
           reason: (a as any).Reason ?? (a as any).reason ?? "",
           status: (a as any).Status ?? (a as any).status ?? "Scheduled",
@@ -73,7 +84,7 @@ const AppointmentList: React.FC = () => {
 
   const handleFilter = () => {
     const filtered = appointments
-      .filter((a) => (filterDate ? a.date === filterDate : true))
+      .filter((a) => (filterDate ? a.rawDate === filterDate : true))
       .filter((a) =>
         searchText
           ? a.patientName.toLowerCase().includes(searchText.toLowerCase()) ||
@@ -89,9 +100,17 @@ const AppointmentList: React.FC = () => {
       handleFilter();
     }
   };
+
+  const handleClear = () => {
+    setFilterDate("");
+    setSearchText("");
+    setDisplayedAppointments(appointments);
+  };
+
   return (
     <div className={styles.container}>
       <div className="mb-4 flex items-center gap-4">
+        {/* Search */}
         <div className="relative">
           <span className="absolute inset-y-0 left-2 flex items-center text-gray-500 dark:text-gray-300">
             <svg
@@ -109,12 +128,12 @@ const AppointmentList: React.FC = () => {
               />
             </svg>
           </span>
-
           <input
             type="text"
             placeholder={t("appointments.search") || "Search..."}
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
+            onKeyDown={handleKeyDown}
             className="
               w-full
               p-2
@@ -129,6 +148,7 @@ const AppointmentList: React.FC = () => {
             "
           />
         </div>
+
         <label className="font-semibold">
           {t("appointments.filterByDate")}:
         </label>
@@ -138,36 +158,25 @@ const AppointmentList: React.FC = () => {
           value={filterDate}
           onChange={(e) => setFilterDate(e.target.value)}
         />
-        {filterDate && (
+
+        {(filterDate || searchText) && (
           <button
             className="px-3 py-1 bg-white dark:[background-color:oklch(20.5%_0_0)] border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] text-gray-900 dark:text-gray-100 rounded hover:bg-gray-100 dark:hover:bg-[oklch(25%_0_0)]"
-            onClick={() => {
-              setFilterDate("");
-              const filtered = appointments.filter((a) =>
-                searchText
-                  ? a.patientName
-                      .toLowerCase()
-                      .includes(searchText.toLowerCase()) ||
-                    a.doctorName
-                      .toLowerCase()
-                      .includes(searchText.toLowerCase()) ||
-                    a.reason.toLowerCase().includes(searchText.toLowerCase())
-                  : true,
-              );
-              setDisplayedAppointments(filtered);
-            }}
+            onClick={handleClear}
           >
             {t("appointments.clear")}
           </button>
         )}
+
         <button
           className="px-3 py-2 bg-slate-700 dark:[background-color:oklch(47.6%_0.114_61.907)] text-white border-0 rounded flex items-center gap-2"
           onClick={handleFilter}
         >
           {t("appointments.filter")}
-          <FaFilter/>
+          <FaFilter />
         </button>
       </div>
+
       {error && <p className={styles.errorText}>Error: {error}</p>}
 
       {displayedAppointments.length === 0 && !loading ? (

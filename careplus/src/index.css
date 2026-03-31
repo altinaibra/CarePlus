@@ -61,7 +61,7 @@ body,
   left: 0;
   width: 2px;
   height: 100%;
-  background-color: #374151; 
+  background-color: #374151;
   animation: move-left 5s linear infinite;
   animation-delay: 5s;
 }
@@ -75,10 +75,38 @@ body,
 }
 
 /* Keyframes */
-@keyframes move-top { from { left: -100%; } to { left: 100%; } }
-@keyframes move-right { from { top: -100%; } to { top: 100%; } }
-@keyframes move-bottom { from { left: -100%; } to { left: 100%; } }
-@keyframes move-left { from { bottom: -100%; } to { bottom: 100%; } }
+@keyframes move-top {
+  from {
+    left: -100%;
+  }
+  to {
+    left: 100%;
+  }
+}
+@keyframes move-right {
+  from {
+    top: -100%;
+  }
+  to {
+    top: 100%;
+  }
+}
+@keyframes move-bottom {
+  from {
+    left: -100%;
+  }
+  to {
+    left: 100%;
+  }
+}
+@keyframes move-left {
+  from {
+    bottom: -100%;
+  }
+  to {
+    bottom: 100%;
+  }
+}
 @layer components {
   .orbit-borders {
     position: relative;
@@ -87,7 +115,7 @@ body,
   }
 
   .dark .orbit-borders {
-      --orbit-outer: oklch(47.6% 0.114 61.907);
+    --orbit-outer: oklch(47.6% 0.114 61.907);
     --orbit-inner: oklch(47.6% 0.114 61.907 / 0.35);
   }
 
@@ -116,17 +144,16 @@ body,
   }
 
   .orbit-borders::before {
-    padding: 1px; 
+    padding: 1px;
     color: var(--orbit-outer);
     animation: orbitBorder 5.2s linear infinite;
   }
 
-
   .orbit-borders::after {
-    inset: 4px; 
+    inset: 4px;
     padding: 1px;
     color: var(--orbit-inner);
-    animation: orbitBorderReverse 5.0s linear infinite;
+    animation: orbitBorderReverse 5s linear infinite;
   }
 
   .orbit-borders > * {
@@ -186,6 +213,19 @@ code {
   filter: invert(1);
 }
 
+.custom-date-input {
+  color: inherit;
+}
+
+.custom-date-input::-webkit-datetime-edit,
+.custom-date-input::-webkit-datetime-edit-fields-wrapper,
+.custom-date-input::-webkit-datetime-edit-text,
+.custom-date-input::-webkit-datetime-edit-year-field,
+.custom-date-input::-webkit-datetime-edit-month-field,
+.custom-date-input::-webkit-datetime-edit-day-field {
+  color: inherit;
+}
+
 /* Light mode */
 .custom-time-input::-webkit-calendar-picker-indicator,
 .custom-time-input::-webkit-clear-button {
@@ -196,5 +236,5 @@ code {
 /* Dark mode */
 .dark .custom-time-input::-webkit-calendar-picker-indicator,
 .dark .custom-time-input::-webkit-clear-button {
-  filter: invert(1); 
+  filter: invert(1);
 }
