@@ -2,6 +2,7 @@
 using CarePlusApi.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Drawing.Printing;
+using System.Management;
 
 namespace carePlusApi.Models
 {
@@ -64,22 +65,47 @@ namespace carePlusApi.Models
 
         private bool CheckIfPrinterIsOnline(string printerName)
         {
+            if (string.IsNullOrWhiteSpace(printerName)) return false;
+
             try
             {
                 foreach (string installedPrinter in PrinterSettings.InstalledPrinters)
                 {
                     if (string.Equals(installedPrinter, printerName, StringComparison.OrdinalIgnoreCase))
                     {
-                        return true;
+                        return !IsPrinterWorkOffline(printerName);
                     }
                 }
             }
             catch
             {
-                // If the printer list cannot be read, treat the printer as offline.
+                // If the installed printer list cannot be read, treat the printer as offline.
             }
 
             return false;
+        }
+
+        private bool IsPrinterWorkOffline(string printerName)
+        {
+            try
+            {
+                var escapedName = printerName.Replace("'", "''");
+                var query = $"SELECT WorkOffline FROM Win32_Printer WHERE Name = '{escapedName}'";
+                using var searcher = new ManagementObjectSearcher(query);
+                foreach (ManagementObject printer in searcher.Get())
+                {
+                    if (printer["WorkOffline"] is bool workOffline)
+                    {
+                        return workOffline;
+                    }
+                }
+            }
+            catch
+            {
+                // If WMI fails, treat the printer as offline.
+            }
+
+            return true;
         }
     }
 }
