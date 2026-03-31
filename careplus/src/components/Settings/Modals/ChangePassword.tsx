@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { authAPI } from "../../../app/api";
 import { useSnackbar } from "../../../ui/SnackbarContext";
+import { ChangePasswordStyles } from "../../../styles/ChangePasswordStyles";
 
 type Props = {
   onClose: () => void;
@@ -29,13 +30,7 @@ const ChangePassword: React.FC<Props> = ({ onClose }) => {
 
     try {
       const username = localStorage.getItem("username") || "";
-
-      await authAPI.changePassword({
-        username,
-        currentPassword,
-        newPassword,
-      });
-
+      await authAPI.changePassword({ username, currentPassword, newPassword });
       showSnackbar(t("settingsPage.passwordChangedSuccessfully"), "success");
       onClose();
     } catch {
@@ -44,51 +39,39 @@ const ChangePassword: React.FC<Props> = ({ onClose }) => {
   };
 
   return (
-    <div className="flex flex-col h-full">
-      <div className="flex-1 overflow-y-auto">
-        <h2 className="text-xl font-bold mb-4">
-          {t("settingsPage.changePassword")}
-        </h2>
-
-        {error && <p className="text-red-500 mb-2">{error}</p>}
+    <div className={ChangePasswordStyles.container}>
+      <div className={ChangePasswordStyles.content}>
+        <h2 className={ChangePasswordStyles.header}>{t("settingsPage.changePassword")}</h2>
+        {error && <p className={ChangePasswordStyles.errorText}>{error}</p>}
 
         <input
           type="password"
           placeholder={t("settingsPage.currentPassword")}
           value={currentPassword}
           onChange={(e) => setCurrentPassword(e.target.value)}
-          className="w-full mb-3 p-2 border rounded bg-white dark:[background-color:oklch(20.5%_0_0)] border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)]"
+          className={ChangePasswordStyles.input}
         />
-
         <input
           type="password"
           placeholder={t("settingsPage.newPassword")}
           value={newPassword}
           onChange={(e) => setNewPassword(e.target.value)}
-          className="w-full mb-3 p-2 border rounded bg-white dark:[background-color:oklch(20.5%_0_0)] border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)]"
+          className={ChangePasswordStyles.input}
         />
-
         <input
           type="password"
           placeholder={t("settingsPage.confirmPassword")}
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
-          className="w-full mb-3 p-2 border rounded bg-white dark:[background-color:oklch(20.5%_0_0)] border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)]"
+          className={ChangePasswordStyles.input}
         />
       </div>
 
-      <div className="flex justify-end gap-3 pt-4 border-t border-gray-200 dark:border-gray-600">
-        <button
-          onClick={onClose}
-          className="px-4 py-2 bg-white dark:[background-color:oklch(20.5%_0_0)] border rounded border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] hover:bg-gray-400"
-        >
+      <div className={ChangePasswordStyles.footer}>
+        <button onClick={onClose} className={ChangePasswordStyles.cancelButton}>
           {t("settingsPage.cancel")}
         </button>
-
-        <button
-          onClick={handleSubmit}
-          className="px-4 py-2 rounded bg-slate-700 dark:[background-color:oklch(47.6%_0.114_61.907)] border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] text-white hover:bg-blue-700"
-        >
+        <button onClick={handleSubmit} className={ChangePasswordStyles.saveButton}>
           {t("settingsPage.save")}
         </button>
       </div>
