@@ -12,6 +12,7 @@ body,
 .border-animated {
   position: relative;
   overflow: hidden;
+  border-radius: 0.5rem; /* match Tailwind rounded-lg */
 }
 
 /* Top border */
@@ -22,8 +23,8 @@ body,
   left: -100%;
   width: 100%;
   height: 2px;
-  background: #8fa2b8;
-  animation: move-top 2s linear infinite;
+  background-color: #374151; /* border-gray-700 */
+  animation: move-top 5s linear infinite;
 }
 
 /* Right border */
@@ -34,57 +35,50 @@ body,
   right: 0;
   width: 2px;
   height: 100%;
-  background: #8fa2b8;
-  animation: move-right 2s linear infinite;
+  background-color: #374151; /* border-gray-700 */
+  animation: move-right 5s linear infinite;
   animation-delay: 0.5s;
 }
 
 /* Bottom border */
-.border-animated div::before {
+.border-animated span.bottom {
   content: "";
   position: absolute;
   bottom: 0;
-  right: -100%;
+  left: -100%;
   width: 100%;
   height: 2px;
-  background: #8fa2b8;
-  animation: move-bottom 2s linear infinite;
+  background-color: #374151; /* border-gray-700 */
+  animation: move-bottom 5s linear infinite;
   animation-delay: 1s;
 }
 
 /* Left border */
-.border-animated div::after {
+.border-animated span.left {
   content: "";
   position: absolute;
   bottom: -100%;
   left: 0;
   width: 2px;
   height: 100%;
-  background: #8fa2b8;
-  animation: move-left 2s linear infinite;
-  animation-delay: 1.5s;
+  background-color: #374151; 
+  animation: move-left 5s linear infinite;
+  animation-delay: 5s;
+}
+
+/* Dark mode */
+.dark .border-animated::before,
+.dark .border-animated::after,
+.dark .border-animated span.bottom,
+.dark .border-animated span.left {
+  background-color: oklch(47.6% 0.114 61.907);
 }
 
 /* Keyframes */
-@keyframes move-top {
-  from { left: -100%; }
-  to   { left: 100%; }
-}
-
-@keyframes move-right {
-  from { top: -100%; }
-  to   { top: 100%; }
-}
-
-@keyframes move-bottom {
-  from { right: -100%; }
-  to   { right: 100%; }
-}
-
-@keyframes move-left {
-  from { bottom: -100%; }
-  to   { bottom: 100%; }
-}
+@keyframes move-top { from { left: -100%; } to { left: 100%; } }
+@keyframes move-right { from { top: -100%; } to { top: 100%; } }
+@keyframes move-bottom { from { left: -100%; } to { left: 100%; } }
+@keyframes move-left { from { bottom: -100%; } to { bottom: 100%; } }
 @layer components {
   .orbit-borders {
     position: relative;
@@ -124,7 +118,7 @@ body,
   .orbit-borders::before {
     padding: 1px; 
     color: var(--orbit-outer);
-    animation: orbitBorder 2.2s linear infinite;
+    animation: orbitBorder 5.2s linear infinite;
   }
 
 
@@ -132,7 +126,7 @@ body,
     inset: 4px; 
     padding: 1px;
     color: var(--orbit-inner);
-    animation: orbitBorderReverse 3.0s linear infinite;
+    animation: orbitBorderReverse 5.0s linear infinite;
   }
 
   .orbit-borders > * {

@@ -19,7 +19,11 @@ const Printers: React.FC = () => {
   const fetchPrinters = async () => {
     try {
       const res = await printerAPI.getAll();
-      setPrinters(res.data);
+      const printersWithOnline: Printer[] = res.data.map((p) => ({
+        ...p,
+        online: (p as Printer).online ?? false,
+      }));
+      setPrinters(printersWithOnline);
     } catch (err) {
       console.error(err);
     }
@@ -132,11 +136,29 @@ const Printers: React.FC = () => {
 
       {printers.map((printer) => (
         <div key={printer.printerId} className={PrinterStyles.card}>
-          <div className="flex-1">
-            <p className="font-semibold">{printer.printerName}</p>
-            <p className="text-gray-600 dark:text-gray-300">
-              {printer.printerDescription}
-            </p>
+          <div className="flex items-start gap-3 flex-1">
+            <span
+              className={`mt-1 w-3 h-3 rounded-full ${
+                printer.online
+                  ? "bg-green-600 dark:bg-green-400"
+                  : "bg-red-600 dark:bg-red-400"
+              }`}
+            />
+            <div>
+              <p className="font-semibold">{printer.printerName}</p>
+              <p className="text-gray-600 dark:text-gray-300">
+                {printer.printerDescription}
+              </p>
+              <p
+                className={`text-sm mt-1 ${
+                  printer.online
+                    ? "text-green-600 dark:text-green-400"
+                    : "text-red-600 dark:text-red-400"
+                }`}
+              >
+                {printer.online ? t("printers.online") : t("printers.offline")}
+              </p>
+            </div>
           </div>
 
           <div className="flex items-center gap-3">

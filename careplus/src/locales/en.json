@@ -45,6 +45,7 @@
     "title": "Patient Management",
     "addNew": "Add New Patient",
     "list": "Patient List",
+    "no": "No",
     "firstName": "Name",
     "lastName": "Last Name",
     "email": "Email",
@@ -66,6 +67,7 @@
     "title": "Doctor Management",
     "addNew": "Add New Doctor",
     "list": "Doctor List",
+    "no": "No",
     "firstName": "First Name",
     "lastName": "Last Name",
     "speciality": "Speciality",
@@ -85,6 +87,7 @@
     "addNew": "Add New Appointment",
     "list": "Appointment List",
     "patient": "Patient",
+    "no": "No",
     "doctor": "Doctor",
     "date": "Date",
     "time": "Time",
@@ -200,6 +203,6 @@
     "holidayDeleted": "Holiday deleted",
     "holidayUpdated": "Holiday updated",
     "fillAllFields": "Fill all fields",
-    "add":"Add Holiday"
+    "add": "Add Holiday"
   }
 }

@@ -69,6 +69,7 @@ const PatientList: React.FC = () => {
             <thead>
               <tr className="bg-gray-100 dark:[background-color:oklch(20.5%_0_0)]">
                 {[
+                  "no",
                   "firstName",
                   "lastName",
                   "email",
@@ -87,11 +88,14 @@ const PatientList: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {filteredPatients.map((patient) => (
+              {filteredPatients.map((patient, index) => (
                 <tr
                   key={patient.id}
                   className="hover:bg-gray-50 dark:hover:[background-color:oklch(20.5%_0_0)]"
                 >
+                  <td className="border-b p-3 dark:[border-bottom-color:oklch(47.6%_0.114_61.907)]">
+                    #{index + 1}
+                  </td>
                   <td className="border-b p-3 dark:[border-bottom-color:oklch(47.6%_0.114_61.907)]">
                     {patient.firstName}
                   </td>

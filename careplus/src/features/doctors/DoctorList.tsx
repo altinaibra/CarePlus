@@ -78,6 +78,7 @@ const DoctorList: React.FC = () => {
           <table className={styles.table}>
             <thead>
               <tr className={styles.theadRow}>
+                <th className={styles.th}>{t("doctors.no")}</th>
                 <th className={styles.th}>{t("doctors.firstName")}</th>
                 <th className={styles.th}>{t("doctors.lastName")}</th>
                 <th className={styles.th}>{t("doctors.speciality")}</th>
@@ -88,8 +89,9 @@ const DoctorList: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {filteredDoctors.map((doctor) => (
+              {filteredDoctors.map((doctor, index) => (
                 <tr key={doctor.id} className={styles.trHover}>
+                  <td className={styles.td}> #{index + 1}</td>
                   <td className={styles.td}>{doctor.firstName}</td>
                   <td className={styles.td}>{doctor.lastName}</td>
                   <td className={styles.td}>{doctor.speciality}</td>

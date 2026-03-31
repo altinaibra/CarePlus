@@ -293,6 +293,7 @@ export interface Printer {
   printerDescription: string;
   defaultPrinter: boolean;
   entryDate: string;
+  online?: boolean;
 }
 
 export const printerAPI = {

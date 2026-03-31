@@ -19,6 +19,6 @@ namespace carePlusApi.DTO
         [Required]
         public DateTime EntryDate { get; set; }
 
-
+        public bool Online { get; set; } = false;
     }
 }

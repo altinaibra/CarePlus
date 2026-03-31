@@ -119,6 +119,7 @@ const AppointmentList: React.FC = () => {
           <table className={styles.table}>
             <thead>
               <tr className={styles.theadRow}>
+                <th className={styles.th}>{t("appointments.no")}</th>
                 <th className={styles.th}>{t("appointments.patient")}</th>
                 <th className={styles.th}>{t("appointments.doctor")}</th>
                 <th className={styles.th}>{t("appointments.date")}</th>
@@ -128,8 +129,9 @@ const AppointmentList: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {filteredAppointments.map((appointment) => (
+              {filteredAppointments.map((appointment, index) => (
                 <tr key={appointment.id} className={styles.trHover}>
+                  <td className={styles.td}>#{index + 1}</td>
                   <td className={styles.td}>{appointment.patientName}</td>
                   <td className={styles.td}>{appointment.doctorName}</td>
                   <td className={styles.td}>{appointment.date}</td>
@@ -144,7 +146,6 @@ const AppointmentList: React.FC = () => {
                     >
                       {t("appointments.delete")}
                       <FaTrash className="text-sm" />
-                      
                     </button>
                   </td>
                 </tr>

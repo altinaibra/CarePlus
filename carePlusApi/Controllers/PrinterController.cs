@@ -1,5 +1,7 @@
 ﻿using carePlusApi.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace carePlusApi.Controllers
 {
@@ -14,6 +16,7 @@ namespace carePlusApi.Controllers
             _repository = repository;
         }
 
+        // GET: /api/Printer
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -21,29 +24,39 @@ namespace carePlusApi.Controllers
             return Ok(printers);
         }
 
+        // GET: /api/Printer/{id}
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             var printer = await _repository.GetByIdAsync(id);
             if (printer == null) return NotFound();
+
             return Ok(printer);
         }
 
+        // POST: /api/Printer
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] Printer printer)
         {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
             var created = await _repository.AddAsync(printer);
             return CreatedAtAction(nameof(GetById), new { id = created.PrinterId }, created);
         }
 
+        // PUT: /api/Printer/{id}
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] Printer printer)
         {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
             var updated = await _repository.UpdateAsync(id, printer);
             if (updated == null) return NotFound();
+
             return Ok(updated);
         }
 
+        // DELETE: /api/Printer/{id}
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
