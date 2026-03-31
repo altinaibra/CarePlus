@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { fetchPatients, deletePatientAsync } from "./patientsSlice";
 import type { RootState, AppDispatch } from "../../app/store";
 import type { PatientWithContact } from "./types";
+import { FaTrash } from "react-icons/fa";
 
 const PatientList: React.FC = () => {
   const { t } = useTranslation();
@@ -112,9 +113,10 @@ const PatientList: React.FC = () => {
                   <td className="border-b p-3 dark:[border-bottom-color:oklch(47.6%_0.114_61.907)]">
                     <button
                       onClick={() => dispatch(deletePatientAsync(patient.id))}
-                      className="px-3 py-1 bg-slate-700 dark:[background-color:oklch(47.6%_0.114_61.907)] text-white border-0 rounded cursor-pointer transition text-sm"
+                      className="flex items-center gap-1 px-3 py-1 bg-slate-700 dark:[background-color:oklch(47.6%_0.114_61.907)] text-white border-0 rounded cursor-pointer transition text-sm"
                     >
                       {t("patients.delete")}
+                      <FaTrash className="text-sm" />
                     </button>
                   </td>
                 </tr>

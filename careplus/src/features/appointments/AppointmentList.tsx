@@ -5,6 +5,7 @@ import { fetchAppointments, deleteAppointmentAsync } from "./appointmentsSlice";
 import { RootState, AppDispatch } from "../../app/store";
 import { Appointment as ApiAppointment } from "../../app/api";
 import styles from "../../styles/AppointmentListStyles";
+import { FaTrash } from "react-icons/fa";
 
 const AppointmentList: React.FC = () => {
   const { t } = useTranslation();
@@ -139,9 +140,11 @@ const AppointmentList: React.FC = () => {
                       onClick={() =>
                         dispatch(deleteAppointmentAsync(appointment.id))
                       }
-                      className={styles.deleteButton}
+                      className="flex items-center gap-1 px-3 py-1 bg-slate-700 dark:[background-color:oklch(47.6%_0.114_61.907)] text-white border-0 rounded cursor-pointer transition text-sm"
                     >
                       {t("appointments.delete")}
+                      <FaTrash className="text-sm" />
+                      
                     </button>
                   </td>
                 </tr>

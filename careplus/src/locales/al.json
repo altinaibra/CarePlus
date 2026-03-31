@@ -52,7 +52,7 @@
     "age": "Mosha",
     "gender": "Gjinia",
     "address": "Adresa",
-    "actions": "Aksione",
+    "actions": "Veprimet",
     "delete": "Fshij",
     "noPatients": "Nuk ka pacientë të regjistruar.",
     "addButton": "Shto Pacientin",
@@ -76,7 +76,7 @@
     "email": "Email",
     "phone": "Telefon",
     "license": "Numri i Licencës",
-    "actions": "Aksione",
+    "actions": "Veprimet",
     "delete": "Fshij",
     "noDoctors": "Nuk ka doktorë të regjistruar.",
     "addButton": "Shto Doktorin",
@@ -164,7 +164,7 @@
     "departmentUpdated": "Departamenti u përditësua",
     "patientsStatistics": "Statistika rreth pacientave",
     "calendar": "Kalendari i festave",
-    "calendarDescription": "Menaxho ngjarjet dhe pushimet e kalendrit"
+    "calendarDescription": "Menaxho ngjarjet dhe pushimet e kalendarit"
   },
   "printers": {
     "printers": "Printerët",
@@ -192,7 +192,7 @@
   },
   "calendar": {
     "calendar": "Kalendari i festave",
-    "calendarDescription": "Menaxho ngjarjet dhe pushimet e kalendrit",
+    "calendarDescription": "Menaxho ngjarjet dhe pushimet e kalendarit",
     "calendar.calendar": "Kalendar i Festave",
     "calendar.calendarDescription": "Menaxhoni ditët e festave zyrtare",
     "calendar.holidayName": "Emri i festës",
@@ -202,6 +202,6 @@
     "calendar.holidayDeleted": "Festa u fshi",
     "calendar.adminOnly": "Vetëm administratori mund të ndryshojë festat",
     "calendar.viewOnly": "Vetëm administratori mund të shtojë ose redaktojë festat.",
-     "calendar.add": "Shto festë"
+    "calendar.add": "Shto festë"
   }
 }
