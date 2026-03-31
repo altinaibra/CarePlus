@@ -1,6 +1,9 @@
-﻿using carePlusApi.Models;
+﻿using carePlusApi.DTO;
+using carePlusApi.Models;
 using CarePlusApi.Data;
 using Microsoft.EntityFrameworkCore;
+using System.Drawing;
+using System.Drawing.Printing;
 
 namespace carePlusApi.Repository
 {
@@ -71,6 +74,66 @@ namespace carePlusApi.Repository
 
             _context.Printers.Remove(printer);
             await _context.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<bool> PrintLabReportAsync(LabReportPrintRequest request)
+        {
+            if (request?.SelectedLabs == null || !request.SelectedLabs.Any())
+                return false;
+
+            var defaultPrinter = await _context.Printers.FirstOrDefaultAsync(p => p.DefaultPrinter);
+            if (defaultPrinter == null)
+                return false;
+
+            using var printDocument = new PrintDocument();
+            printDocument.PrinterSettings.PrinterName = defaultPrinter.PrinterName;
+            if (!printDocument.PrinterSettings.IsValid)
+                return false;
+
+            var selectedLabs = request.SelectedLabs;
+            var currency = request.Currency ?? string.Empty;
+            var title = string.IsNullOrWhiteSpace(request.Title) ? "Laboratory Report" : request.Title;
+
+            printDocument.PrintPage += (sender, e) =>
+            {
+                var graphics = e.Graphics;
+                var regularFont = new Font("Arial", 9, FontStyle.Regular);
+                var boldFont = new Font("Arial", 10, FontStyle.Bold);
+                float y = e.MarginBounds.Top;
+                var lineHeight = regularFont.GetHeight(graphics) + 3;
+
+                graphics.DrawString(title, boldFont, Brushes.Black, e.MarginBounds.Left, y);
+                y += lineHeight * 2;
+
+                graphics.DrawString($"Date: {DateTime.Now:dd.MM.yyyy HH:mm}", regularFont, Brushes.Black, e.MarginBounds.Left, y);
+                y += lineHeight * 2;
+
+                graphics.DrawString("Name", boldFont, Brushes.Black, e.MarginBounds.Left, y);
+                graphics.DrawString("Price", boldFont, Brushes.Black, e.MarginBounds.Left + 220, y);
+                graphics.DrawString("Unit", boldFont, Brushes.Black, e.MarginBounds.Left + 320, y);
+                y += lineHeight;
+
+                foreach (var lab in selectedLabs)
+                {
+                    if (y > e.MarginBounds.Bottom - lineHeight * 4)
+                    {
+                        e.HasMorePages = true;
+                        return;
+                    }
+
+                    graphics.DrawString(lab.Name, regularFont, Brushes.Black, e.MarginBounds.Left, y);
+                    graphics.DrawString($"{lab.Price:F2} {currency}", regularFont, Brushes.Black, e.MarginBounds.Left + 220, y);
+                    graphics.DrawString(lab.Unit ?? string.Empty, regularFont, Brushes.Black, e.MarginBounds.Left + 320, y);
+                    y += lineHeight;
+                }
+
+                y += lineHeight;
+                graphics.DrawString($"Total: {request.TotalPrice:F2} {currency}", boldFont, Brushes.Black, e.MarginBounds.Left, y);
+                e.HasMorePages = false;
+            };
+
+            printDocument.Print();
             return true;
         }
 

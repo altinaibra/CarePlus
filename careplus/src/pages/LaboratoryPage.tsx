@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import LaboratoryPageStyles from "../styles/LaboratoryPageStyles";
 import { typesOfAnalysesAPI, TypeOfAnalyses } from "../app/typesOfAnalysesApi";
 import { Currency, currencyAPI } from "../app/currenciesApi";
+import { printerAPI } from "../app/printer";
 import { useTranslation } from "react-i18next";
 
 const LaboratoryPage: React.FC = () => {
@@ -63,12 +64,25 @@ const LaboratoryPage: React.FC = () => {
     .filter((lab) => selectedLabs.has(lab.id))
     .reduce((sum, lab) => sum + (tempPrices[lab.id] ?? lab.price), 0);
 
-  const handlePrint = () => {
-    const selected = labTypes
+  const handlePrint = async () => {
+    const selectedLabsForPrint = labTypes
       .filter((lab) => selectedLabs.has(lab.id))
-      .map((lab) => ({ ...lab, price: tempPrices[lab.id] ?? lab.price }));
-    console.log("Selected labs for invoice:", selected);
-    console.log("Total price:", totalPrice);
+      .map((lab) => ({
+        name: lab.name || "",
+        price: tempPrices[lab.id] ?? lab.price,
+        unit: lab.unit || "",
+      }));
+
+    try {
+      await printerAPI.printLabReport({
+        currency: mainCurrency?.currencySymbol ?? "",
+        totalPrice,
+        selectedLabs: selectedLabsForPrint,
+      });
+      console.log("Print request sent to default printer");
+    } catch (error) {
+      console.error("Error printing lab report:", error);
+    }
   };
 
   const mainCurrency = currencies.find((c) => c.isMainCurrency);

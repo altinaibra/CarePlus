@@ -1,7 +1,9 @@
-﻿using carePlusApi.Models;
+﻿using carePlusApi.DTO;
+using carePlusApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using PrinterRepo = carePlusApi.Repository.PrinterRepository;
 
 namespace carePlusApi.Controllers
 {
@@ -9,9 +11,9 @@ namespace carePlusApi.Controllers
     [Route("api/[controller]")] // => /api/Printer
     public class PrinterController : ControllerBase
     {
-        private readonly PrinterRepository _repository;
+        private readonly PrinterRepo _repository;
 
-        public PrinterController(PrinterRepository repository)
+        public PrinterController(PrinterRepo repository)
         {
             _repository = repository;
         }
@@ -54,6 +56,19 @@ namespace carePlusApi.Controllers
             if (updated == null) return NotFound();
 
             return Ok(updated);
+        }
+
+        // POST: /api/Printer/PrintLabReport
+        [HttpPost("PrintLabReport")]
+        public async Task<IActionResult> PrintLabReport([FromBody] LabReportPrintRequest printRequest)
+        {
+            if (printRequest == null || printRequest.SelectedLabs == null || !printRequest.SelectedLabs.Any())
+                return BadRequest("No lab items selected for printing.");
+
+            var result = await _repository.PrintLabReportAsync(printRequest);
+            if (!result) return BadRequest("Default printer not found or print failed.");
+
+            return Ok();
         }
 
         // DELETE: /api/Printer/{id}
