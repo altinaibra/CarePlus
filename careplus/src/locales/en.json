@@ -101,7 +101,8 @@
     "addAppointment": "Add Appointment",
     "filterByDate": "Filter By Date",
     "clear": "Clear",
-    "search": "Search..."
+    "search": "Search...",
+    "filter":"Filter"
   },
   "settings": {
     "Settings": "Settings",

@@ -1,11 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { fetchAppointments, deleteAppointmentAsync } from "./appointmentsSlice";
 import { RootState, AppDispatch } from "../../app/store";
 import { Appointment as ApiAppointment } from "../../app/api";
 import styles from "../../styles/AppointmentListStyles";
-import { FaTrash } from "react-icons/fa";
+import { FaFilter, FaTrash } from "react-icons/fa";
+
+type DisplayAppointment = {
+  id: ApiAppointment["id"];
+  patientName: string;
+  doctorName: string;
+  date: string;
+  time: string;
+  reason: string;
+  status: string;
+};
 
 const AppointmentList: React.FC = () => {
   const { t } = useTranslation();
@@ -24,34 +34,61 @@ const AppointmentList: React.FC = () => {
 
   const [filterDate, setFilterDate] = useState<string>("");
   const [searchText, setSearchText] = useState("");
-  const appointments = apiAppointments.map((a) => {
-    const dateTime =
-      (a as any).AppointmentDate ?? (a as any).appointmentDate ?? "";
-    const [datePart, timePart] = dateTime.split("T");
 
-    return {
-      id: a.id,
-      patientName: a.patient
-        ? `${a.patient.firstName} ${a.patient.lastName}`
-        : "Unknown",
-      doctorName: a.doctor
-        ? `Dr. ${a.doctor.firstName} ${a.doctor.lastName}`
-        : "Unknown",
-      date: datePart || "",
-      time: timePart?.substring(0, 5) || "",
-      reason: (a as any).Reason ?? (a as any).reason ?? "",
-      status: (a as any).Status ?? (a as any).status ?? "Scheduled",
-    };
-  });
+  const appointments = useMemo(
+    () =>
+      apiAppointments.map((a) => {
+        const dateTime =
+          (a as any).AppointmentDate ?? (a as any).appointmentDate ?? "";
+        const [datePart, timePart] = dateTime.split("T");
 
-  const filteredAppointments = filterDate
-    ? appointments.filter((a) => a.date === filterDate)
-    : appointments;
+        return {
+          id: a.id,
+          patientName: a.patient
+            ? `${a.patient.firstName} ${a.patient.lastName}`
+            : "Unknown",
+          doctorName: a.doctor
+            ? `Dr. ${a.doctor.firstName} ${a.doctor.lastName}`
+            : "Unknown",
+          date: datePart || "",
+          time: timePart?.substring(0, 5) || "",
+          reason: (a as any).Reason ?? (a as any).reason ?? "",
+          status: (a as any).Status ?? (a as any).status ?? "Scheduled",
+        };
+      }),
+    [apiAppointments],
+  );
+
+  const [displayedAppointments, setDisplayedAppointments] = useState<
+    DisplayAppointment[]
+  >([]);
 
   useEffect(() => {
     dispatch(fetchAppointments());
   }, [dispatch]);
 
+  useEffect(() => {
+    setDisplayedAppointments(appointments);
+  }, [appointments]);
+
+  const handleFilter = () => {
+    const filtered = appointments
+      .filter((a) => (filterDate ? a.date === filterDate : true))
+      .filter((a) =>
+        searchText
+          ? a.patientName.toLowerCase().includes(searchText.toLowerCase()) ||
+            a.doctorName.toLowerCase().includes(searchText.toLowerCase()) ||
+            a.reason.toLowerCase().includes(searchText.toLowerCase())
+          : true,
+      );
+    setDisplayedAppointments(filtered);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleFilter();
+    }
+  };
   return (
     <div className={styles.container}>
       <div className="mb-4 flex items-center gap-4">
@@ -104,15 +141,36 @@ const AppointmentList: React.FC = () => {
         {filterDate && (
           <button
             className="px-3 py-1 bg-white dark:[background-color:oklch(20.5%_0_0)] border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] text-gray-900 dark:text-gray-100 rounded hover:bg-gray-100 dark:hover:bg-[oklch(25%_0_0)]"
-            onClick={() => setFilterDate("")}
+            onClick={() => {
+              setFilterDate("");
+              const filtered = appointments.filter((a) =>
+                searchText
+                  ? a.patientName
+                      .toLowerCase()
+                      .includes(searchText.toLowerCase()) ||
+                    a.doctorName
+                      .toLowerCase()
+                      .includes(searchText.toLowerCase()) ||
+                    a.reason.toLowerCase().includes(searchText.toLowerCase())
+                  : true,
+              );
+              setDisplayedAppointments(filtered);
+            }}
           >
             {t("appointments.clear")}
           </button>
         )}
+        <button
+          className="px-3 py-2 bg-slate-700 dark:[background-color:oklch(47.6%_0.114_61.907)] text-white border-0 rounded flex items-center gap-2"
+          onClick={handleFilter}
+        >
+          {t("appointments.filter")}
+          <FaFilter/>
+        </button>
       </div>
       {error && <p className={styles.errorText}>Error: {error}</p>}
 
-      {filteredAppointments.length === 0 && !loading ? (
+      {displayedAppointments.length === 0 && !loading ? (
         <p className={styles.emptyText}>{t("appointments.noAppointments")}</p>
       ) : (
         <div className={styles.tableWrapper}>
@@ -129,7 +187,7 @@ const AppointmentList: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {filteredAppointments.map((appointment, index) => (
+              {displayedAppointments.map((appointment, index) => (
                 <tr key={appointment.id} className={styles.trHover}>
                   <td className={styles.td}>#{index + 1}</td>
                   <td className={styles.td}>{appointment.patientName}</td>

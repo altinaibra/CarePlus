@@ -105,7 +105,8 @@
     "addAppointment": "Shto Takime",
     "filterByDate": "Filtro sipas datës",
     "clear": "Fshij",
-    "search": "Kërko..."
+    "search": "Kërko...",
+    "filter": "Filtro"
   },
   "settings": {
     "settings": "Cilesimet",
