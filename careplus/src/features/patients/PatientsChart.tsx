@@ -173,8 +173,8 @@ export default function PatientsChart({ patients }: PatientsChartProps) {
           onClick={() => setChartMode("day")}
           className={`px-3 py-1 rounded transition ${
             chartMode === "day"
-              ? "bg-slate-700 text-white"
-              : "bg-gray-200 dark:bg-gray-700"
+              ? "bg-slate-700 dark:bg-[oklch(47.6%_0.114_61.907)] text-white"
+              : "bg-slate-700 dark:bg-[oklch(47.6%_0.114_61.907)]"
           }`}
         >
           {t("patients.byDay")}
@@ -184,8 +184,8 @@ export default function PatientsChart({ patients }: PatientsChartProps) {
           onClick={() => setChartMode("week")}
           className={`px-3 py-1 rounded transition ${
             chartMode === "week"
-              ? "bg-slate-700 text-white"
-              : "bg-gray-200 dark:bg-gray-700"
+              ? "bg-slate-700 dark:bg-[oklch(47.6%_0.114_61.907)] text-white"
+              : "bg-slate-700 dark:bg-[oklch(47.6%_0.114_61.907)]"
           }`}
         >
           {t("patients.byWeek")}
@@ -195,8 +195,8 @@ export default function PatientsChart({ patients }: PatientsChartProps) {
           onClick={() => setChartMode("month")}
           className={`px-3 py-1 rounded transition ${
             chartMode === "month"
-              ? "bg-slate-700 text-white"
-              : "bg-gray-200 dark:bg-gray-700"
+              ? "bg-slate-700 dark:bg-[oklch(47.6%_0.114_61.907)] text-white"
+              : "bg-slate-700 dark:bg-[oklch(47.6%_0.114_61.907)]"
           }`}
         >
           {t("patients.byMonth")}

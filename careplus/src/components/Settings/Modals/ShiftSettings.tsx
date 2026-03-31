@@ -59,18 +59,19 @@ const ShiftSettings: React.FC = () => {
             type="time"
             value={start}
             onChange={(e) => setStart(e.target.value)}
-            className="w-full p-2 border rounded bg-white dark:[background-color:oklch(20.5%_0_0)] border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)]"
+            className="custom-time-input w-full p-2 border rounded bg-white dark:[background-color:oklch(20.5%_0_0)] border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)]"
           />
+
           <input
             type="time"
             value={end}
             onChange={(e) => setEnd(e.target.value)}
-            className="w-full p-2 border rounded bg-white dark:[background-color:oklch(20.5%_0_0)] border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)]"
+            className="custom-time-input w-full p-2 border rounded bg-white dark:[background-color:oklch(20.5%_0_0)] border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)]"
           />
         </div>
         <button
           onClick={addShift}
-          className="px-4 py-2 rounded bg-slate-700 text-white hover:bg-slate-800"
+          className="px-4 py-2 rounded bg-slate-700 dark:bg-[oklch(47.6%_0.114_61.907)] text-white hover:bg-slate-800"
         >
           {t("settingsPage.addShift")}
         </button>
