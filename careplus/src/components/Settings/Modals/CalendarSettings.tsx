@@ -15,10 +15,12 @@ const CalendarSettings: React.FC = () => {
   const [holidays, setHolidays] = useState<Holiday[]>([]);
   const [name, setName] = useState("");
   const [date, setDate] = useState("");
+  const [comment, setComment] = useState("");
 
   const [editingId, setEditingId] = useState<Holiday["id"] | null>(null);
   const [editedName, setEditedName] = useState("");
   const [editedDate, setEditedDate] = useState("");
+  const [editedComment, setEditedComment] = useState("");
 
   useEffect(() => {
     loadHolidays();
@@ -48,10 +50,11 @@ const CalendarSettings: React.FC = () => {
     }
 
     try {
-      await holidayAPI.create({ name, date });
+      await holidayAPI.create({ name, date, comment });
       showSnackbar(t("calendar.holidayAdded"), "success");
       setName("");
       setDate("");
+      setComment("");
       loadHolidays();
     } catch (err) {
       console.error(err);
@@ -80,6 +83,7 @@ const CalendarSettings: React.FC = () => {
     setEditingId(holiday.id);
     setEditedName(holiday.name);
     setEditedDate(holiday.date);
+    setEditedComment(holiday.comment ?? "");
   };
 
   const saveEdit = async (id: Holiday["id"]) => {
@@ -100,10 +104,12 @@ const CalendarSettings: React.FC = () => {
       await holidayAPI.update(id, {
         name: editedName,
         date: editedDate,
+        comment: editedComment,
       });
 
       showSnackbar(t("calendar.holidayUpdated"), "success");
       setEditingId(null);
+      setEditedComment("");
       loadHolidays();
     } catch (err) {
       console.error(err);
@@ -114,50 +120,77 @@ const CalendarSettings: React.FC = () => {
     <div>
       <h2 className="text-xl font-bold mb-4">{t("settingsPage.calendar")}</h2>
 
-      {/* ADD HOLIDAY */}
       {isAdmin ? (
-        <div className="flex flex-wrap gap-2 mb-4">
-          <div className="flex-1 flex flex-col">
-            <label className="mb-1 text-gray-700 dark:text-gray-300 text-sm">
-              {t("calendar.holidayName")}
-            </label>
-            <input
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="p-2 bg-white dark:[background-color:oklch(20.5%_0_0)]
-              border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)]
-              text-gray-900 dark:text-white rounded"
-            />
+        <div className="flex flex-col gap-2 mb-4">
+          <div className="flex flex-wrap gap-2">
+            <div className="flex-1 flex flex-col">
+              <label className="mb-1 text-gray-700 dark:text-gray-300 text-sm">
+                {t("calendar.holidayName")}
+              </label>
+              <input
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="
+            p-2 bg-white dark:bg-[oklch(20.5%_0_0)]
+            border border-gray-300 dark:border-[oklch(47.6%_0.114_61.907)]
+            text-gray-900 dark:text-white rounded
+          "
+              />
+            </div>
+
+            <div className="flex-1 flex flex-col">
+              <label className="mb-1 text-gray-700 dark:text-gray-300 text-sm">
+                {t("calendar.holidayDate")}
+              </label>
+              <input
+                type="date"
+                value={date}
+                onChange={(e) => setDate(e.target.value)}
+                className="
+                custom-date-input
+                orbit-borders
+                p-2 w-full rounded
+                bg-white dark:bg-[oklch(20.5%_0_0)]
+                border border-gray-300 dark:border-[oklch(47.6%_0.114_61.907)]
+                text-gray-900 dark:text-gray-100
+                "
+              />
+            </div>
           </div>
 
-          <div className="flex-1 flex flex-col">
+          <div className="flex flex-col">
             <label className="mb-1 text-gray-700 dark:text-gray-300 text-sm">
-              {t("calendar.holidayDate")}
+              {t("calendar.holidayComment", "Comment")}
             </label>
             <input
-              type="date"
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
-              className="p-2 bg-white dark:[background-color:oklch(20.5%_0_0)]
-              border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)]
-              text-gray-900 dark:text-white rounded"
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              className="
+            block w-full p-2 rounded
+            bg-white dark:bg-[oklch(20.5%_0_0)]
+            border border-gray-300 dark:border-[oklch(47.6%_0.114_61.907)]
+            text-gray-900 dark:text-gray-100
+            "
+              placeholder={t(
+                "calendar.commentPlaceholder",
+                "Add an optional comment",
+              )}
             />
           </div>
 
           <button
             onClick={addHoliday}
-            className="px-4 py-2 mt-6 bg-slate-700 dark:bg-[oklch(47.6%_0.114_61.907)]
-            text-white rounded"
+            className="
+            px-4 py-2 mt-2
+            bg-slate-700 dark:bg-[oklch(47.6%_0.114_61.907)]
+            text-white rounded
+        "
           >
             {t("calendar.add")}
           </button>
         </div>
       ) : (
         <div className="mb-4 text-sm text-gray-600 dark:text-gray-300">
-          {t(
-            "calendar.viewOnly",
-            "Vetëm administratori mund të shtojë ose redaktojë festat.",
-          )}
         </div>
       )}
 
@@ -174,21 +207,44 @@ const CalendarSettings: React.FC = () => {
           >
             {editingId === holiday.id ? (
               <div className="flex-1 flex flex-wrap gap-2">
+
                 <input
                   value={editedName}
                   onChange={(e) => setEditedName(e.target.value)}
-                  className="p-2 flex-1 rounded bg-white dark:[background-color:oklch(20.5%_0_0)]
-                  border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)]
-                  text-gray-900 dark:text-white"
+                  className="
+                    p-2 flex-1 rounded
+                    bg-white dark:bg-[oklch(20.5%_0_0)]
+                    border border-gray-300 dark:border-[oklch(47.6%_0.114_61.907)]
+                    text-gray-900 dark:text-white
+                "
                 />
 
                 <input
                   type="date"
-                  value={editedDate}
-                  onChange={(e) => setEditedDate(e.target.value)}
-                  className="p-2 w-40 rounded bg-white dark:[background-color:oklch(20.5%_0_0)]
-                  border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)]
-                  text-gray-900 dark:text-white"
+                  value={date}
+                  onChange={(e) => setDate(e.target.value)}
+                  className="
+                custom-date-input
+                orbit-borders
+                p-2 w-full rounded
+                bg-white dark:bg-[oklch(20.5%_0_0)]
+                border border-gray-300 dark:border-[oklch(47.6%_0.114_61.907)]
+                text-gray-900 dark:text-gray-100
+                "
+                />
+                <input
+                  value={editedComment}
+                  onChange={(e) => setEditedComment(e.target.value)}
+                  className="
+                    p-2 w-full rounded
+                    bg-white dark:bg-[oklch(20.5%_0_0)]
+                    border border-gray-300 dark:border-[oklch(47.6%_0.114_61.907)]
+                    text-gray-900 dark:text-white
+                "
+                  placeholder={t(
+                    "calendar.commentPlaceholder",
+                    "Add an optional comment",
+                  )}
                 />
               </div>
             ) : (
@@ -196,7 +252,16 @@ const CalendarSettings: React.FC = () => {
                 <p className="font-semibold text-gray-700 dark:text-gray-300">
                   {holiday.name}
                 </p>
-                <p className="text-sm text-gray-500">{holiday.date}</p>
+
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                  {holiday.date}
+                </p>
+
+                {holiday.comment ? (
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    {holiday.comment}
+                  </p>
+                ) : null}
               </div>
             )}
 

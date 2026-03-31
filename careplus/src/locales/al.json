@@ -201,6 +201,7 @@
     "calendar.holidayUpdated": "Festa u përditësua",
     "calendar.holidayDeleted": "Festa u fshi",
     "calendar.adminOnly": "Vetëm administratori mund të ndryshojë festat",
-    "calendar.viewOnly": "Vetëm administratori mund të shtojë ose redaktojë festat."
+    "calendar.viewOnly": "Vetëm administratori mund të shtojë ose redaktojë festat.",
+     "calendar.add": "Shto festë"
   }
 }

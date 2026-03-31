@@ -199,6 +199,7 @@
     "holidayAdded": "Holiday added",
     "holidayDeleted": "Holiday deleted",
     "holidayUpdated": "Holiday updated",
-    "fillAllFields": "Fill all fields"
+    "fillAllFields": "Fill all fields",
+    "add":"Add Holiday"
   }
 }

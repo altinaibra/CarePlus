@@ -7,6 +7,7 @@ export interface Holiday {
   id: ID;
   name: string;
   date: string;
+  comment?: string;
 }
 
 export const holidayAPI = {
