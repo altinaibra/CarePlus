@@ -4,6 +4,8 @@ import { departmentAPI, roomAPI, type Room } from "../app/api";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logout } from "../features/auth/authSlice";
+import { FaBed, FaBuilding, FaHospital } from "react-icons/fa";
+import { Hospital, hospitalAPI } from "../app/hospital";
 
 interface Department {
   id: string | number;
@@ -16,7 +18,7 @@ const Home: React.FC = () => {
   const [allRooms, setAllRooms] = useState<Room[]>([]);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  const [hospital, setHospital] = useState<Hospital | null>(null);
   const handleLogout = (): void => {
     dispatch(logout());
     navigate("/login");
@@ -56,8 +58,23 @@ const Home: React.FC = () => {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, []); 
+  }, []);
 
+  // -------- FETCH HOSPITAL --------
+  useEffect(() => {
+    const fetchHospital = async () => {
+      try {
+        const res = await hospitalAPI.getAll();
+        if (res.data && res.data.length > 0) {
+          setHospital(res.data[0]); // marrim të parin
+        }
+      } catch (error) {
+        console.error("Error loading hospital info", error);
+      }
+    };
+
+    fetchHospital();
+  }, []);
   return (
     <div className="p-10 text-center">
       <p className="text-lg text-gray-600 dark:text-gray-300 mb-10">
@@ -65,7 +82,10 @@ const Home: React.FC = () => {
       </p>
 
       <div className="mt-8">
-        <h2 className="text-2xl font-bold mb-6">{t("home.departments")}</h2>
+        <div className="flex items-center justify-center mb-6">
+          <FaHospital className="mr-2 text-gray-700 dark:text-white text-2xl" />
+          <h2 className="text-2xl font-bold">{t("home.departments")}</h2>
+        </div>
 
         <div className="flex flex-wrap justify-center gap-5 max-w-4xl mx-auto">
           {departments.map((dept) => (
@@ -90,10 +110,10 @@ const Home: React.FC = () => {
         </div>
 
         <div className="mt-12">
-          <h2 className="text-2xl font-bold mb-6">
-            {t("home.rooms") || "Rooms"}
-          </h2>
-
+          <div className="flex items-center justify-center mb-6">
+            <FaBed className="mr-2 text-gray-700 dark:text-white text-2xl" />
+            <h2 className="text-2xl font-bold">{t("home.rooms")}</h2>
+          </div>
           {allRooms.length === 0 ? (
             <p className="text-gray-500 dark:text-gray-400">
               {t("home.noRooms") || "No rooms available."}
@@ -118,15 +138,13 @@ const Home: React.FC = () => {
                     </h3>
                     <div className="text-sm text-gray-600 dark:text-gray-300 space-y-1">
                       <p>
-                        {t("home.totalBeds") || "Total beds"}: {room.totalBeds}
+                        {t("home.totalBeds")}: {room.totalBeds}
                       </p>
                       <p>
-                        {t("home.availableBeds") || "Available"}:{" "}
-                        {room.availableBeds}
+                        {t("home.availableBeds")}: {room.availableBeds}
                       </p>
                       <p>
-                        {t("home.occupiedBeds") || "Occupied"}:{" "}
-                        {room.occupiedBeds}
+                        {t("home.occupiedBeds")}: {room.occupiedBeds}
                       </p>
                     </div>
                   </div>
@@ -136,6 +154,12 @@ const Home: React.FC = () => {
           )}
         </div>
       </div>
+      {hospital && (
+        <div className="fixed bottom-0 left-0 w-full text-center py-4 bg-transparent text-gray-700 dark:text-gray-300">
+          <p className="text-sm font-semibold">{hospital.name}</p>
+          <p className="text-sm">{hospital.email}</p>
+        </div>
+      )}
     </div>
   );
 };

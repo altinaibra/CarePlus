@@ -11,43 +11,57 @@ import RoomSettings from "./Modals/RoomSettings";
 import PatientsChart from "../../features/patients/PatientsChart";
 import CalendarSettings from "./Modals/CalendarSettings";
 
+import {
+  FaPrint,
+  FaKey,
+  FaHospital,
+  FaBed,
+  FaChartBar,
+  FaCalendarAlt,
+} from "react-icons/fa";
+
 const settingsOptions = [
   {
     titleKey: "settingsPage.printers",
     descriptionKey: "settingsPage.description",
     modal: "printers",
     color: "bg-slate-700 dark:bg-[oklch(47.6%_0.114_61.907)]",
+    icon: FaPrint,
   },
   {
     titleKey: "settingsPage.changePassword",
     descriptionKey: "settingsPage.passwordDescription",
     modal: "changePassword",
     color: "bg-slate-700 dark:bg-[oklch(47.6%_0.114_61.907)]",
+    icon: FaKey,
   },
   {
     titleKey: "settingsPage.departments",
     descriptionKey: "settingsPage.departmentDescription",
     modal: "departments",
     color: "bg-slate-700 dark:bg-[oklch(47.6%_0.114_61.907)]",
+    icon: FaHospital,
   },
-
   {
     titleKey: "settingsPage.rooms",
     descriptionKey: "settingsPage.roomDescription",
     modal: "rooms",
     color: "bg-slate-700 dark:bg-[oklch(47.6%_0.114_61.907)]",
+    icon: FaBed,
   },
   {
     titleKey: "settingsPage.patientsStatistics",
     descriptionKey: "settingsPage.patientsStatistics",
     modal: "patients",
     color: "bg-slate-700 dark:bg-[oklch(47.6%_0.114_61.907)]",
+    icon: FaChartBar,
   },
   {
     titleKey: "settingsPage.calendar",
     descriptionKey: "settingsPage.calendarDescription",
     modal: "calendar",
     color: "bg-slate-700 dark:bg-[oklch(47.6%_0.114_61.907)]",
+    icon: FaCalendarAlt,
   },
 ];
 
@@ -121,25 +135,30 @@ const SettingsPage: React.FC = () => {
       </h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {settingsOptions.map((option) => (
-          <button
-            key={option.titleKey}
-            onClick={() =>
-              handleOpenModal(option.modal as "printers" | "changePassword")
-            }
-            className="block text-left p-5 bg-white dark:[background-color:oklch(20.5%_0_0)] border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] rounded-lg shadow hover:shadow-lg transition"
-          >
-            <div
-              className={`w-12 h-12 flex items-center justify-center rounded-full text-white mb-3 ${option.color}`}
+        {settingsOptions.map((option) => {
+          const Icon = option.icon; 
+          return (
+            <button
+              key={option.titleKey}
+              onClick={() =>
+                handleOpenModal(option.modal as "printers" | "changePassword")
+              }
+              className="block text-left p-5 bg-white dark:[background-color:oklch(20.5%_0_0)] border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] rounded-lg shadow hover:shadow-lg transition"
             >
-              {t(option.titleKey).charAt(0)}
-            </div>
-            <h3 className="text-lg font-semibold mb-1">{t(option.titleKey)}</h3>
-            <p className="text-gray-600 dark:text-gray-300">
-              {t(option.descriptionKey)}
-            </p>
-          </button>
-        ))}
+              <div
+                className={`w-12 h-12 flex items-center justify-center rounded-full text-white mb-3 ${option.color}`}
+              >
+                <Icon className="text-xl" /> 
+              </div>
+              <h3 className="text-lg font-semibold mb-1">
+                {t(option.titleKey)}
+              </h3>
+              <p className="text-gray-600 dark:text-gray-300">
+                {t(option.descriptionKey)}
+              </p>
+            </button>
+          );
+        })}
       </div>
 
       {activeModal && (

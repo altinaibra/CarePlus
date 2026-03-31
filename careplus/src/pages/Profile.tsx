@@ -245,7 +245,9 @@ const Profile: React.FC = () => {
           {t("Save Profile")}
         </button>
       </form>
+      
     </div>
+    
   );
 };
 
