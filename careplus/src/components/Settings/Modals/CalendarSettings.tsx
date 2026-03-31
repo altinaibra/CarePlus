@@ -148,7 +148,6 @@ const CalendarSettings: React.FC = () => {
                 onChange={(e) => setDate(e.target.value)}
                 className="
                 custom-date-input
-                orbit-borders
                 p-2 w-full rounded
                 bg-white dark:bg-[oklch(20.5%_0_0)]
                 border border-gray-300 dark:border-[oklch(47.6%_0.114_61.907)]
@@ -190,8 +189,7 @@ const CalendarSettings: React.FC = () => {
           </button>
         </div>
       ) : (
-        <div className="mb-4 text-sm text-gray-600 dark:text-gray-300">
-        </div>
+        <div className="mb-4 text-sm text-gray-600 dark:text-gray-300"></div>
       )}
 
       <div className="border-t border-gray-300 dark:border-gray-600 my-4"></div>
@@ -207,7 +205,6 @@ const CalendarSettings: React.FC = () => {
           >
             {editingId === holiday.id ? (
               <div className="flex-1 flex flex-wrap gap-2">
-
                 <input
                   value={editedName}
                   onChange={(e) => setEditedName(e.target.value)}
@@ -221,8 +218,8 @@ const CalendarSettings: React.FC = () => {
 
                 <input
                   type="date"
-                  value={date}
-                  onChange={(e) => setDate(e.target.value)}
+                  value={editedDate}
+                  onChange={(e) => setEditedDate(e.target.value)}
                   className="
                 custom-date-input
                 orbit-borders

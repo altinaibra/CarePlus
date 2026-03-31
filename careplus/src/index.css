@@ -215,6 +215,11 @@ code {
 
 .custom-date-input {
   color: inherit;
+  color-scheme: light dark;
+}
+
+.dark .custom-date-input {
+  color-scheme: dark;
 }
 
 .custom-date-input::-webkit-datetime-edit,

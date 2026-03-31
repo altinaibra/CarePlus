@@ -82,7 +82,7 @@ const NotificationSettings: React.FC = () => {
                 </div>
                 <button
                   onClick={() => toggleRule(rule.id)}
-                  className="px-3 py-1 rounded bg-blue-600 text-white hover:bg-blue-700"
+                  className="px-3 py-1 rounded bg-slate-700 dark:bg-[oklch(47.6%_0.114_61.907)] text-white"
                 >
                   {rule.enabled
                     ? t("settingsPage.disable")
