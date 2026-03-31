@@ -178,7 +178,15 @@
     "addPrinter": "Shto Printer",
     "edit": "Ndrysho",
     "delete": "Fshi",
-    "default": "Default Printer"
+    "default": "Default Printer",
+    "noGroups": "Nuk ka grupe",
+    "selectGroup": "Zgjidh grupin",
+    "groupName": "Emri i grupit",
+    "addGroup": "Shto grup",
+    "deleteGroup": "Fshi grup",
+    "groupAdded": "Grupi u shtua",
+    "groupDeleted": "Grupi u fshi",
+    "groupUpdated": "Grupi u përditësua"
   },
   "departments": {
     "mainServices": "Shërbimet kryesore",

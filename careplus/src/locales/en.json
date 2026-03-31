@@ -179,7 +179,15 @@
     "addPrinter": "Add printer",
     "edit": "Edit",
     "delete": "Delete",
-    "default": "Default Printer"
+    "default": "Default Printer",
+    "noGroups": "No Groups",
+    "selectGroup": "Select Group",
+    "groupName": "Group Name",
+    "addGroup": "Add Group",
+    "deleteGroup": "Delete Group",
+    "groupAdded": "Group added",
+    "groupDeleted": "Group deleted",
+    "groupUpdated": "Group updated"
   },
   "departments": {
     "mainServices": "Main Services",

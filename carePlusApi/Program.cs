@@ -26,6 +26,7 @@ builder.Services.AddScoped<carePlusApi.Models.PrinterRepository>();
 builder.Services.AddScoped<ILaboratoryRepository, LaboratoryRepository>();
 builder.Services.AddScoped<ITypesOfAnalysesRepository, TypesOfAnalysesRepository>();
 builder.Services.AddScoped<ICurrencyRepository, CurrencyRepository>();
+builder.Services.AddScoped<PrinterGroupRepository>();
 
 builder.Services.AddScoped<AuthService>();
 
