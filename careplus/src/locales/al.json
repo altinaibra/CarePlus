@@ -232,7 +232,18 @@
     "disable": "Caktivizo",
     "patientsStatistics": "Statistika rreth pacientave",
     "calendar": "Kalendari i festave",
-    "calendarDescription": "Menaxho ngjarjet dhe pushimet e kalendarit"
+    "calendarDescription": "Menaxho ngjarjet dhe pushimet e kalendarit",
+    "username": "Emri i përdoruesit",
+    "action": "Veprimi",
+    "target": "Objekti i ndryshuar",
+    "time": "Koha",
+    "noAuditLogs": "Nuk ka aktivitete të regjistruara në audit log.",
+    "fetchError": "Gabim gjatë ngarkimit të audit log",
+    "loading": "Loading...",
+    "error": "Dështoi",
+    "daily": "Ditor",
+    "weekly": "Javor",
+    "monthly": "Mujor"
   },
   "printers": {
     "printers": "Printerët",

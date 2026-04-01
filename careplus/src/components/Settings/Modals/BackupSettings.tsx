@@ -74,11 +74,11 @@ const BackupSettings: React.FC = () => {
         </p>
       </div>
       {status === "loading" && (
-        <p className="text-sm text-gray-600 dark:text-gray-300">Loading...</p>
+        <p className="text-sm text-gray-600 dark:text-gray-300">{t("settingsPage.loading")}</p>
       )}
-      {status === "saved" && <p className="text-sm text-green-600">Saved.</p>}
+      {status === "saved" && <p className="text-sm text-green-600">{t("settingsPage.save")} {t("settingsPage.success")}</p>}
       {status === "error" && (
-        <p className="text-sm text-red-600">Failed to update backup settings.</p>
+        <p className="text-sm text-red-600">{t("settingsPage.save")} {t("settingsPage.error")}</p>
       )}
 
       <div className="border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] rounded p-4 space-y-3">
@@ -96,9 +96,9 @@ const BackupSettings: React.FC = () => {
           onChange={(e) => setInterval(e.target.value)}
           className="w-full border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] rounded px-3 py-2 bg-white dark:[background-color:oklch(20.5%_0_0)]"
         >
-          <option value="daily">Daily</option>
-          <option value="weekly">Weekly</option>
-          <option value="monthly">Monthly</option>
+          <option value="daily">{t("settingsPage.daily")}</option>
+          <option value="weekly">{t("settingsPage.weekly")}</option>
+          <option value="monthly">{t("settingsPage.monthly")}</option>
         </select>
 
         <div className="flex flex-wrap gap-2">

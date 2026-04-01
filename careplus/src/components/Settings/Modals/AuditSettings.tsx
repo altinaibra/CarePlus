@@ -39,18 +39,27 @@ const AuditSettings: React.FC = () => {
       )}
 
       <div className="overflow-x-auto border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] rounded">
-        <table className="w-full text-sm">
-          <thead className="bg-gray-100 dark:bg-gray-800">
+        <table className="w-full text-sm ">
+          <thead className="border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)]">
             <tr>
-              <th className="text-left px-3 py-2">User</th>
-              <th className="text-left px-3 py-2">Action</th>
-              <th className="text-left px-3 py-2">Target</th>
-              <th className="text-left px-3 py-2">Time</th>
+              <th className="text-left px-3 py-2">
+                {t("settingsPage.username")}
+              </th>
+              <th className="text-left px-3 py-2">
+                {t("settingsPage.action")}
+              </th>
+              <th className="text-left px-3 py-2">
+                {t("settingsPage.target")}
+              </th>
+              <th className="text-left px-3 py-2">{t("settingsPage.time")}</th>
             </tr>
           </thead>
           <tbody>
             {rows.map((row) => (
-              <tr key={row.id} className="border-t border-gray-200 dark:border-gray-700">
+              <tr
+                key={row.id}
+                className="border-t border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)]"
+              >
                 <td className="px-3 py-2">{row.username}</td>
                 <td className="px-3 py-2">{row.action}</td>
                 <td className="px-3 py-2">{row.target}</td>

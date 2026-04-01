@@ -233,7 +233,18 @@
     "byMonth": "Patients by Month",
     "fetchError": "Error loading patient statistics",
     "calendar": "Calendar",
-    "calendarDescription": "Manage calendar events and holidays"
+    "calendarDescription": "Manage calendar events and holidays",
+    "username": "Username",
+    "action": "Action",
+    "target": "Target",
+    "time": "Time",
+    "noAuditLogs": "No audit logs found.",
+    "loading": "Loading...",
+    "success": "successful",
+    "error": "failed",
+      "daily": "Daily",
+      "weekly": "Weekly",
+      "monthly": "Monthly"
   },
   "printers": {
     "printers": "Printers",
@@ -280,4 +291,3 @@
     "add": "Add Holiday"
   }
 }
-
