@@ -29,11 +29,17 @@ export const HomeStyles = {
 
   noRooms: "text-gray-500 dark:text-gray-400",
 
-  bottomBar:
-    "fixed bottom-0 left-0 w-full text-center py-3 md:py-4 bg-white/80 dark:bg-black/20 backdrop-blur-sm text-gray-700 dark:text-gray-300 border-t border-gray-200 dark:[border-color:oklch(47.6%_0.114_61.907)]",
-  bottomBarName: "text-sm font-semibold",
-  bottomBarEmail: "text-xs md:text-sm",
-
+  bottomBar: `
+  fixed bottom-0 left-0 w-full text-center 
+  py-3 md:py-4 
+  bg-white/80 dark:bg-black/20 
+  backdrop-blur-sm 
+  text-gray-700 dark:text-gray-300 
+  border-t border-gray-200 dark:[border-color:oklch(47.6%_0.114_61.907)]
+  z-50
+`,
+  bottomBarName: "text-sm font-semibold truncate",
+  bottomBarEmail: "text-xs md:text-sm truncate",
   cardsContainer:
     "flex flex-wrap justify-center gap-3 md:gap-5 max-w-4xl mx-auto",
 };
