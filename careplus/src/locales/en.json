@@ -1,4 +1,4 @@
-{
+﻿{
   "header": {
     "title": "CarePlus",
     "logout": "Logout",
@@ -195,6 +195,34 @@
     "addNotificationRule": "Add Notification Rule",
     "notificationAdded": "Notification rule added successfully",
     "noNotificationRules": "No notification rules configured yet.",
+    "notificationTemplates": "Notification Templates",
+    "notificationTemplatesDescription": "Manage reusable templates for communication",
+    "templateTitle": "Template title",
+    "templateMessage": "Template message",
+    "addTemplate": "Add Template",
+    "templateNewVisit": "Message for new appointment",
+    "templateCancellation": "Message for cancellation",
+    "templatePaymentEmail": "Payment email template",
+    "templateSmsReminder": "SMS reminder template",
+    "finance": "Financial Settings",
+    "financeDescription": "Configure tax, currency, and invoice numbering",
+    "taxSettings": "Tax Settings",
+    "taxRate": "Tax Rate (%)",
+    "currencySettings": "Currency Settings",
+    "invoiceSettings": "Invoice Settings",
+    "invoicePrefix": "Invoice Prefix",
+    "nextInvoiceNumber": "Next Invoice Number",
+    "backupRestore": "Backup & Restore",
+    "backupRestoreDescription": "Manage backup and restore options",
+    "manualBackup": "Manual Backup",
+    "autoBackup": "Automatic Backup",
+    "exportDatabase": "Export Database",
+    "restorePoint": "Restore Point",
+    "lastBackup": "Last backup",
+    "auditLog": "Audit Log",
+    "auditLogDescription": "Track who changed data and when",
+    "integrations": "Integrations",
+    "integrationsDescription": "Configure third-party APIs and connectors",
     "enabled": "Enabled",
     "disabled": "Disabled",
     "enable": "Enable",
@@ -252,3 +280,4 @@
     "add": "Add Holiday"
   }
 }
+

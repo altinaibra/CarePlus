@@ -11,6 +11,11 @@ import ShiftSettings from "./Modals/ShiftSettings";
 import PatientCategoriesSettings from "./Modals/PatientCategoriesSettings";
 import BillingSettings from "./Modals/BillingSettings";
 import NotificationSettings from "./Modals/NotificationSettings";
+import NotificationTemplateSettings from "./Modals/NotificationTemplateSettings";
+import FinancialSettings from "./Modals/FinancialSettings";
+import BackupSettings from "./Modals/BackupSettings";
+import AuditSettings from "./Modals/AuditSettings";
+import IntegrationsSettings from "./Modals/IntegrationsSettings";
 
 import {
   FaPrint,
@@ -22,6 +27,11 @@ import {
   FaClock,
   FaFileInvoiceDollar,
   FaBell,
+  FaEnvelope,
+  FaMoneyBillWave,
+  FaDatabase,
+  FaHistory,
+  FaPlug,
 } from "react-icons/fa";
 
 type SettingsModal =
@@ -34,7 +44,12 @@ type SettingsModal =
   | "shiftSchedule"
   | "patientCategories"
   | "billing"
-  | "notifications";
+  | "notifications"
+  | "notificationTemplates"
+  | "finance"
+  | "backup"
+  | "audit"
+  | "integrations";
 
 const settingsOptions: {
   titleKey: string;
@@ -98,6 +113,41 @@ const settingsOptions: {
     modal: "notifications",
     color: "bg-slate-700 dark:bg-[oklch(47.6%_0.114_61.907)]",
     icon: FaBell,
+  },
+  {
+    titleKey: "settingsPage.notificationTemplates",
+    descriptionKey: "settingsPage.notificationTemplatesDescription",
+    modal: "notificationTemplates",
+    color: "bg-slate-700 dark:bg-[oklch(47.6%_0.114_61.907)]",
+    icon: FaEnvelope,
+  },
+  {
+    titleKey: "settingsPage.finance",
+    descriptionKey: "settingsPage.financeDescription",
+    modal: "finance",
+    color: "bg-slate-700 dark:bg-[oklch(47.6%_0.114_61.907)]",
+    icon: FaMoneyBillWave,
+  },
+  {
+    titleKey: "settingsPage.backupRestore",
+    descriptionKey: "settingsPage.backupRestoreDescription",
+    modal: "backup",
+    color: "bg-slate-700 dark:bg-[oklch(47.6%_0.114_61.907)]",
+    icon: FaDatabase,
+  },
+  {
+    titleKey: "settingsPage.auditLog",
+    descriptionKey: "settingsPage.auditLogDescription",
+    modal: "audit",
+    color: "bg-slate-700 dark:bg-[oklch(47.6%_0.114_61.907)]",
+    icon: FaHistory,
+  },
+  {
+    titleKey: "settingsPage.integrations",
+    descriptionKey: "settingsPage.integrationsDescription",
+    modal: "integrations",
+    color: "bg-slate-700 dark:bg-[oklch(47.6%_0.114_61.907)]",
+    icon: FaPlug,
   },
   {
     titleKey: "settingsPage.patientsStatistics",
@@ -186,6 +236,13 @@ const SettingsPage: React.FC = () => {
               )}
               {activeModal === "billing" && <BillingSettings />}
               {activeModal === "notifications" && <NotificationSettings />}
+              {activeModal === "notificationTemplates" && (
+                <NotificationTemplateSettings />
+              )}
+              {activeModal === "finance" && <FinancialSettings />}
+              {activeModal === "backup" && <BackupSettings />}
+              {activeModal === "audit" && <AuditSettings />}
+              {activeModal === "integrations" && <IntegrationsSettings />}
               {activeModal === "patients" && <PatientsChart />}
               {activeModal === "calendar" && <CalendarSettings />}
             </div>
