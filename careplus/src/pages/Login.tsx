@@ -18,7 +18,6 @@ const Login = () => {
         <LanguageSelector i18n={i18n} changeLanguage={changeLanguage} />
         <ThemeToggle />
       </div>
-
       <LoginForm />
     </div>
   );

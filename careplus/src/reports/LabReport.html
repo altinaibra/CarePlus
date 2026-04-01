@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <title>Lab Report</title>
     <style>
-      /* Set width for 80mm printer */
       body {
         width: 80mm;
         font-family: Arial, sans-serif;
@@ -66,9 +65,7 @@
           <th>Unit</th>
         </tr>
       </thead>
-      <tbody>
-        <!-- Lab rows will be injected here -->
-      </tbody>
+      <tbody></tbody>
     </table>
 
     <div class="total" id="totalPrice"></div>
@@ -80,7 +77,7 @@
         if (!labData) return;
 
         const tbody = document.querySelector("#labsTable tbody");
-        tbody.innerHTML = ""; // clear
+        tbody.innerHTML = "";
 
         labData.selectedLabs.forEach((lab) => {
           const tr = document.createElement("tr");
@@ -98,7 +95,7 @@
         document.getElementById("reportDate").innerText =
           new Date().toLocaleString();
 
-        window.print(); // open print dialog
+        window.print();
       });
     </script>
   </body>

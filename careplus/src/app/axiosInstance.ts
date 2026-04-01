@@ -11,7 +11,6 @@ const resolveApiBaseUrl = () => {
     return fallbackBaseUrl;
   }
 
-  // Handle common typo like "https:/localhost:7208/api".
   const fixedConfigured = configured.replace(/^https?:\/(?!\/)/, "$&/");
 
   let parsedUrl: URL;
@@ -30,7 +29,6 @@ const resolveApiBaseUrl = () => {
       parsedUrl.hostname === "127.0.0.1" ||
       parsedUrl.hostname === "::1";
 
-    // On mobile/LAN, replace localhost API with the same host used by frontend.
     if (currentIsLanHost && apiIsLocalhost) {
       return `http://${currentHost}:${apiPort}/api`;
     }

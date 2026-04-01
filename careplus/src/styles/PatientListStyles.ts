@@ -22,5 +22,5 @@ export const PatientListStyles = {
     "flex justify-between items-center cursor-pointer font-semibold",
   mobileCardBody:
     "mt-2 text-sm space-y-1 overflow-hidden max-h-0 transition-[max-height] duration-300 ease-in-out",
-  mobileCardBodyExpanded: "max-h-96", // when expanded
+  mobileCardBodyExpanded: "max-h-96", 
 };

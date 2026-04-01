@@ -4,6 +4,7 @@ using CarePlusApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace carePlusApi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260401131135_alert")]
+    partial class alert
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -525,7 +528,7 @@ namespace carePlusApi.Migrations
                     b.ToTable("Currencies");
                 });
 
-            modelBuilder.Entity("carePlusApi.Models.FinancialSettings", b =>
+            modelBuilder.Entity("carePlusApi.Models.FinancialSetting", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -614,7 +617,7 @@ namespace carePlusApi.Migrations
                     b.ToTable("Hospitals");
                 });
 
-            modelBuilder.Entity("carePlusApi.Models.IntegrationSettings", b =>
+            modelBuilder.Entity("carePlusApi.Models.IntegrationSetting", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()

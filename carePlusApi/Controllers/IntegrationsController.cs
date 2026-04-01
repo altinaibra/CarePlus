@@ -23,12 +23,12 @@ namespace CarePlusApi.Controllers
 
             if (list.Count == 0)
             {
-                list = new List<IntegrationSetting>
+                list = new List<IntegrationSettings>
                 {
-                    new IntegrationSetting { Name = "SMS API (Twilio/AlbSMS)" },
-                    new IntegrationSetting { Name = "Email SMTP" },
-                    new IntegrationSetting { Name = "Insurance API" },
-                    new IntegrationSetting { Name = "Barcode API" }
+                    new IntegrationSettings { Name = "SMS API (Twilio/AlbSMS)" },
+                    new IntegrationSettings { Name = "Email SMTP" },
+                    new IntegrationSettings { Name = "Insurance API" },
+                    new IntegrationSettings { Name = "Barcode API" }
                 };
 
                 _context.IntegrationSettings.AddRange(list);
@@ -39,7 +39,7 @@ namespace CarePlusApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] IntegrationSetting integration)
+        public async Task<IActionResult> Create([FromBody] IntegrationSettings integration)
         {
             if (integration == null || string.IsNullOrWhiteSpace(integration.Name))
             {
@@ -52,7 +52,7 @@ namespace CarePlusApi.Controllers
         }
 
         [HttpPut("{id:int}")]
-        public async Task<IActionResult> Update(int id, [FromBody] IntegrationSetting model)
+        public async Task<IActionResult> Update(int id, [FromBody] IntegrationSettings model)
         {
             var current = await _context.IntegrationSettings.FindAsync(id);
             if (current == null) return NotFound();

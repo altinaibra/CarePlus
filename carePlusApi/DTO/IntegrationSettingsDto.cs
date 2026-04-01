@@ -1,6 +1,6 @@
-﻿namespace carePlusApi.Models
+﻿namespace carePlusApi.DTO
 {
-    public class IntegrationSetting
+    public class IntegrationSettingsDto
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;

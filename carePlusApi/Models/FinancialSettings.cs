@@ -1,6 +1,6 @@
 ﻿namespace carePlusApi.Models
 {
-    public class FinancialSetting
+    public class FinancialSettings
     {
         public int Id { get; set; }
         public decimal TaxRate { get; set; } = 18m;

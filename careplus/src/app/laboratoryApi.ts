@@ -9,7 +9,7 @@ export interface Laboratory {
   description?: string;
   price: number;
   unit: string;
-  status: boolean; // ON/OFF
+  status: boolean;
   userId?: string;
 }
 
@@ -28,21 +28,16 @@ export interface CreateLaboratoryDto {
 }
 
 export const laboratoryAPI = {
-  // Merr laboratorin për përdoruesin
   getByUser: (userId: string): Promise<AxiosResponse<Laboratory>> =>
     axiosInstance.get(`/laboratory/${userId}`),
-
-  // Toggle ON/OFF për laborator
   toggleStatus: (
     data: ToggleLaboratoryDto,
   ): Promise<AxiosResponse<Laboratory>> =>
     axiosInstance.post(`/laboratory/toggle`, data),
 
-  // Krijo laborator të ri
   create: (data: CreateLaboratoryDto): Promise<AxiosResponse<Laboratory>> =>
     axiosInstance.post(`/laboratory/create`, data),
 
-  // Merr të gjithë laboratorët (për admin view)
   getAll: (): Promise<AxiosResponse<Laboratory[]>> =>
     axiosInstance.get(`/laboratory/all`),
 };

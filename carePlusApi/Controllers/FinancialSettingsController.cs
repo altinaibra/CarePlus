@@ -22,7 +22,7 @@ namespace CarePlusApi.Controllers
             var settings = await _context.FinancialSettings.FirstOrDefaultAsync();
             if (settings == null)
             {
-                settings = new FinancialSetting();
+                settings = new FinancialSettings();
                 _context.FinancialSettings.Add(settings);
                 await _context.SaveChangesAsync();
             }
@@ -31,12 +31,12 @@ namespace CarePlusApi.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Save([FromBody] FinancialSetting model)
+        public async Task<IActionResult> Save([FromBody] FinancialSettings model)
         {
             var settings = await _context.FinancialSettings.FirstOrDefaultAsync();
             if (settings == null)
             {
-                settings = new FinancialSetting();
+                settings = new FinancialSettings();
                 _context.FinancialSettings.Add(settings);
             }
 

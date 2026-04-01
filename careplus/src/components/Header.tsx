@@ -44,7 +44,6 @@ const Header: React.FC = () => {
   const [labEnabled, setLabEnabled] = useState(false);
 
   useEffect(() => {
-    // Merr statusin e laboratorit për user-in kur mount-on
     if (user) {
       laboratoryAPI
         .getByUser(user)
