@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { backupSettingsAPI } from "../../../app/settingsApi";
+import { BackupStyles } from "../../../styles/BackupStyles";
 
 const BackupSettings: React.FC = () => {
   const { t } = useTranslation();
@@ -66,23 +67,34 @@ const BackupSettings: React.FC = () => {
   };
 
   return (
-    <div className="space-y-5">
+    <div className={BackupStyles.container}>
       <div>
-        <h2 className="text-xl font-bold">{t("settingsPage.backupRestore")}</h2>
-        <p className="text-sm text-gray-600 dark:text-gray-300">
+        <h2 className={BackupStyles.title}>
+          {t("settingsPage.backupRestore")}
+        </h2>
+        <p className={BackupStyles.description}>
           {t("settingsPage.backupRestoreDescription")}
         </p>
       </div>
+
       {status === "loading" && (
-        <p className="text-sm text-gray-600 dark:text-gray-300">{t("settingsPage.loading")}</p>
-      )}
-      {status === "saved" && <p className="text-sm text-green-600">{t("settingsPage.save")} {t("settingsPage.success")}</p>}
-      {status === "error" && (
-        <p className="text-sm text-red-600">{t("settingsPage.save")} {t("settingsPage.error")}</p>
+        <p className={BackupStyles.loading}>{t("settingsPage.loading")}</p>
       )}
 
-      <div className="border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] rounded p-4 space-y-3">
-        <label className="inline-flex items-center gap-2">
+      {status === "saved" && (
+        <p className={BackupStyles.success}>
+          {t("settingsPage.save")} {t("settingsPage.success")}
+        </p>
+      )}
+
+      {status === "error" && (
+        <p className={BackupStyles.error}>
+          {t("settingsPage.save")} {t("settingsPage.error")}
+        </p>
+      )}
+
+      <div className={BackupStyles.card}>
+        <label className={BackupStyles.checkboxLabel}>
           <input
             type="checkbox"
             checked={autoBackup}
@@ -94,37 +106,37 @@ const BackupSettings: React.FC = () => {
         <select
           value={interval}
           onChange={(e) => setInterval(e.target.value)}
-          className="w-full border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] rounded px-3 py-2 bg-white dark:[background-color:oklch(20.5%_0_0)]"
+          className={BackupStyles.select}
         >
           <option value="daily">{t("settingsPage.daily")}</option>
           <option value="weekly">{t("settingsPage.weekly")}</option>
           <option value="monthly">{t("settingsPage.monthly")}</option>
         </select>
 
-        <div className="flex flex-wrap gap-2">
+        <div className={BackupStyles.buttonsRow}>
           <button
             onClick={runManualBackup}
-            className="px-3 py-2 rounded bg-slate-700 text-white dark:[background-color:oklch(47.6%_0.114_61.907)]"
+            className={BackupStyles.primaryButton}
           >
             {t("settingsPage.manualBackup")}
           </button>
-          <button className="px-3 py-2 rounded border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)]">
+
+          <button className={BackupStyles.secondaryButton}>
             {t("settingsPage.exportDatabase")}
           </button>
-          <button className="px-3 py-2 rounded border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)]">
+
+          <button className={BackupStyles.secondaryButton}>
             {t("settingsPage.restorePoint")}
           </button>
         </div>
 
         {lastBackup && (
-          <p className="text-sm text-gray-600 dark:text-gray-300">
+          <p className={BackupStyles.lastBackupText}>
             {t("settingsPage.lastBackup")}: {lastBackup}
           </p>
         )}
-        <button
-          onClick={saveSettings}
-          className="px-3 py-2 rounded bg-slate-700 text-white dark:[background-color:oklch(47.6%_0.114_61.907)]"
-        >
+
+        <button onClick={saveSettings} className={BackupStyles.primaryButton}>
           {t("settingsPage.save")}
         </button>
       </div>

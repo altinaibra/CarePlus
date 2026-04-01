@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { financialSettingsAPI } from "../../../app/settingsApi";
+import { FinancialSettingsStyles } from "../../../styles/FinancialSettingsStyles";
 
 const FinancialSettings: React.FC = () => {
   const { t } = useTranslation();
@@ -49,38 +50,49 @@ const FinancialSettings: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className={FinancialSettingsStyles.container}>
       <div>
-        <h2 className="text-xl font-bold">{t("settingsPage.finance")}</h2>
-        <p className="text-sm text-gray-600 dark:text-gray-300">
+        <h2 className={FinancialSettingsStyles.title}>
+          {t("settingsPage.finance")}
+        </h2>
+        <p className={FinancialSettingsStyles.description}>
           {t("settingsPage.financeDescription")}
         </p>
       </div>
+
       {status === "loading" && (
-        <p className="text-sm text-gray-600 dark:text-gray-300">Loading...</p>
+        <p className={FinancialSettingsStyles.loading}>Loading...</p>
       )}
-      {status === "saved" && <p className="text-sm text-green-600">Saved.</p>}
+      {status === "saved" && (
+        <p className={FinancialSettingsStyles.success}>Saved.</p>
+      )}
       {status === "error" && (
-        <p className="text-sm text-red-600">Failed to save settings.</p>
+        <p className={FinancialSettingsStyles.error}>
+          Failed to save settings.
+        </p>
       )}
 
-      <section className="border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] rounded p-4 space-y-3">
-        <h3 className="font-semibold">{t("settingsPage.taxSettings")}</h3>
+      <section className={FinancialSettingsStyles.section}>
+        <h3 className={FinancialSettingsStyles.sectionTitle}>
+          {t("settingsPage.taxSettings")}
+        </h3>
         <label className="text-sm block">{t("settingsPage.taxRate")}</label>
         <input
           type="number"
           value={taxRate}
           onChange={(e) => setTaxRate(e.target.value)}
-          className="w-full border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] rounded px-3 py-2 bg-white dark:[background-color:oklch(20.5%_0_0)]"
+          className={FinancialSettingsStyles.input}
         />
       </section>
 
-      <section className="border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] rounded p-4 space-y-3">
-        <h3 className="font-semibold">{t("settingsPage.currencySettings")}</h3>
+      <section className={FinancialSettingsStyles.section}>
+        <h3 className={FinancialSettingsStyles.sectionTitle}>
+          {t("settingsPage.currencySettings")}
+        </h3>
         <select
           value={currency}
           onChange={(e) => setCurrency(e.target.value)}
-          className="w-full border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] rounded px-3 py-2 bg-white dark:[background-color:oklch(20.5%_0_0)]"
+          className={FinancialSettingsStyles.select}
         >
           <option>EUR</option>
           <option>MKD</option>
@@ -89,26 +101,28 @@ const FinancialSettings: React.FC = () => {
         </select>
       </section>
 
-      <section className="border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] rounded p-4 space-y-3">
-        <h3 className="font-semibold">{t("settingsPage.invoiceSettings")}</h3>
+      <section className={FinancialSettingsStyles.section}>
+        <h3 className={FinancialSettingsStyles.sectionTitle}>
+          {t("settingsPage.invoiceSettings")}
+        </h3>
         <input
           value={invoicePrefix}
           onChange={(e) => setInvoicePrefix(e.target.value)}
           placeholder={t("settingsPage.invoicePrefix")}
-          className="w-full border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] rounded px-3 py-2 bg-white dark:[background-color:oklch(20.5%_0_0)]"
+          className={FinancialSettingsStyles.input}
         />
         <input
           type="number"
           value={nextInvoiceNumber}
           onChange={(e) => setNextInvoiceNumber(e.target.value)}
           placeholder={t("settingsPage.nextInvoiceNumber")}
-          className="w-full border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] rounded px-3 py-2 bg-white dark:[background-color:oklch(20.5%_0_0)]"
+          className={FinancialSettingsStyles.input}
         />
       </section>
 
       <button
         onClick={saveSettings}
-        className="px-4 py-2 rounded bg-slate-700 text-white dark:[background-color:oklch(47.6%_0.114_61.907)]"
+        className={FinancialSettingsStyles.saveButton}
       >
         {t("settingsPage.save")}
       </button>

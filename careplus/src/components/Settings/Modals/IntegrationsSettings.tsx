@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import {
-  IntegrationSetting,
-  integrationsAPI,
-} from "../../../app/settingsApi";
+import { IntegrationSetting, integrationsAPI } from "../../../app/settingsApi";
+import { IntegrationsSettingsStyles } from "../../../styles/IntegrationsSettingsStyles";
 
 const IntegrationsSettings: React.FC = () => {
   const { t } = useTranslation();
@@ -63,34 +61,45 @@ const IntegrationsSettings: React.FC = () => {
   };
 
   return (
-    <div className="space-y-4">
+    <div className={IntegrationsSettingsStyles.container}>
       <div>
-        <h2 className="text-xl font-bold">{t("settingsPage.integrations")}</h2>
-        <p className="text-sm text-gray-600 dark:text-gray-300">
+        <h2 className={IntegrationsSettingsStyles.title}>
+          {t("settingsPage.integrations")}
+        </h2>
+        <p className={IntegrationsSettingsStyles.description}>
           {t("settingsPage.integrationsDescription")}
         </p>
       </div>
+
       {status === "loading" && (
-        <p className="text-sm text-gray-600 dark:text-gray-300">Loading...</p>
+        <p className={IntegrationsSettingsStyles.loading}>Loading...</p>
       )}
-      {status === "saved" && <p className="text-sm text-green-600">Saved.</p>}
+      {status === "saved" && (
+        <p className={IntegrationsSettingsStyles.success}>Saved.</p>
+      )}
       {status === "error" && (
-        <p className="text-sm text-red-600">Failed to save integrations.</p>
+        <p className={IntegrationsSettingsStyles.error}>
+          Failed to save integrations.
+        </p>
       )}
 
-      <div className="space-y-3">
+      <div className={IntegrationsSettingsStyles.integrationsList}>
         {integrations.map((item) => (
           <div
             key={item.id}
-            className="border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] rounded p-3"
+            className={IntegrationsSettingsStyles.integrationCard}
           >
-            <div className="flex items-center justify-between gap-2 mb-2">
-              <span className="font-medium">{item.name}</span>
+            <div className={IntegrationsSettingsStyles.integrationHeader}>
+              <span className={IntegrationsSettingsStyles.integrationName}>
+                {item.name}
+              </span>
               <button
                 onClick={() => toggle(item.id)}
-                className="px-2 py-1 rounded text-xs border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)]"
+                className={IntegrationsSettingsStyles.toggleButton}
               >
-                {item.enabled ? t("settingsPage.enabled") : t("settingsPage.disabled")}
+                {item.enabled
+                  ? t("settingsPage.enabled")
+                  : t("settingsPage.disabled")}
               </button>
             </div>
 
@@ -101,7 +110,7 @@ const IntegrationsSettings: React.FC = () => {
                 void handleApiKeyBlur(item.id);
               }}
               placeholder="API Key / Endpoint"
-              className="w-full border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] rounded px-3 py-2 bg-white dark:[background-color:oklch(20.5%_0_0)]"
+              className={IntegrationsSettingsStyles.apiKeyInput}
             />
           </div>
         ))}

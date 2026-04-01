@@ -4,6 +4,7 @@ import {
   NotificationTemplate,
   notificationTemplatesAPI,
 } from "../../../app/settingsApi";
+import { NotificationTemplateStyles } from "../../../styles/NotificationTemplateStyles";
 
 const NotificationTemplateSettings: React.FC = () => {
   const { t } = useTranslation();
@@ -63,69 +64,70 @@ const NotificationTemplateSettings: React.FC = () => {
   };
 
   return (
-    <div className="space-y-4">
+    <div className={NotificationTemplateStyles.container}>
       <div>
-        <h2 className="text-xl font-bold">{t("settingsPage.notificationTemplates")}</h2>
-        <p className="text-sm text-gray-600 dark:text-gray-300">
+        <h2 className={NotificationTemplateStyles.title}>
+          {t("settingsPage.notificationTemplates")}
+        </h2>
+        <p className={NotificationTemplateStyles.description}>
           {t("settingsPage.notificationTemplatesDescription")}
         </p>
       </div>
-      {error && <p className="text-sm text-red-600">{error}</p>}
+
+      {error && <p className={NotificationTemplateStyles.errorText}>{error}</p>}
       {loading && (
-        <p className="text-sm text-gray-600 dark:text-gray-300">Loading...</p>
+        <p className={NotificationTemplateStyles.loadingText}>Loading...</p>
       )}
 
-      <div className="grid grid-cols-1 gap-3">
+      <div className={NotificationTemplateStyles.newTemplateForm}>
         <input
           value={newTitle}
           onChange={(e) => setNewTitle(e.target.value)}
           placeholder={t("settingsPage.templateTitle")}
-          className="border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] rounded px-3 py-2 bg-white dark:[background-color:oklch(20.5%_0_0)]"
+          className={NotificationTemplateStyles.input}
         />
-
         <select
           value={newChannel}
           onChange={(e) =>
             setNewChannel(e.target.value as NotificationTemplate["channel"])
           }
-          className="border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] rounded px-3 py-2 bg-white dark:[background-color:oklch(20.5%_0_0)]"
+          className={NotificationTemplateStyles.select}
         >
           <option>Email</option>
           <option>SMS</option>
           <option>In-App</option>
         </select>
-
         <textarea
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
           placeholder={t("settingsPage.templateMessage")}
-          className="border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] rounded px-3 py-2 min-h-[90px] bg-white dark:[background-color:oklch(20.5%_0_0)]"
+          className={NotificationTemplateStyles.textarea}
         />
-
         <button
           onClick={addTemplate}
-          className="w-fit px-4 py-2 rounded bg-slate-700 text-white dark:[background-color:oklch(47.6%_0.114_61.907)]"
+          className={NotificationTemplateStyles.addButton}
         >
           {t("settingsPage.addTemplate")}
         </button>
       </div>
 
-      <div className="space-y-2">
+      <div className={NotificationTemplateStyles.templatesList}>
         {templates.map((tpl) => (
-          <div
-            key={tpl.id}
-            className="border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] rounded p-3 bg-white dark:[background-color:oklch(20.5%_0_0)]"
-          >
-            <div className="flex items-center justify-between gap-2">
-              <h3 className="font-semibold">{tpl.title}</h3>
-              <span className="text-xs px-2 py-1 rounded bg-gray-100 dark:bg-gray-800">
+          <div key={tpl.id} className={NotificationTemplateStyles.templateCard}>
+            <div className={NotificationTemplateStyles.templateHeader}>
+              <h3 className={NotificationTemplateStyles.templateTitle}>
+                {tpl.title}
+              </h3>
+              <span className={NotificationTemplateStyles.templateChannel}>
                 {tpl.channel}
               </span>
             </div>
-            <p className="text-sm mt-2 text-gray-700 dark:text-gray-300">{tpl.message}</p>
+            <p className={NotificationTemplateStyles.templateMessage}>
+              {tpl.message}
+            </p>
             <button
               onClick={() => removeTemplate(tpl.id)}
-              className="mt-3 text-sm text-red-600 dark:text-red-400"
+              className={NotificationTemplateStyles.deleteButton}
             >
               {t("settingsPage.delete")}
             </button>
