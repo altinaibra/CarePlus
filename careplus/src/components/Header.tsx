@@ -335,7 +335,9 @@ const Header: React.FC = () => {
                 onClick={() => setMobileSidebarOpen(false)}
               >
                 <FaUser size={18} />
-                <span className="text-sm">{t("header.profile") || "Profile"}</span>
+                <span className="text-sm">
+                  {t("header.profile") || "Profile"}
+                </span>
               </Link>
 
               <Link

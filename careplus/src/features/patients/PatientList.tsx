@@ -1,21 +1,22 @@
-import React, { useEffect, useState } from "react"; // NEW
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { fetchPatients, deletePatientAsync } from "./patientsSlice";
 import type { RootState, AppDispatch } from "../../app/store";
 import type { PatientWithContact } from "./types";
 import { FaTrash } from "react-icons/fa";
+import { PatientListStyles } from "../../styles/PatientListStyles";
 
 const PatientList: React.FC = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch<AppDispatch>();
-
   const patients = useSelector(
     (state: RootState) => state.patients.list,
   ) as PatientWithContact[];
   const loading = useSelector((state: RootState) => state.patients.loading);
   const error = useSelector((state: RootState) => state.patients.error);
   const [search, setSearch] = useState("");
+  const [expandedIds, setExpandedIds] = useState<number[]>([]); // for mobile dropdowns
 
   useEffect(() => {
     dispatch(fetchPatients());
@@ -26,14 +27,20 @@ const PatientList: React.FC = () => {
     return fullName.includes(search.toLowerCase());
   });
 
+  const toggleExpand = (id: number) => {
+    setExpandedIds((prev) =>
+      prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id],
+    );
+  };
+
   if (error) {
     return <p className="text-red-600 mb-4">Error: {error}</p>;
   }
 
   return (
-    <div>
-      <div className="relative mb-4">
-        <span className="absolute inset-y-0 left-2 flex items-center text-gray-500 dark:text-gray-300">
+    <div className={PatientListStyles.container}>
+      <div className={PatientListStyles.searchWrapper}>
+        <span className={PatientListStyles.searchIcon}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-5 w-5"
@@ -49,25 +56,21 @@ const PatientList: React.FC = () => {
             />
           </svg>
         </span>
-
         <input
           type="text"
           placeholder={t("patients.search")}
-          className="w-5xl p-2 pl-9 border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] rounded-md bg-white dark:[background-color:oklch(20.5%_0_0)] text-gray-900 dark:text-gray-100"
+          className={PatientListStyles.searchInput}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
       </div>
 
-      {filteredPatients.length === 0 && !loading ? (
-        <p className="text-gray-600 dark:text-gray-300">
-          {t("patients.noPatients")}
-        </p>
-      ) : (
-        <div className="overflow-x-auto">
-          <table className="w-full border-collapse text-gray-900 dark:text-gray-100">
+      {/* Desktop Table */}
+      {filteredPatients.length > 0 && (
+        <div className={PatientListStyles.tableWrapper}>
+          <table className={PatientListStyles.table}>
             <thead>
-              <tr className="bg-gray-100 dark:[background-color:oklch(20.5%_0_0)]">
+              <tr className={PatientListStyles.theadRow}>
                 {[
                   "no",
                   "firstName",
@@ -78,10 +81,7 @@ const PatientList: React.FC = () => {
                   "address",
                   "actions",
                 ].map((key) => (
-                  <th
-                    key={key}
-                    className="border-b border-gray-300 dark:[border-bottom-color:oklch(47.6%_0.114_61.907)] p-3 text-left font-semibold"
-                  >
+                  <th key={key} className={PatientListStyles.th}>
                     {t(`patients.${key}`)}
                   </th>
                 ))}
@@ -89,35 +89,18 @@ const PatientList: React.FC = () => {
             </thead>
             <tbody>
               {filteredPatients.map((patient, index) => (
-                <tr
-                  key={patient.id}
-                  className="hover:bg-gray-50 dark:hover:[background-color:oklch(20.5%_0_0)]"
-                >
-                  <td className="border-b p-3 dark:[border-bottom-color:oklch(47.6%_0.114_61.907)]">
-                    #{index + 1}
-                  </td>
-                  <td className="border-b p-3 dark:[border-bottom-color:oklch(47.6%_0.114_61.907)]">
-                    {patient.firstName}
-                  </td>
-                  <td className="border-b p-3 dark:[border-bottom-color:oklch(47.6%_0.114_61.907)]">
-                    {patient.lastName}
-                  </td>
-                  <td className="border-b p-3 dark:[border-bottom-color:oklch(47.6%_0.114_61.907)]">
-                    {patient.email}
-                  </td>
-                  <td className="border-b p-3 dark:[border-bottom-color:oklch(47.6%_0.114_61.907)]">
-                    {patient.contact}
-                  </td>
-                  <td className="border-b p-3 dark:[border-bottom-color:oklch(47.6%_0.114_61.907)]">
-                    {patient.age}
-                  </td>
-                  <td className="border-b p-3 dark:[border-bottom-color:oklch(47.6%_0.114_61.907)]">
-                    {patient.address}
-                  </td>
-                  <td className="border-b p-3 dark:[border-bottom-color:oklch(47.6%_0.114_61.907)]">
+                <tr key={patient.id} className={PatientListStyles.tbodyRow}>
+                  <td className={PatientListStyles.td}>#{index + 1}</td>
+                  <td className={PatientListStyles.td}>{patient.firstName}</td>
+                  <td className={PatientListStyles.td}>{patient.lastName}</td>
+                  <td className={PatientListStyles.td}>{patient.email}</td>
+                  <td className={PatientListStyles.td}>{patient.contact}</td>
+                  <td className={PatientListStyles.td}>{patient.age}</td>
+                  <td className={PatientListStyles.td}>{patient.address}</td>
+                  <td className={PatientListStyles.td}>
                     <button
                       onClick={() => dispatch(deletePatientAsync(patient.id))}
-                      className="flex items-center gap-1 px-3 py-1 bg-slate-700 dark:[background-color:oklch(47.6%_0.114_61.907)] text-white border-0 rounded cursor-pointer transition text-sm"
+                      className={PatientListStyles.deleteBtn}
                     >
                       {t("patients.delete")}
                       <FaTrash className="text-sm" />
@@ -128,6 +111,48 @@ const PatientList: React.FC = () => {
             </tbody>
           </table>
         </div>
+      )}
+
+      {/* Mobile Cards */}
+      <div className={PatientListStyles.mobileListWrapper}>
+        {filteredPatients.map((patient, index) => (
+          <div key={patient.id} className={PatientListStyles.mobileCard}>
+            <div
+              className={PatientListStyles.mobileCardHeader}
+              onClick={() => toggleExpand(patient.id)}
+            >
+              <span>#{index + 1}</span>
+              <span>
+                {patient.firstName} {patient.lastName}
+              </span>
+            </div>
+           <div
+            className={`${PatientListStyles.mobileCardBody} ${
+              expandedIds.includes(patient.id)
+                ? PatientListStyles.mobileCardBodyExpanded
+                : ""
+            }`}
+          >
+            <p>Email: {patient.email}</p>
+            <p>Contact: {patient.contact}</p>
+            <p>Age: {patient.age}</p>
+            <p>Address: {patient.address}</p>
+            <button
+              onClick={() => dispatch(deletePatientAsync(patient.id))}
+              className={PatientListStyles.deleteBtn}
+            >
+              {t("patients.delete")}
+              <FaTrash className="text-sm" />
+            </button>
+          </div>
+          </div>
+        ))}
+      </div>
+
+      {filteredPatients.length === 0 && !loading && (
+        <p className={PatientListStyles.noPatients}>
+          {t("patients.noPatients")}
+        </p>
       )}
     </div>
   );
