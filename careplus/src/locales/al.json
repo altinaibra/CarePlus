@@ -236,7 +236,8 @@
     "description": "Përshkrimi",
     "price": "Çmimi",
     "unit": "Njësia",
-    "noAnalysesFound": "Nuk u gjetën analiza."
+    "noAnalysesFound": "Nuk u gjetën analiza.",
+    "selectAnalysis": "Selekto"
   },
   "calendar": {
     "calendar": "Kalendari i festave",

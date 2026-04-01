@@ -60,13 +60,12 @@ const Home: React.FC = () => {
     };
   }, []);
 
-  // -------- FETCH HOSPITAL --------
   useEffect(() => {
     const fetchHospital = async () => {
       try {
         const res = await hospitalAPI.getAll();
         if (res.data && res.data.length > 0) {
-          setHospital(res.data[0]); // marrim të parin
+          setHospital(res.data[0]);
         }
       } catch (error) {
         console.error("Error loading hospital info", error);

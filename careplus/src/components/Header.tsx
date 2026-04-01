@@ -23,7 +23,6 @@ import ThemeToggle from "../context/ThemeToggle";
 import { RootState } from "../app/store";
 import HeaderStyles from "../styles/HeaderStyles";
 import { laboratoryAPI } from "../app/laboratoryApi";
-import ApplicationLogo from "../assets/images/ApplicationLogo";
 
 interface MenuItem {
   path: string;
@@ -144,14 +143,17 @@ const Header: React.FC = () => {
 
   return (
     <header className={HeaderStyles.header}>
-      <div className={HeaderStyles.logoContainer}>
+      <div
+        className={HeaderStyles.logoContainer}
+        onClick={() => navigate("/")}
+        style={{ cursor: "pointer" }}
+      >
         {React.createElement(
           FaUserMd as React.ComponentType<{ size?: number }>,
           { size: 32 },
         )}
         <h3 className="text-xl font-bold">{t("header.title")}</h3>
       </div>
-
       <nav className={HeaderStyles.nav}>
         {menuItems.map((item, index) => (
           <Link key={index} to={item.path} className={HeaderStyles.navLink}>

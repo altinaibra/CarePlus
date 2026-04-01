@@ -99,7 +99,7 @@ const LaboratoryPage: React.FC = () => {
     e: React.KeyboardEvent<HTMLInputElement>,
   ) => {
     if (e.key === "Enter" || e.key === "Escape") {
-      setEditingPriceId(null); // stop editing
+      setEditingPriceId(null);
     }
   };
 
@@ -149,7 +149,9 @@ const LaboratoryPage: React.FC = () => {
       <table className={LaboratoryPageStyles.table}>
         <thead>
           <tr>
-            <th></th>
+            <th className={LaboratoryPageStyles.th}>
+              {t("laboratory.selectAnalysis")}
+            </th>
             <th className={LaboratoryPageStyles.th}>{t("laboratory.name")}</th>
             <th className={LaboratoryPageStyles.th}>
               {t("laboratory.description")}

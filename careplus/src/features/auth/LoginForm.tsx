@@ -57,7 +57,21 @@ const LoginForm = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] bg-white dark:[background-color:oklch(20.5%_0_0)] p-8 w-full max-w-lg mx-auto mt-16 rounded-lg shadow-md text-gray-900 dark:text-gray-100"
+      className="
+      border border-gray-300 
+      dark:[border-color:oklch(47.6%_0.114_61.907)] 
+      bg-white 
+      dark:[background-color:oklch(20.5%_0_0)] 
+      p-8 
+      w-full 
+      max-w-sm md:max-w-lg    
+      mx-auto 
+      mt-16 
+      rounded-lg 
+      shadow-md 
+      text-gray-900 
+      dark:text-gray-100
+    "
     >
       <h2 className="text-2xl font-bold mb-6">{t("login.title")}</h2>
 

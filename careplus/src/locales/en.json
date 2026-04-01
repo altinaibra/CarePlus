@@ -237,7 +237,8 @@
     "description": "Description",
     "price": "Price",
     "unit": "Unit",
-    "noAnalysesFound": "No analyses found."
+    "noAnalysesFound": "No analyses found.",
+    "selectAnalysis": "Select"
   },
   "calendar": {
     "calendar": "Calendar",
