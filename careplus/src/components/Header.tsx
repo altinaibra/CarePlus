@@ -16,6 +16,8 @@ import {
   FaPrescriptionBottle,
   FaCog,
   FaUser,
+  FaBars,
+  FaTimes,
 } from "react-icons/fa";
 
 import LanguageSelector from "../locales/LanguageSelector";
@@ -37,6 +39,7 @@ const Header: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [labEnabled, setLabEnabled] = useState(false);
 
@@ -141,125 +144,245 @@ const Header: React.FC = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  useEffect(() => {
+    if (mobileSidebarOpen) {
+      document.body.style.overflow = "hidden";
+      return;
+    }
+    document.body.style.overflow = "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileSidebarOpen]);
+
   return (
-    <header className={HeaderStyles.header}>
-      <div
-        className={HeaderStyles.logoContainer}
-        onClick={() => navigate("/")}
-        style={{ cursor: "pointer" }}
-      >
-        {React.createElement(
-          FaUserMd as React.ComponentType<{ size?: number }>,
-          { size: 32 },
-        )}
-        <h3 className="text-xl font-bold">{t("header.title")}</h3>
-      </div>
-      <nav className={HeaderStyles.nav}>
-        {menuItems.map((item, index) => (
-          <Link key={index} to={item.path} className={HeaderStyles.navLink}>
-            {React.createElement(
-              item.Icon as React.ComponentType<{ size?: number }>,
-              { size: 20 },
-            )}
-
-            <span className={HeaderStyles.navLabel}>{item.label}</span>
-          </Link>
-        ))}
-      </nav>
-
-      {user && (
-        <div className={HeaderStyles.rightSection}>
-          <LanguageSelector i18n={i18n} changeLanguage={changeLanguage} />
-
-          <ThemeToggle />
-
-          <div className="relative" ref={dropdownRef}>
-            <button
-              onClick={() => setDropdownOpen(!dropdownOpen)}
-              className={HeaderStyles.userButton}
-            >
+    <>
+      <header className={HeaderStyles.header}>
+        <div
+          className={HeaderStyles.logoContainer}
+          onClick={() => navigate("/")}
+          style={{ cursor: "pointer" }}
+        >
+          {React.createElement(
+            FaUserMd as React.ComponentType<{ size?: number }>,
+            { size: 30 },
+          )}
+          <h3 className="text-lg md:text-xl font-bold">{t("header.title")}</h3>
+        </div>
+        <nav className={`${HeaderStyles.nav} hidden md:flex`}>
+          {menuItems.map((item, index) => (
+            <Link key={index} to={item.path} className={HeaderStyles.navLink}>
               {React.createElement(
-                role === "doctor" || role === "admin" ? FaUserMd : FaUser,
-                { size: 22, className: "inline mr-2" },
+                item.Icon as React.ComponentType<{ size?: number }>,
+                { size: 20 },
               )}
-              <span className="text-sm">
-                <strong>{user ?? ""}</strong> ({getRoleLabel(role ?? "")})
-              </span>
-            </button>
 
-            {dropdownOpen && (
-              <div className={HeaderStyles.dropdown}>
-                <Link
-                  to="/profile"
-                  className={HeaderStyles.dropdownItem}
-                  onClick={() => setDropdownOpen(false)}
-                >
-                  <FaUser className="inline mr-2" />
-                  {t("header.profile") || "Profile"}
-                </Link>
+              <span className={HeaderStyles.navLabel}>{item.label}</span>
+            </Link>
+          ))}
+        </nav>
 
-                <Link
-                  to="/settings"
-                  className={HeaderStyles.dropdownItem}
-                  onClick={() => setDropdownOpen(false)}
-                >
-                  <FaCog className="inline mr-2" />
-                  {t("header.settings") || "Settings"}
-                </Link>
+        {user && (
+          <div className={HeaderStyles.rightSection}>
+            <div className="hidden md:flex items-center gap-4">
+              <LanguageSelector i18n={i18n} changeLanguage={changeLanguage} />
+              <ThemeToggle />
 
-                <Link
-                  to="/appointments"
-                  className={HeaderStyles.dropdownItem}
-                  onClick={() => setDropdownOpen(false)}
-                >
-                  <FaCalendarAlt className="inline mr-2" />
-                  {t("header.appointments") || "Appointments"}
-                </Link>
-
-                {role === "doctor" && (
-                  <Link
-                    to="/prescription"
-                    className={HeaderStyles.dropdownItem}
-                    onClick={() => setDropdownOpen(false)}
-                  >
-                    <FaPrescriptionBottle className="inline mr-2" />
-                    {t("header.prescription") || "Prescription"}
-                  </Link>
-                )}
-
+              <div className="relative" ref={dropdownRef}>
                 <button
-                  onClick={handleLogout}
-                  className={HeaderStyles.dropdownButton}
+                  onClick={() => setDropdownOpen(!dropdownOpen)}
+                  className={HeaderStyles.userButton}
                 >
-                  <FaSignOutAlt className="inline mr-2" />
-                  {t("header.logout") || "Logout"}
+                  {React.createElement(
+                    role === "doctor" || role === "admin" ? FaUserMd : FaUser,
+                    { size: 22, className: "inline mr-2" },
+                  )}
+                  <span className="text-sm">
+                    <strong>{user ?? ""}</strong> ({getRoleLabel(role ?? "")})
+                  </span>
                 </button>
-                {role !== "patient" && (
-                  <div className="px-4 py-2 flex items-center justify-between text-sm text-gray-800 dark:text-gray-200">
-                    <span>{t("header.laboratory")}</span>
+
+                {dropdownOpen && (
+                  <div className={HeaderStyles.dropdown}>
+                    <Link
+                      to="/profile"
+                      className={HeaderStyles.dropdownItem}
+                      onClick={() => setDropdownOpen(false)}
+                    >
+                      <FaUser className="inline mr-2" />
+                      {t("header.profile") || "Profile"}
+                    </Link>
+
+                    <Link
+                      to="/settings"
+                      className={HeaderStyles.dropdownItem}
+                      onClick={() => setDropdownOpen(false)}
+                    >
+                      <FaCog className="inline mr-2" />
+                      {t("header.settings") || "Settings"}
+                    </Link>
+
+                    <Link
+                      to="/appointments"
+                      className={HeaderStyles.dropdownItem}
+                      onClick={() => setDropdownOpen(false)}
+                    >
+                      <FaCalendarAlt className="inline mr-2" />
+                      {t("header.appointments") || "Appointments"}
+                    </Link>
+
+                    {role === "doctor" && (
+                      <Link
+                        to="/prescription"
+                        className={HeaderStyles.dropdownItem}
+                        onClick={() => setDropdownOpen(false)}
+                      >
+                        <FaPrescriptionBottle className="inline mr-2" />
+                        {t("header.prescription") || "Prescription"}
+                      </Link>
+                    )}
 
                     <button
-                      onClick={handleLabToggle}
-                      className={`
-                      relative inline-flex h-5 w-10 items-center rounded-full transition
-                      ${labEnabled ? "bg-slate-700 dark:[background-color:oklch(47.6%_0.114_61.907)] hover:bg-slate-800" : "bg-gray-300 dark:bg-gray-600"}
-                    `}
+                      onClick={handleLogout}
+                      className={HeaderStyles.dropdownButton}
                     >
-                      <span
-                        className={`
-                      inline-block h-4 w-4 transform rounded-full bg-white transition
-                      ${labEnabled ? "translate-x-5" : "translate-x-1"}
-                    `}
-                      />
+                      <FaSignOutAlt className="inline mr-2" />
+                      {t("header.logout") || "Logout"}
                     </button>
+                    {role !== "patient" && (
+                      <div className="px-4 py-2 flex items-center justify-between text-sm text-gray-800 dark:text-gray-200">
+                        <span>{t("header.laboratory")}</span>
+
+                        <button
+                          onClick={handleLabToggle}
+                          className={`
+                          relative inline-flex h-5 w-10 items-center rounded-full transition
+                          ${labEnabled ? "bg-slate-700 dark:[background-color:oklch(47.6%_0.114_61.907)] hover:bg-slate-800" : "bg-gray-300 dark:bg-gray-600"}
+                        `}
+                        >
+                          <span
+                            className={`
+                          inline-block h-4 w-4 transform rounded-full bg-white transition
+                          ${labEnabled ? "translate-x-5" : "translate-x-1"}
+                        `}
+                          />
+                        </button>
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
-            )}
+            </div>
+
+            <button
+              type="button"
+              onClick={() => setMobileSidebarOpen(true)}
+              className="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-md bg-slate-800/70 hover:bg-slate-900 transition"
+              aria-label="Open mobile menu"
+            >
+              <FaBars size={18} />
+            </button>
           </div>
+        )}
+      </header>
+
+      {mobileSidebarOpen && (
+        <div className="fixed inset-0 z-50 md:hidden">
+          <button
+            type="button"
+            aria-label="Close mobile menu overlay"
+            className="absolute inset-0 bg-black/45"
+            onClick={() => setMobileSidebarOpen(false)}
+          />
+
+          <aside className="absolute top-0 left-0 h-full w-[82%] max-w-[320px] bg-white dark:[background-color:oklch(20.5%_0_0)] text-gray-900 dark:text-gray-100 shadow-2xl border-r border-gray-200 dark:[border-color:oklch(47.6%_0.114_61.907)]">
+            <div className="flex items-center justify-between px-4 py-4 border-b border-gray-200 dark:[border-color:oklch(47.6%_0.114_61.907)]">
+              <h4 className="font-semibold">{t("header.title")}</h4>
+              <button
+                type="button"
+                onClick={() => setMobileSidebarOpen(false)}
+                className="w-9 h-9 inline-flex items-center justify-center rounded-md bg-gray-100 dark:bg-gray-800"
+                aria-label="Close mobile menu"
+              >
+                <FaTimes />
+              </button>
+            </div>
+
+            <div className="px-4 py-4 flex items-center gap-3 border-b border-gray-200 dark:[border-color:oklch(47.6%_0.114_61.907)]">
+              <LanguageSelector i18n={i18n} changeLanguage={changeLanguage} />
+              <ThemeToggle />
+            </div>
+
+            <nav className="p-3 space-y-1">
+              {menuItems.map((item, index) => (
+                <Link
+                  key={index}
+                  to={item.path}
+                  className="flex items-center gap-3 px-3 py-3 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800"
+                  onClick={() => setMobileSidebarOpen(false)}
+                >
+                  {React.createElement(
+                    item.Icon as React.ComponentType<{ size?: number }>,
+                    { size: 18 },
+                  )}
+                  <span className="text-sm">{item.label}</span>
+                </Link>
+              ))}
+
+              <Link
+                to="/profile"
+                className="flex items-center gap-3 px-3 py-3 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800"
+                onClick={() => setMobileSidebarOpen(false)}
+              >
+                <FaUser size={18} />
+                <span className="text-sm">{t("header.profile") || "Profile"}</span>
+              </Link>
+
+              <Link
+                to="/settings"
+                className="flex items-center gap-3 px-3 py-3 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800"
+                onClick={() => setMobileSidebarOpen(false)}
+              >
+                <FaCog size={18} />
+                <span className="text-sm">
+                  {t("header.settings") || "Settings"}
+                </span>
+              </Link>
+            </nav>
+
+            {role !== "patient" && (
+              <div className="px-4 py-3 border-t border-gray-200 dark:[border-color:oklch(47.6%_0.114_61.907)] flex items-center justify-between text-sm">
+                <span>{t("header.laboratory")}</span>
+                <button
+                  onClick={handleLabToggle}
+                  className={`
+                    relative inline-flex h-5 w-10 items-center rounded-full transition
+                    ${labEnabled ? "bg-slate-700 dark:[background-color:oklch(47.6%_0.114_61.907)] hover:bg-slate-800" : "bg-gray-300 dark:bg-gray-600"}
+                  `}
+                >
+                  <span
+                    className={`
+                      inline-block h-4 w-4 transform rounded-full bg-white transition
+                      ${labEnabled ? "translate-x-5" : "translate-x-1"}
+                    `}
+                  />
+                </button>
+              </div>
+            )}
+
+            <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-200 dark:[border-color:oklch(47.6%_0.114_61.907)]">
+              <button
+                onClick={handleLogout}
+                className="w-full text-left px-3 py-3 rounded-md bg-red-50 text-red-600 dark:bg-red-900/20 dark:text-red-300 hover:bg-red-100 dark:hover:bg-red-900/30"
+              >
+                <FaSignOutAlt className="inline mr-2" />
+                {t("header.logout") || "Logout"}
+              </button>
+            </div>
+          </aside>
         </div>
       )}
-    </header>
+    </>
   );
 };
 

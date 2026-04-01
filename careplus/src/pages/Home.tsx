@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { logout } from "../features/auth/authSlice";
 import { FaBed, FaBuilding, FaHospital } from "react-icons/fa";
 import { Hospital, hospitalAPI } from "../app/hospital";
+import { HomeStyles } from "../styles/HomeStyles";
 
 interface Department {
   id: string | number;
@@ -75,31 +76,22 @@ const Home: React.FC = () => {
     fetchHospital();
   }, []);
   return (
-    <div className="p-10 text-center">
-      <p className="text-lg text-gray-600 dark:text-gray-300 mb-10">
-        {t("home.subtitle")}
-      </p>
+    <div className={HomeStyles.container}>
+      <p className={HomeStyles.subtitle}>{t("home.subtitle")}</p>
 
       <div className="mt-8">
-        <div className="flex items-center justify-center mb-6">
-          <FaHospital className="mr-2 text-gray-700 dark:text-white text-2xl" />
-          <h2 className="text-2xl font-bold">{t("home.departments")}</h2>
+        <div className={HomeStyles.sectionHeaderContainer}>
+          <FaHospital className={HomeStyles.sectionHeaderIcon} />
+          <h2 className={HomeStyles.sectionHeaderTitle}>
+            {t("home.departments")}
+          </h2>
         </div>
 
-        <div className="flex flex-wrap justify-center gap-5 max-w-4xl mx-auto">
+        <div className={HomeStyles.cardsContainer}>
           {departments.map((dept) => (
-            <div
-              key={dept.id}
-              className={`
-                w-full sm:w-[calc(50%-1.25rem)] lg:w-[calc(33.333%-1.25rem)]
-                rounded-lg p-5 shadow-md
-                bg-white dark:[background-color:oklch(20.5%_0_0)]
-                text-gray-900 dark:text-gray-100
-               relative border-animated
-              `}
-            >
+            <div key={dept.id} className={HomeStyles.card}>
               <h3
-                className="text-lg font-semibold mb-2 cursor-pointer"
+                className={HomeStyles.cardTitle}
                 onClick={() => openDepartment(dept.id)}
               >
                 {dept.name}
@@ -109,33 +101,24 @@ const Home: React.FC = () => {
         </div>
 
         <div className="mt-12">
-          <div className="flex items-center justify-center mb-6">
-            <FaBed className="mr-2 text-gray-700 dark:text-white text-2xl" />
-            <h2 className="text-2xl font-bold">{t("home.rooms")}</h2>
+          <div className={HomeStyles.sectionHeaderContainer}>
+            <FaBed className={HomeStyles.sectionHeaderIcon} />
+            <h2 className={HomeStyles.sectionHeaderTitle}>{t("home.rooms")}</h2>
           </div>
           {allRooms.length === 0 ? (
-            <p className="text-gray-500 dark:text-gray-400">
+            <p className={HomeStyles.noRooms}>
               {t("home.noRooms") || "No rooms available."}
             </p>
           ) : (
-            <div className="flex flex-wrap justify-center gap-5 max-w-4xl mx-auto">
+            <div className={HomeStyles.cardsContainer}>
               {allRooms.map((room) => (
-                <div
-                  key={room.id}
-                  className={`
-                     border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)]
-                    w-full sm:w-[calc(50%-1.25rem)] lg:w-[calc(33.333%-1.25rem)]
-                    rounded-lg p-5 shadow-md bg-white dark:[background-color:oklch(20.5%_0_0)]
-                    text-gray-900 dark:text-gray-100
-                  `}
-                >
-                  <div></div>
+                <div key={room.id} className={HomeStyles.roomCard}>
                   <div className="relative z-10">
-                    <h3 className="text-lg font-semibold mb-2">
+                    <h3 className={HomeStyles.cardTitle}>
                       {t("home.roomLabel", { number: room.roomNumber }) ||
                         `Dhoma: ${room.roomNumber}`}
                     </h3>
-                    <div className="text-sm text-gray-600 dark:text-gray-300 space-y-1">
+                    <div className={HomeStyles.roomInfo}>
                       <p>
                         {t("home.totalBeds")}: {room.totalBeds}
                       </p>
@@ -153,10 +136,11 @@ const Home: React.FC = () => {
           )}
         </div>
       </div>
+
       {hospital && (
-        <div className="fixed bottom-0 left-0 w-full text-center py-4 bg-transparent text-gray-700 dark:text-gray-300">
-          <p className="text-sm font-semibold">{hospital.name}</p>
-          <p className="text-sm">{hospital.email}</p>
+        <div className={HomeStyles.bottomBar}>
+          <p className={HomeStyles.bottomBarName}>{hospital.name}</p>
+          <p className={HomeStyles.bottomBarEmail}>{hospital.email}</p>
         </div>
       )}
     </div>
