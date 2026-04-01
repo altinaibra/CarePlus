@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { login as loginAction } from "./authSlice";
 import { authAPI } from "../../app/api";
+import { API_BASE_URL } from "../../app/axiosInstance";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 const LoginForm = () => {
   const { t } = useTranslation();
@@ -26,7 +27,10 @@ const LoginForm = () => {
     setError("");
 
     try {
-      const response = await authAPI.login(formData);
+      const response = await authAPI.login({
+        username: formData.username.trim(),
+        password: formData.password,
+      });
       const { userId, profileId, token, role, username } = response.data;
       const normalizedRole = role.toLowerCase();
       localStorage.setItem("userId", userId.toString());
@@ -50,7 +54,17 @@ const LoginForm = () => {
       }
     } catch (err: any) {
       const apiError = err?.response?.data?.message;
-      setError(apiError || "Invalid credentials");
+      if (apiError) {
+        setError(apiError);
+        return;
+      }
+
+      if (err?.code === "ERR_NETWORK" || err?.code === "ECONNABORTED") {
+        setError(`Cannot reach server (${API_BASE_URL}). Check network/API URL.`);
+        return;
+      }
+
+      setError("Login failed. Please try again.");
     }
   };
 
@@ -87,6 +101,9 @@ const LoginForm = () => {
           placeholder={t("login.emailOrUsername")}
           value={formData.username}
           onChange={handleChange}
+          autoCapitalize="none"
+          autoCorrect="off"
+          spellCheck={false}
           required
           className="block px-3 py-2 w-full border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] rounded-md bg-white dark:[background-color:oklch(20.5%_0_0)] text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-slate-700"
         />

@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Net;
+using System.Net.Sockets;
 using System.Text;
 using carePlusApi.Repository;
 using carePlusApi.Models;
@@ -33,14 +35,59 @@ builder.Services.AddScoped<AuthService>();
 
 builder.Services.AddControllers();
 
+static bool IsAllowedFrontendOrigin(string? origin)
+{
+    if (string.IsNullOrWhiteSpace(origin))
+    {
+        return false;
+    }
+
+    if (!Uri.TryCreate(origin, UriKind.Absolute, out var uri))
+    {
+        return false;
+    }
+
+    if (!string.Equals(uri.Scheme, "http", StringComparison.OrdinalIgnoreCase) &&
+        !string.Equals(uri.Scheme, "https", StringComparison.OrdinalIgnoreCase))
+    {
+        return false;
+    }
+
+    if (string.Equals(uri.Host, "localhost", StringComparison.OrdinalIgnoreCase))
+    {
+        return true;
+    }
+
+    if (!IPAddress.TryParse(uri.Host, out var ip))
+    {
+        return false;
+    }
+
+    if (IPAddress.IsLoopback(ip))
+    {
+        return true;
+    }
+
+    if (ip.AddressFamily != AddressFamily.InterNetwork)
+    {
+        return false;
+    }
+
+    var bytes = ip.GetAddressBytes();
+    var is10 = bytes[0] == 10;
+    var is172 = bytes[0] == 172 && bytes[1] >= 16 && bytes[1] <= 31;
+    var is192 = bytes[0] == 192 && bytes[1] == 168;
+
+    return is10 || is172 || is192;
+}
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReactApp", builder =>
     {
-        builder.WithOrigins("http://localhost:3000", "http://localhost:3001")
+        builder.SetIsOriginAllowed(IsAllowedFrontendOrigin)
             .AllowAnyMethod()
-            .AllowAnyHeader()
-            .AllowCredentials();
+            .AllowAnyHeader();
     });
 
 });
@@ -105,7 +152,10 @@ app.UseSwaggerUI(c =>
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "CarePlus API v1");
 });
 
-app.UseHttpsRedirection();
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection();
+}
 
 app.UseCors("AllowReactApp");
 

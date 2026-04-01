@@ -1,10 +1,49 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
+import axios, { AxiosResponse } from "axios";
 
-const API_BASE_URL =
-  process.env.REACT_APP_API_URL || "http://localhost:5000/api";
+const host =
+  typeof window !== "undefined" ? window.location.hostname : "localhost";
+const apiPort = process.env.REACT_APP_API_PORT || "5142";
+const fallbackBaseUrl = `http://${host}:${apiPort}/api`;
+
+const resolveApiBaseUrl = () => {
+  const configured = process.env.REACT_APP_API_URL?.trim();
+  if (!configured) {
+    return fallbackBaseUrl;
+  }
+
+  // Handle common typo like "https:/localhost:7208/api".
+  const fixedConfigured = configured.replace(/^https?:\/(?!\/)/, "$&/");
+
+  let parsedUrl: URL;
+  try {
+    parsedUrl = new URL(fixedConfigured);
+  } catch {
+    return fallbackBaseUrl;
+  }
+
+  if (typeof window !== "undefined") {
+    const currentHost = window.location.hostname;
+    const currentIsLanHost =
+      currentHost !== "localhost" && currentHost !== "127.0.0.1";
+    const apiIsLocalhost =
+      parsedUrl.hostname === "localhost" ||
+      parsedUrl.hostname === "127.0.0.1" ||
+      parsedUrl.hostname === "::1";
+
+    // On mobile/LAN, replace localhost API with the same host used by frontend.
+    if (currentIsLanHost && apiIsLocalhost) {
+      return `http://${currentHost}:${apiPort}/api`;
+    }
+  }
+
+  return parsedUrl.toString().replace(/\/$/, "");
+};
+
+export const API_BASE_URL = resolveApiBaseUrl();
 
 const axiosInstance = axios.create({
   baseURL: API_BASE_URL,
+  timeout: 10000,
   headers: {
     "Content-Type": "application/json",
   },

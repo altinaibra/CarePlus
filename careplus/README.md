@@ -68,3 +68,19 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+## Mobile Network Setup (CarePlus + CarePlusApi)
+
+If you open frontend from phone (example: `http://192.168.x.x:3000`), backend must also listen on LAN:
+
+1. Run backend (`carePlusApi`) with HTTP endpoint on `0.0.0.0:5142`.
+2. Run frontend (`careplus`) on port `3000`.
+3. Ensure firewall allows inbound TCP `5142`.
+
+Default frontend API base URL is resolved to:
+
+`http://<frontend-host>:5142/api`
+
+You can override with:
+
+`REACT_APP_API_URL=http://<your-ip>:5142/api`
