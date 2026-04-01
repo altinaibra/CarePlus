@@ -39,7 +39,11 @@ const AuditSettings: React.FC = () => {
       </div>
 
       {error && <p className={AuditSettingsStyles.error}>{error}</p>}
-      {loading && <p className={AuditSettingsStyles.loading}>Loading...</p>}
+      {loading && (
+        <p className={AuditSettingsStyles.loading}>
+          {t("settingsPage.loading")}
+        </p>
+      )}
 
       <div className={AuditSettingsStyles.tableWrapper}>
         <table className={AuditSettingsStyles.table}>

@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Lab Report</title>
+    <title>Lab Report / Raporti i Laboratorit</title>
     <style>
       body {
         width: 80mm;
@@ -54,22 +54,25 @@
     </style>
   </head>
   <body>
-    <h1>Laboratory Report</h1>
+    <h1>Laboratory Report / Raporti i Laboratorit</h1>
     <div id="reportDate"></div>
 
     <table id="labsTable">
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Price</th>
-          <th>Unit</th>
+          <th>Name / Emri</th>
+          <th>Price / Çmimi</th>
+          <th>Unit / Njësia</th>
         </tr>
       </thead>
       <tbody></tbody>
     </table>
 
-    <div class="total" id="totalPrice"></div>
-    <div class="footer">Thank you for choosing our laboratory!</div>
+    <div class="total" id="totalPrice">Total / Totali: 0.00</div>
+    <div class="footer">
+      Thank you for choosing our laboratory! / Faleminderit që zgjodhët
+      laboratorin tonë!
+    </div>
 
     <script>
       window.addEventListener("message", (event) => {
@@ -82,15 +85,18 @@
         labData.selectedLabs.forEach((lab) => {
           const tr = document.createElement("tr");
           tr.innerHTML = `
-        <td>${lab.name}</td>
-        <td>${lab.price.toFixed(2)} ${labData.currency}</td>
-        <td>${lab.unit}</td>
-      `;
+            <td>${lab.name}</td>
+            <td>${lab.price.toFixed(2)} ${labData.currency}</td>
+            <td>${lab.unit}</td>
+          `;
           tbody.appendChild(tr);
         });
 
         document.getElementById("totalPrice").innerText =
-          "Total: " + labData.totalPrice.toFixed(2) + " " + labData.currency;
+          "Total / Totali: " +
+          labData.totalPrice.toFixed(2) +
+          " " +
+          labData.currency;
 
         document.getElementById("reportDate").innerText =
           new Date().toLocaleString();

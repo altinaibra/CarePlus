@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Diagnosis Report</title>
+    <title>Diagnosis Report / Raporti i Diagnozës</title>
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -111,43 +111,55 @@
         src="https://cdn-icons-png.flaticon.com/512/2910/2910764.png"
         alt="Medical Icon"
       />
-      <h2>Diagnosis Report</h2>
+      <h2>Diagnosis Report / Raporti i Diagnozës</h2>
     </div>
 
     <div class="info-grid">
       <div>
-        <label>Patient Name</label>
-        <input type="text" value="aa" />
+        <label>Patient Name / Emri i Pacientit</label>
+        <input
+          type="text"
+          value="aa"
+          placeholder="Enter name / Shkruani emrin"
+        />
       </div>
       <div>
-        <label>Patient Age</label>
-        <input type="number" value="22" />
+        <label>Patient Age / Mosha e Pacientit</label>
+        <input
+          type="number"
+          value="22"
+          placeholder="Enter age / Shkruani moshën"
+        />
       </div>
       <div>
-        <label>Patient Gender</label>
+        <label>Patient Gender / Gjinia e Pacientit</label>
         <div class="gender-group">
-          <label><input type="radio" name="gender" checked /> Female</label>
-          <label><input type="radio" name="gender" /> Male</label>
+          <label
+            ><input type="radio" name="gender" checked /> Female / Femër</label
+          >
+          <label><input type="radio" name="gender" /> Male / Mashkull</label>
         </div>
       </div>
     </div>
 
     <div class="checkbox-section">
       <input type="checkbox" checked />
-      <label>Does the patient have allergies?</label>
-      <input type="text" placeholder="List allergies" />
+      <label>Does the patient have allergies? / A ka pacienti alergji?</label>
+      <input type="text" placeholder="List allergies / Shkruani alergjitë" />
     </div>
 
     <div class="section">
-      <label>Diagnosis</label>
-      <textarea placeholder="Enter diagnosis"></textarea>
+      <label>Diagnosis / Diagnoza</label>
+      <textarea placeholder="Enter diagnosis / Shkruani diagnozën"></textarea>
     </div>
 
     <div class="section">
-      <label>Prescription</label>
-      <textarea placeholder="Enter prescription details"></textarea>
+      <label>Prescription / Receta</label>
+      <textarea
+        placeholder="Enter prescription details / Shkruani detajet e recetës"
+      ></textarea>
     </div>
 
-    <div class="signature">Doctor Signature</div>
+    <div class="signature">Doctor Signature / Nënshkrimi i Mjekut</div>
   </body>
 </html>

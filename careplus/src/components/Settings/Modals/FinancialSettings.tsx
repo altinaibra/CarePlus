@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { financialSettingsAPI } from "../../../app/settingsApi";
 import { FinancialSettingsStyles } from "../../../styles/FinancialSettingsStyles";
+import { Currency } from "../../../app/currenciesApi";
 
 const FinancialSettings: React.FC = () => {
   const { t } = useTranslation();
@@ -11,7 +12,7 @@ const FinancialSettings: React.FC = () => {
   const [invoicePrefix, setInvoicePrefix] = useState("INV");
   const [nextInvoiceNumber, setNextInvoiceNumber] = useState("1001");
   const [status, setStatus] = useState("");
-
+ const [currencies, setCurrencies] = useState<Currency[]>([]);
   useEffect(() => {
     const loadSettings = async () => {
       setStatus("loading");
@@ -94,10 +95,11 @@ const FinancialSettings: React.FC = () => {
           onChange={(e) => setCurrency(e.target.value)}
           className={FinancialSettingsStyles.select}
         >
-          <option>EUR</option>
-          <option>MKD</option>
-          <option>CHF</option>
-          <option>USD</option>
+          {currencies.map((c) => (
+            <option key={c.currencyId} value={c.currencyCode}>
+              {c.currencyCode} - {c.currencyName} ({c.currencySymbol})
+            </option>
+          ))}
         </select>
       </section>
 
