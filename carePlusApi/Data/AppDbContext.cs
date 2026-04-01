@@ -32,5 +32,11 @@ namespace CarePlusApi.Data
         public DbSet<Currency> Currencies { get; set; }
         public DbSet<PrinterGroups> PrinterGroups { get; set; }
         public DbSet<Hospital> Hospitals { get; set; }
+        public DbSet<NotificationTemplate> NotificationTemplates { get; set; }
+        public DbSet<FinancialSetting> FinancialSettings { get; set; }
+        public DbSet<BackupSetting> BackupSettings { get; set; }
+        public DbSet<AuditLog> AuditLogs { get; set; }
+        public DbSet<IntegrationSetting> IntegrationSettings { get; set; }
+        public DbSet<NotificationMessage> NotificationMessages { get; set; }
     }
 }

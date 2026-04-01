@@ -1,40 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-
-type AuditRow = {
-  id: number;
-  user: string;
-  action: string;
-  target: string;
-  timestamp: string;
-};
-
-const rows: AuditRow[] = [
-  {
-    id: 1,
-    user: "admin",
-    action: "Updated",
-    target: "Department settings",
-    timestamp: "2026-04-01 10:25",
-  },
-  {
-    id: 2,
-    user: "doctor.arta",
-    action: "Deleted",
-    target: "Patient #104",
-    timestamp: "2026-04-01 09:14",
-  },
-  {
-    id: 3,
-    user: "nurse.dren",
-    action: "Viewed",
-    target: "Lab report #55",
-    timestamp: "2026-03-31 16:47",
-  },
-];
+import { AuditLog, auditLogsAPI } from "../../../app/settingsApi";
 
 const AuditSettings: React.FC = () => {
   const { t } = useTranslation();
+  const [rows, setRows] = useState<AuditLog[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const loadLogs = async () => {
+      setLoading(true);
+      setError("");
+      try {
+        const res = await auditLogsAPI.getAll(100);
+        setRows(res.data);
+      } catch {
+        setError("Failed to load audit logs.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    void loadLogs();
+  }, []);
 
   return (
     <div className="space-y-4">
@@ -44,6 +33,10 @@ const AuditSettings: React.FC = () => {
           {t("settingsPage.auditLogDescription")}
         </p>
       </div>
+      {error && <p className="text-sm text-red-600">{error}</p>}
+      {loading && (
+        <p className="text-sm text-gray-600 dark:text-gray-300">Loading...</p>
+      )}
 
       <div className="overflow-x-auto border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] rounded">
         <table className="w-full text-sm">
@@ -58,10 +51,12 @@ const AuditSettings: React.FC = () => {
           <tbody>
             {rows.map((row) => (
               <tr key={row.id} className="border-t border-gray-200 dark:border-gray-700">
-                <td className="px-3 py-2">{row.user}</td>
+                <td className="px-3 py-2">{row.username}</td>
                 <td className="px-3 py-2">{row.action}</td>
                 <td className="px-3 py-2">{row.target}</td>
-                <td className="px-3 py-2">{row.timestamp}</td>
+                <td className="px-3 py-2">
+                  {new Date(row.createdAt).toLocaleString()}
+                </td>
               </tr>
             ))}
           </tbody>

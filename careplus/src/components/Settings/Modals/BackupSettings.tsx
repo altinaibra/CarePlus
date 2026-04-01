@@ -1,14 +1,68 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { backupSettingsAPI } from "../../../app/settingsApi";
 
 const BackupSettings: React.FC = () => {
   const { t } = useTranslation();
   const [autoBackup, setAutoBackup] = useState(true);
   const [interval, setInterval] = useState("daily");
   const [lastBackup, setLastBackup] = useState<string | null>(null);
+  const [status, setStatus] = useState("");
 
-  const runManualBackup = () => {
-    setLastBackup(new Date().toLocaleString());
+  useEffect(() => {
+    const loadSettings = async () => {
+      setStatus("loading");
+      try {
+        const res = await backupSettingsAPI.get();
+        setAutoBackup(res.data.autoBackupEnabled);
+        setInterval(res.data.backupInterval || "daily");
+        setLastBackup(
+          res.data.lastBackupAt
+            ? new Date(res.data.lastBackupAt).toLocaleString()
+            : null,
+        );
+        setStatus("");
+      } catch {
+        setStatus("error");
+      }
+    };
+
+    void loadSettings();
+  }, []);
+
+  const saveSettings = async () => {
+    setStatus("saving");
+    try {
+      const res = await backupSettingsAPI.save({
+        autoBackupEnabled: autoBackup,
+        backupInterval: interval,
+      });
+      setAutoBackup(res.data.autoBackupEnabled);
+      setInterval(res.data.backupInterval || "daily");
+      setLastBackup(
+        res.data.lastBackupAt
+          ? new Date(res.data.lastBackupAt).toLocaleString()
+          : null,
+      );
+      setStatus("saved");
+    } catch {
+      setStatus("error");
+    }
+  };
+
+  const runManualBackup = async () => {
+    setStatus("saving");
+    try {
+      const res = await backupSettingsAPI.manual();
+      setLastBackup(
+        res.data.lastBackupAt
+          ? new Date(res.data.lastBackupAt).toLocaleString()
+          : new Date().toLocaleString(),
+      );
+      setStatus("saved");
+    } catch {
+      setStatus("error");
+    }
   };
 
   return (
@@ -19,6 +73,13 @@ const BackupSettings: React.FC = () => {
           {t("settingsPage.backupRestoreDescription")}
         </p>
       </div>
+      {status === "loading" && (
+        <p className="text-sm text-gray-600 dark:text-gray-300">Loading...</p>
+      )}
+      {status === "saved" && <p className="text-sm text-green-600">Saved.</p>}
+      {status === "error" && (
+        <p className="text-sm text-red-600">Failed to update backup settings.</p>
+      )}
 
       <div className="border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] rounded p-4 space-y-3">
         <label className="inline-flex items-center gap-2">
@@ -60,6 +121,12 @@ const BackupSettings: React.FC = () => {
             {t("settingsPage.lastBackup")}: {lastBackup}
           </p>
         )}
+        <button
+          onClick={saveSettings}
+          className="px-3 py-2 rounded bg-slate-700 text-white dark:[background-color:oklch(47.6%_0.114_61.907)]"
+        >
+          {t("settingsPage.save")}
+        </button>
       </div>
     </div>
   );

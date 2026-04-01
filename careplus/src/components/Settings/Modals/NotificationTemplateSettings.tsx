@@ -1,64 +1,65 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-
-type Template = {
-  id: number;
-  title: string;
-  channel: "Email" | "SMS" | "In-App";
-  message: string;
-};
+import {
+  NotificationTemplate,
+  notificationTemplatesAPI,
+} from "../../../app/settingsApi";
 
 const NotificationTemplateSettings: React.FC = () => {
   const { t } = useTranslation();
-  const [templates, setTemplates] = useState<Template[]>([
-    {
-      id: 1,
-      title: t("settingsPage.templateNewVisit"),
-      channel: "In-App",
-      message: "A new appointment has been scheduled.",
-    },
-    {
-      id: 2,
-      title: t("settingsPage.templateCancellation"),
-      channel: "SMS",
-      message: "Your appointment has been cancelled.",
-    },
-    {
-      id: 3,
-      title: t("settingsPage.templatePaymentEmail"),
-      channel: "Email",
-      message: "Your invoice is ready. Please complete payment.",
-    },
-    {
-      id: 4,
-      title: t("settingsPage.templateSmsReminder"),
-      channel: "SMS",
-      message: "Reminder: you have an appointment tomorrow.",
-    },
-  ]);
+  const [templates, setTemplates] = useState<NotificationTemplate[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   const [newTitle, setNewTitle] = useState("");
-  const [newChannel, setNewChannel] = useState<Template["channel"]>("Email");
+  const [newChannel, setNewChannel] =
+    useState<NotificationTemplate["channel"]>("Email");
   const [newMessage, setNewMessage] = useState("");
 
-  const addTemplate = () => {
+  const loadTemplates = async () => {
+    setLoading(true);
+    setError("");
+    try {
+      const res = await notificationTemplatesAPI.getAll();
+      setTemplates(res.data);
+    } catch {
+      setError("Failed to load templates.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    void loadTemplates();
+  }, []);
+
+  const addTemplate = async () => {
     if (!newTitle.trim() || !newMessage.trim()) return;
-    setTemplates((prev) => [
-      ...prev,
-      {
-        id: Date.now(),
+    setError("");
+    try {
+      const res = await notificationTemplatesAPI.create({
         title: newTitle.trim(),
         channel: newChannel,
         message: newMessage.trim(),
-      },
-    ]);
-    setNewTitle("");
-    setNewChannel("Email");
-    setNewMessage("");
+        isActive: true,
+      });
+      setTemplates((prev) => [...prev, res.data]);
+      setNewTitle("");
+      setNewChannel("Email");
+      setNewMessage("");
+    } catch {
+      setError("Failed to add template.");
+    }
   };
 
-  const removeTemplate = (id: number) => {
-    setTemplates((prev) => prev.filter((tpl) => tpl.id !== id));
+  const removeTemplate = async (id: number) => {
+    setError("");
+    try {
+      await notificationTemplatesAPI.delete(id);
+      setTemplates((prev) => prev.filter((tpl) => tpl.id !== id));
+    } catch {
+      setError("Failed to delete template.");
+    }
   };
 
   return (
@@ -69,6 +70,10 @@ const NotificationTemplateSettings: React.FC = () => {
           {t("settingsPage.notificationTemplatesDescription")}
         </p>
       </div>
+      {error && <p className="text-sm text-red-600">{error}</p>}
+      {loading && (
+        <p className="text-sm text-gray-600 dark:text-gray-300">Loading...</p>
+      )}
 
       <div className="grid grid-cols-1 gap-3">
         <input
@@ -80,7 +85,9 @@ const NotificationTemplateSettings: React.FC = () => {
 
         <select
           value={newChannel}
-          onChange={(e) => setNewChannel(e.target.value as Template["channel"])}
+          onChange={(e) =>
+            setNewChannel(e.target.value as NotificationTemplate["channel"])
+          }
           className="border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] rounded px-3 py-2 bg-white dark:[background-color:oklch(20.5%_0_0)]"
         >
           <option>Email</option>

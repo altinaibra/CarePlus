@@ -1,34 +1,65 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-
-type Integration = {
-  id: string;
-  name: string;
-  enabled: boolean;
-  key: string;
-};
+import {
+  IntegrationSetting,
+  integrationsAPI,
+} from "../../../app/settingsApi";
 
 const IntegrationsSettings: React.FC = () => {
   const { t } = useTranslation();
-  const [integrations, setIntegrations] = useState<Integration[]>([
-    { id: "sms", name: "SMS API (Twilio/AlbSMS)", enabled: false, key: "" },
-    { id: "smtp", name: "Email SMTP", enabled: false, key: "" },
-    { id: "insurance", name: "Insurance API", enabled: false, key: "" },
-    { id: "barcode", name: "Barcode API", enabled: false, key: "" },
-  ]);
+  const [integrations, setIntegrations] = useState<IntegrationSetting[]>([]);
+  const [status, setStatus] = useState("");
 
-  const toggle = (id: string) => {
+  useEffect(() => {
+    const loadIntegrations = async () => {
+      setStatus("loading");
+      try {
+        const res = await integrationsAPI.getAll();
+        setIntegrations(res.data);
+        setStatus("");
+      } catch {
+        setStatus("error");
+      }
+    };
+
+    void loadIntegrations();
+  }, []);
+
+  const saveIntegration = async (integration: IntegrationSetting) => {
+    try {
+      const res = await integrationsAPI.update(integration.id, {
+        name: integration.name,
+        enabled: integration.enabled,
+        apiKey: integration.apiKey,
+      });
+      setIntegrations((prev) =>
+        prev.map((item) => (item.id === integration.id ? res.data : item)),
+      );
+      setStatus("saved");
+    } catch {
+      setStatus("error");
+    }
+  };
+
+  const toggle = async (id: number) => {
+    const item = integrations.find((x) => x.id === id);
+    if (!item) return;
+
+    const updated: IntegrationSetting = { ...item, enabled: !item.enabled };
+    setIntegrations((prev) => prev.map((x) => (x.id === id ? updated : x)));
+    await saveIntegration(updated);
+  };
+
+  const setApiKey = (id: number, key: string) => {
     setIntegrations((prev) =>
-      prev.map((item) =>
-        item.id === id ? { ...item, enabled: !item.enabled } : item,
-      ),
+      prev.map((item) => (item.id === id ? { ...item, apiKey: key } : item)),
     );
   };
 
-  const setApiKey = (id: string, key: string) => {
-    setIntegrations((prev) =>
-      prev.map((item) => (item.id === id ? { ...item, key } : item)),
-    );
+  const handleApiKeyBlur = async (id: number) => {
+    const item = integrations.find((x) => x.id === id);
+    if (!item) return;
+    await saveIntegration(item);
   };
 
   return (
@@ -39,6 +70,13 @@ const IntegrationsSettings: React.FC = () => {
           {t("settingsPage.integrationsDescription")}
         </p>
       </div>
+      {status === "loading" && (
+        <p className="text-sm text-gray-600 dark:text-gray-300">Loading...</p>
+      )}
+      {status === "saved" && <p className="text-sm text-green-600">Saved.</p>}
+      {status === "error" && (
+        <p className="text-sm text-red-600">Failed to save integrations.</p>
+      )}
 
       <div className="space-y-3">
         {integrations.map((item) => (
@@ -57,8 +95,11 @@ const IntegrationsSettings: React.FC = () => {
             </div>
 
             <input
-              value={item.key}
+              value={item.apiKey}
               onChange={(e) => setApiKey(item.id, e.target.value)}
+              onBlur={() => {
+                void handleApiKeyBlur(item.id);
+              }}
               placeholder="API Key / Endpoint"
               className="w-full border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] rounded px-3 py-2 bg-white dark:[background-color:oklch(20.5%_0_0)]"
             />

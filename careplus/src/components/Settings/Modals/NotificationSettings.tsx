@@ -1,38 +1,64 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSnackbar } from "../../../ui/SnackbarContext";
 import { NotificationSettingsStyles } from "../../../styles/NotificationSettingsStyles";
-
-type AlertRule = {
-  id: number;
-  title: string;
-  enabled: boolean;
-};
+import { notificationsAPI, SystemNotification } from "../../../app/settingsApi";
 
 const NotificationSettings: React.FC = () => {
   const { t } = useTranslation();
   const { showSnackbar } = useSnackbar();
 
-  const [rules, setRules] = useState<AlertRule[]>([]);
-  const [title, setTitle] = useState("");
+  const role = useMemo(
+    () => (localStorage.getItem("userRole") || "").toLowerCase(),
+    [],
+  );
+  const isAdmin = role === "admin" || role === "administrator";
+  const canView = isAdmin || role === "doctor" || role === "nurse";
 
-  const addRule = () => {
+  const [rules, setRules] = useState<SystemNotification[]>([]);
+  const [title, setTitle] = useState("");
+  const [loading, setLoading] = useState(true);
+
+  const loadNotifications = useCallback(async () => {
+    if (!canView) {
+      setLoading(false);
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const res = await notificationsAPI.getAll();
+      setRules(res.data);
+    } catch {
+      showSnackbar("Failed to load notifications", "error");
+    } finally {
+      setLoading(false);
+    }
+  }, [canView, showSnackbar]);
+
+  useEffect(() => {
+    void loadNotifications();
+  }, [loadNotifications]);
+
+  const addRule = async () => {
+    if (!isAdmin) {
+      showSnackbar("Only administrators can add notifications", "error");
+      return;
+    }
+
     if (!title) {
       showSnackbar(t("settingsPage.fillAllFields"), "error");
       return;
     }
 
-    setRules((prev) => [...prev, { id: Date.now(), title, enabled: true }]);
-    setTitle("");
-    showSnackbar(t("settingsPage.notificationAdded"), "success");
-  };
-
-  const toggleRule = (id: number) => {
-    setRules((prev) =>
-      prev.map((rule) =>
-        rule.id === id ? { ...rule, enabled: !rule.enabled } : rule,
-      ),
-    );
+    try {
+      const res = await notificationsAPI.create(title.trim());
+      setRules((prev) => [res.data, ...prev]);
+      setTitle("");
+      showSnackbar(t("settingsPage.notificationAdded"), "success");
+    } catch {
+      showSnackbar("Failed to add notification", "error");
+    }
   };
 
   return (
@@ -46,23 +72,33 @@ const NotificationSettings: React.FC = () => {
         </p>
       </div>
 
-      <div className={NotificationSettingsStyles.inputGrid}>
-        <input
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          placeholder={t("settingsPage.notificationRule")}
-          className={NotificationSettingsStyles.input}
-        />
-        <button
-          onClick={addRule}
-          className={NotificationSettingsStyles.addButton}
-        >
-          {t("settingsPage.addNotificationRule")}
-        </button>
-      </div>
+      {isAdmin && (
+        <div className={NotificationSettingsStyles.inputGrid}>
+          <input
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder={t("settingsPage.notificationRule")}
+            className={NotificationSettingsStyles.input}
+          />
+          <button
+            onClick={addRule}
+            className={NotificationSettingsStyles.addButton}
+          >
+            {t("settingsPage.addNotificationRule")}
+          </button>
+        </div>
+      )}
+
+      {!canView && (
+        <p className={NotificationSettingsStyles.noRulesText}>
+          You do not have access to notifications.
+        </p>
+      )}
 
       <div className={NotificationSettingsStyles.rulesList}>
-        {rules.length === 0 ? (
+        {loading ? (
+          <p className={NotificationSettingsStyles.noRulesText}>Loading...</p>
+        ) : rules.length === 0 ? (
           <p className={NotificationSettingsStyles.noRulesText}>
             {t("settingsPage.noNotificationRules")}
           </p>
@@ -75,19 +111,10 @@ const NotificationSettings: React.FC = () => {
                     {rule.title}
                   </h3>
                   <p className={NotificationSettingsStyles.ruleStatus}>
-                    {rule.enabled
-                      ? t("settingsPage.enabled")
-                      : t("settingsPage.disabled")}
+                    {new Date(rule.createdAt).toLocaleString()} •{" "}
+                    {rule.createdBy}
                   </p>
                 </div>
-                <button
-                  onClick={() => toggleRule(rule.id)}
-                  className={NotificationSettingsStyles.toggleButton}
-                >
-                  {rule.enabled
-                    ? t("settingsPage.disable")
-                    : t("settingsPage.enable")}
-                </button>
               </div>
             </div>
           ))
