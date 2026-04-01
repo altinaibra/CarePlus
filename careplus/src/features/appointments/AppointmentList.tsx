@@ -111,7 +111,7 @@ const AppointmentList: React.FC = () => {
   return (
     <div className={styles.container}>
       <div className="mb-4 flex flex-wrap items-center gap-4">
-        <div className="relative flex-1 w-5xl sm:w-4xl min-w-[180px]">
+        <div className="relative flex-1 max-w-sm min-w-[180px]">
           <span className="absolute inset-y-0 left-2 flex items-center text-gray-500 dark:text-gray-300">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -150,13 +150,13 @@ const AppointmentList: React.FC = () => {
             onClick={handleClear}
             className="px-3 py-1 border rounded hover:bg-gray-100 dark:hover:bg-[oklch(25%_0_0)]"
           >
-            Clear
+            {t("appointments.clear")}
           </button>
         )}
 
         <button
           onClick={handleFilter}
-          className="px-3 py-2 bg-slate-700 text-white rounded flex items-center gap-2"
+          className="px-3 py-2 bg-slate-700 dark:[background-color:oklch(47.6%_0.114_61.907)] text-white rounded flex items-center gap-2"
         >
           {t("appointments.filter")} <FaFilter />
         </button>
@@ -193,9 +193,9 @@ const AppointmentList: React.FC = () => {
                     <td className={styles.td}>
                       <button
                         onClick={() => dispatch(deleteAppointmentAsync(a.id))}
-                        className={styles.deleteButton}
+                        className={`${styles.deleteButton} flex items-center gap-1`}
                       >
-                        {t("appointments.delete")}{" "}
+                        {t("appointments.delete")}
                         <FaTrash className="text-sm" />
                       </button>
                     </td>
@@ -207,7 +207,6 @@ const AppointmentList: React.FC = () => {
         )}
       </div>
 
-      {/* Mobile Cards */}
       <div className="sm:hidden flex flex-col gap-2">
         {displayedAppointments.map((a, i) => (
           <div

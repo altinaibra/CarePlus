@@ -163,6 +163,7 @@ const LaboratoryPage: React.FC = () => {
                       type="checkbox"
                       checked={selectedLabs.has(lab.id)}
                       onChange={() => toggleLabSelection(lab.id)}
+                      className="accent-gray-300 dark:accent-[oklch(47.6%_0.114_61.907)]"
                     />
                   </td>
                   <td className={LaboratoryPageStyles.td}>{lab.name}</td>
@@ -204,7 +205,6 @@ const LaboratoryPage: React.FC = () => {
         </table>
       </div>
 
-      {/* Mobile collapsible cards */}
       <div className="sm:hidden flex flex-col gap-2">
         {filteredLabs.map((lab) => (
           <div
@@ -256,6 +256,7 @@ const LaboratoryPage: React.FC = () => {
                   type="checkbox"
                   checked={selectedLabs.has(lab.id)}
                   onChange={() => toggleLabSelection(lab.id)}
+                  className="accent-gray-300 dark:accent-[oklch(47.6%_0.114_61.907)]"
                 />
                 {t("laboratory.selectAnalysis")}
               </label>
@@ -264,7 +265,6 @@ const LaboratoryPage: React.FC = () => {
         ))}
       </div>
 
-      {/* Total price */}
       <div className="mt-4 flex justify-end">
         <div className="flex items-center gap-3 p-4">
           <h3 className="text-lg font-bold">{t("Total")}:</h3>

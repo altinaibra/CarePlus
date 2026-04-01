@@ -287,7 +287,7 @@ const Header: React.FC = () => {
       </header>
 
       {mobileSidebarOpen && (
-        <div className="fixed inset-0 z-50 md:hidden">
+        <div className="fixed inset-0 z-[9999] md:hidden">
           <button
             type="button"
             aria-label="Close mobile menu overlay"
