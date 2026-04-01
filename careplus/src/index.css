@@ -6,7 +6,8 @@ html,
 body,
 #root {
   height: 100%;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .border-animated {
@@ -180,6 +181,7 @@ body,
 
 body {
   margin: 0;
+  -webkit-overflow-scrolling: touch;
   font-family:
     "Inter",
     -apple-system,
