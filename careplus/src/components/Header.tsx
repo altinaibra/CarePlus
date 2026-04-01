@@ -277,7 +277,7 @@ const Header: React.FC = () => {
             <button
               type="button"
               onClick={() => setMobileSidebarOpen(true)}
-              className="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-md bg-slate-800/70 hover:bg-slate-900 transition"
+              className="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-md bg-gray-500 dark:[background-color:oklch(47.6%_0.114_61.907)] transition"
               aria-label="Open mobile menu"
             >
               <FaBars size={18} />
@@ -301,7 +301,7 @@ const Header: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setMobileSidebarOpen(false)}
-                className="w-9 h-9 inline-flex items-center justify-center rounded-md bg-gray-100 dark:bg-gray-800"
+                className="w-9 h-9 inline-flex items-center justify-center rounded-md bg-gray-500 dark:[background-color:oklch(47.6%_0.114_61.907)]"
                 aria-label="Close mobile menu"
               >
                 <FaTimes />
@@ -375,7 +375,7 @@ const Header: React.FC = () => {
             <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-200 dark:[border-color:oklch(47.6%_0.114_61.907)]">
               <button
                 onClick={handleLogout}
-                className="w-full text-left px-3 py-3 rounded-md bg-red-50 text-red-600 dark:bg-red-900/20 dark:text-red-300 hover:bg-red-100 dark:hover:bg-red-900/30"
+                className="w-full text-left px-3 py-3 rounded-md bg-white dark:[background-color:oklch(20.5%_0_0)] border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] text-gray-900 dark:text-gray-100"
               >
                 <FaSignOutAlt className="inline mr-2" />
                 {t("header.logout") || "Logout"}
