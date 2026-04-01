@@ -211,10 +211,10 @@ const AppointmentList: React.FC = () => {
         {displayedAppointments.map((a, i) => (
           <div
             key={a.id}
-            className="border rounded-lg p-3 bg-white dark:bg-[oklch(20.5%_0_0)] text-gray-900 dark:text-gray-100 transition-all duration-300"
+            className="border border-gray-300 dark:[border-color:oklch(47.6%_0.114_61.907)] rounded-lg p-3 bg-white dark:bg-[oklch(20.5%_0_0)] text-gray-900 dark:text-gray-100 transition-all duration-300"
           >
             <div
-              onClick={() => toggleExpand(a.id)} // a.id is already string
+              onClick={() => toggleExpand(a.id)}
               className="flex justify-between items-center cursor-pointer font-semibold"
             >
               <span>#{i + 1}</span>
@@ -227,10 +227,18 @@ const AppointmentList: React.FC = () => {
                 expandedIds.includes(a.id) ? "max-h-96" : "max-h-0"
               }`}
             >
-              <p>Date: {a.date}</p>
-              <p>Time: {a.time}</p>
-              <p>Reason: {a.reason}</p>
-              <p>Status: {a.status}</p>
+              <p>
+                {t("appointments.date")} {a.date}
+              </p>
+              <p>
+                {t("appointments.time")} {a.time}
+              </p>
+              <p>
+                {t("appointments.reason")} {a.reason}
+              </p>
+              <p>
+                {t("appointments.status")} {a.status}
+              </p>
               <button
                 onClick={() => dispatch(deleteAppointmentAsync(a.id))}
                 className="flex items-center gap-1 px-3 py-1 bg-slate-700 dark:bg-[oklch(47.6%_0.114_61.907)] text-white rounded text-sm"

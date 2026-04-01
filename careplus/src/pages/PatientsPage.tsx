@@ -14,7 +14,7 @@ const PatientsPage = () => {
   return (
     <div className="p-5">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-3xl font-bold">{t("patients.list")}</h2>
+        <h2 className="text-2xl sm:text-3xl font-bold">{t("patients.list")}</h2>
 
         <button
           onClick={handleOpen}

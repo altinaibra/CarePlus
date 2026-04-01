@@ -104,7 +104,6 @@ const LaboratoryPage: React.FC = () => {
     <div className={LaboratoryPageStyles.container}>
       <h2 className={LaboratoryPageStyles.title}>{t("laboratory.types")}</h2>
 
-      {/* Search + Print */}
       <div className="flex items-center mb-4 w-full">
         <div className="relative flex-1 max-w-md">
           <span className="absolute inset-y-0 left-2 flex items-center text-gray-500 dark:text-gray-300">
