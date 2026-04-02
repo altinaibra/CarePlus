@@ -10,7 +10,6 @@ public class PrinterGroupRepository
     {
         _context = context;
     }
-
     public IEnumerable<PrinterGroupsDto> GetAll() =>
         _context.PrinterGroups.Select(pg => new PrinterGroupsDto
         {
@@ -19,7 +18,6 @@ public class PrinterGroupRepository
             PrinterId = pg.PrinterId,
             EntryDate = pg.EntryDate
         }).ToList();
-
     public PrinterGroupsDto? GetById(int id) =>
         _context.PrinterGroups
                 .Where(pg => pg.PrinterGroupId == id)
@@ -30,7 +28,6 @@ public class PrinterGroupRepository
                     PrinterId = pg.PrinterId,
                     EntryDate = pg.EntryDate
                 }).FirstOrDefault();
-
     public PrinterGroupsDto Create(PrinterGroupsDto dto)
     {
         var entity = new PrinterGroups
@@ -44,7 +41,6 @@ public class PrinterGroupRepository
         dto.PrinterGroupId = entity.PrinterGroupId;
         return dto;
     }
-
     public PrinterGroupsDto? Update(int id, PrinterGroupsDto dto)
     {
         var entity = _context.PrinterGroups.Find(id);
@@ -55,7 +51,6 @@ public class PrinterGroupRepository
         _context.SaveChanges();
         return dto;
     }
-
     public bool Delete(int id)
     {
         var entity = _context.PrinterGroups.Find(id);

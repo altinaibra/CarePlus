@@ -8,24 +8,20 @@ namespace CarePlusApi.Repository
     public class PrescriptionRepository
     {
         private readonly AppDbContext _context;
-
         public PrescriptionRepository(AppDbContext context)
         {
             _context = context;
         }
-
         public async Task<Prescription?> GetByIdAsync(int id)
         {
             return await _context.Prescriptions.FindAsync(id);
         }
-
         public async Task<List<Prescription>> GetAllAsync()
         {
             return await _context.Prescriptions
                                  .OrderByDescending(p => p.CreatedAt)
                                  .ToListAsync();
         }
-
         public async Task<Prescription> CreateAsync(PrescriptionDto prescriptionDto)
         {
             var prescription = new Prescription
@@ -43,7 +39,6 @@ namespace CarePlusApi.Repository
 
             return prescription;
         }
-
         public async Task<bool> DeleteAsync(int id)
         {
             var prescription = await _context.Prescriptions.FindAsync(id);

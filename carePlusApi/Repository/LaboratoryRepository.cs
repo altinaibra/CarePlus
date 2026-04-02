@@ -12,7 +12,6 @@ namespace carePlusApi.Repositories
         Task<LaboratoryDto> CreateAsync(LaboratoryDto labDto);
         Task<List<LaboratoryDto>> GetAllAsync();
     }
-
     public class LaboratoryRepository : ILaboratoryRepository
     {
         private readonly AppDbContext _context;
@@ -21,7 +20,6 @@ namespace carePlusApi.Repositories
         {
             _context = context;
         }
-
         public async Task<LaboratoryDto?> GetByUserIdAsync(string userId)
         {
             var lab = await _context.Laboratories.FirstOrDefaultAsync(l => l.UserId == userId);
@@ -29,7 +27,6 @@ namespace carePlusApi.Repositories
 
             return MapToDto(lab);
         }
-
         public async Task<LaboratoryDto> ToggleLabStatusAsync(string userId, bool status)
         {
             var lab = await _context.Laboratories.FirstOrDefaultAsync(l => l.UserId == userId);
@@ -52,7 +49,6 @@ namespace carePlusApi.Repositories
             await _context.SaveChangesAsync();
             return MapToDto(lab);
         }
-
         public async Task<LaboratoryDto> CreateAsync(LaboratoryDto labDto)
         {
             var lab = new Models.Laboratory
@@ -70,14 +66,12 @@ namespace carePlusApi.Repositories
 
             return MapToDto(lab);
         }
-
         public async Task<List<LaboratoryDto>> GetAllAsync()
         {
             return await _context.Laboratories
                 .Select(l => MapToDto(l))
                 .ToListAsync();
         }
-
         private LaboratoryDto MapToDto(Models.Laboratory lab)
         {
             return new LaboratoryDto

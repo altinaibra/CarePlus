@@ -10,12 +10,10 @@ namespace carePlusApi.Repository
     public class PrinterRepository
     {
         private readonly AppDbContext _context;
-
         public PrinterRepository(AppDbContext context)
         {
             _context = context;
         }
-
         public async Task<IEnumerable<PrinterDto>> GetAllAsync()
         {
             var printers = await _context.Printers.ToListAsync();
@@ -45,15 +43,12 @@ namespace carePlusApi.Repository
                 Online = CheckIfPrinterIsOnline(printer)
             };
         }
-
-        // Shto printer të ri
         public async Task<Printer> AddAsync(Printer printer)
         {
             _context.Printers.Add(printer);
             await _context.SaveChangesAsync();
             return printer;
         }
-
         public async Task<Printer?> UpdateAsync(int id, Printer printer)
         {
             var existing = await _context.Printers.FindAsync(id);
@@ -66,7 +61,6 @@ namespace carePlusApi.Repository
             await _context.SaveChangesAsync();
             return existing;
         }
-
         public async Task<bool> DeleteAsync(int id)
         {
             var printer = await _context.Printers.FindAsync(id);
@@ -76,7 +70,6 @@ namespace carePlusApi.Repository
             await _context.SaveChangesAsync();
             return true;
         }
-
         public async Task<bool> PrintLabReportAsync(LabReportPrintRequest request)
         {
             if (request?.SelectedLabs == null || !request.SelectedLabs.Any())
@@ -136,7 +129,6 @@ namespace carePlusApi.Repository
             printDocument.Print();
             return true;
         }
-
         public async Task<bool> PrintPrescriptionAsync(PrescriptionPrintRequest request)
         {
             if (request == null)
@@ -210,13 +202,11 @@ namespace carePlusApi.Repository
             printDocument.Print();
             return true;
         }
-
         private bool CheckIfPrinterIsOnline(Printer printer)
         {
             return true; 
         }
     }
-
     public class PrinterDto
     {
         public int PrinterId { get; set; }

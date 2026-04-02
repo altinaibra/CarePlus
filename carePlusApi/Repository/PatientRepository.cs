@@ -9,22 +9,18 @@ namespace CarePlusApi.Repository
     public class PatientRepository
     {
         private readonly AppDbContext _context;
-
         public PatientRepository(AppDbContext context)
         {
             _context = context;
         }
-
         public async Task<Patient?> GetByIdAsync(int id)
         {
             return await _context.Patients.FindAsync(id);
         }
-
         public async Task<List<Patient>> GetAllAsync()
         {
             return await _context.Patients.ToListAsync();
         }
-
         public async Task<Patient> CreateAsync(PatientDto dto)
         {
             var patient = new Patient
@@ -46,7 +42,6 @@ namespace CarePlusApi.Repository
             await _context.SaveChangesAsync();
             return patient;
         }
-
         public async Task<bool> DeleteAsync(int id)
         {
             var patient = await _context.Patients.FindAsync(id);

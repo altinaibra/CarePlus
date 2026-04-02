@@ -197,7 +197,8 @@ const Header: React.FC = () => {
                     { size: 22, className: "inline mr-2" },
                   )}
                   <span className="text-sm">
-                    <strong>{user ?? ""}</strong> ({getRoleLabel(role ?? "")})
+                    <strong>{user ?? ""}</strong> 
+                    {/* ({getRoleLabel(role ?? "")}) */}
                   </span>
                 </button>
 

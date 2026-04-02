@@ -9,7 +9,6 @@ namespace CarePlusApi.Controllers
     public class AuthController : ControllerBase
     {
         private readonly AuthService _authService;
-
         public AuthController(AuthService authService)
         {
             _authService = authService;

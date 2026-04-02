@@ -14,17 +14,14 @@ namespace carePlusApi.Repositories
         {
             _context = context;
         }
-
         public async Task<IEnumerable<Hospital>> GetAllAsync()
         {
             return await _context.Hospitals.ToListAsync();
         }
-
         public async Task<Hospital?> GetByIdAsync(int id)
         {
             return await _context.Hospitals.FindAsync(id);
         }
-
         public async Task<Hospital> CreateAsync(HospitalDto dto)
         {
             var hospital = new Hospital
@@ -42,7 +39,6 @@ namespace carePlusApi.Repositories
 
             return hospital;
         }
-
         public async Task<Hospital?> UpdateAsync(int id, HospitalDto dto)
         {
             var hospital = await _context.Hospitals.FindAsync(id);
@@ -58,7 +54,6 @@ namespace carePlusApi.Repositories
             await _context.SaveChangesAsync();
             return hospital;
         }
-
         public async Task<bool> DeleteAsync(int id)
         {
             var hospital = await _context.Hospitals.FindAsync(id);

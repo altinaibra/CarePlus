@@ -33,7 +33,7 @@ export const HomeStyles = {
   fixed bottom-0 left-0 w-full text-center 
   py-3 md:py-4 
   bg-white/80 dark:bg-black/20 
-  backdrop-blur-sm 
+  backdrop-blur-lg
   text-gray-700 dark:text-gray-300 
   border-t border-gray-200 dark:[border-color:oklch(47.6%_0.114_61.907)]
   z-50

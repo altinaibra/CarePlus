@@ -70,7 +70,6 @@ namespace carePlusApi.Repositories
             dto.Id = entity.Id;
             return dto;
         }
-
         // UPDATE
         public async Task<TypeOfAnalysesDto?> UpdateAsync(int id, TypeOfAnalysesDto dto)
         {
@@ -87,7 +86,6 @@ namespace carePlusApi.Repositories
             await _context.SaveChangesAsync();
             return MapToDto(entity);
         }
-
         // DELETE
         public async Task<bool> DeleteAsync(int id)
         {

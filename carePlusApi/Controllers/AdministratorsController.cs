@@ -11,7 +11,6 @@ namespace CarePlusApi.Controllers
     public class AdministratorsController : ControllerBase
     {
         private readonly AppDbContext _context;
-
         public AdministratorsController(AppDbContext context)
         {
             _context = context;

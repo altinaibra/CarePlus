@@ -74,7 +74,7 @@ namespace CarePlusApi.Controllers
             _context.Appointments.Add(appointment);
             await _context.SaveChangesAsync();
 
-            // 🔹 REFRESH nga DB me Include
+            // REFRESH nga DB me Include
             var created = await _context.Appointments
                 .Include(a => a.Patient)
                 .Include(a => a.Doctor)

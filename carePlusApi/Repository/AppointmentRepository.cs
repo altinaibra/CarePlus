@@ -20,7 +20,6 @@ namespace CarePlusApi.Repository
                 .Include(a => a.Doctor)
                 .ToListAsync();
         }
-
         public async Task<Appointment?> GetByIdAsync(int id)
         {
             return await _context.Appointments
@@ -28,7 +27,6 @@ namespace CarePlusApi.Repository
                 .Include(a => a.Doctor)
                 .FirstOrDefaultAsync(a => a.Id == id);
         }
-
         public async Task<Appointment> CreateAsync(Appointment appointment)
         {
             _context.Appointments.Add(appointment);
@@ -52,7 +50,6 @@ namespace CarePlusApi.Repository
             await _context.SaveChangesAsync();
             return existing;
         }
-
         public async Task<bool> DeleteAsync(int id)
         {
             var existing = await _context.Appointments.FindAsync(id);
