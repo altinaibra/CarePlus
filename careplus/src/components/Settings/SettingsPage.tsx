@@ -13,9 +13,7 @@ import BillingSettings from "./Modals/BillingSettings";
 import NotificationSettings from "./Modals/NotificationSettings";
 import NotificationTemplateSettings from "./Modals/NotificationTemplateSettings";
 import FinancialSettings from "./Modals/FinancialSettings";
-import BackupSettings from "./Modals/BackupSettings";
 import AuditSettings from "./Modals/AuditSettings";
-import IntegrationsSettings from "./Modals/IntegrationsSettings";
 
 import {
   FaPrint,
@@ -47,9 +45,7 @@ type SettingsModal =
   | "notifications"
   | "notificationTemplates"
   | "finance"
-  | "backup"
-  | "audit"
-  | "integrations";
+  | "audit";
 
 const settingsOptions: {
   titleKey: string;
@@ -129,25 +125,11 @@ const settingsOptions: {
     icon: FaMoneyBillWave,
   },
   {
-    titleKey: "settingsPage.backupRestore",
-    descriptionKey: "settingsPage.backupRestoreDescription",
-    modal: "backup",
-    color: "bg-slate-700 dark:bg-[oklch(47.6%_0.114_61.907)]",
-    icon: FaDatabase,
-  },
-  {
     titleKey: "settingsPage.auditLog",
     descriptionKey: "settingsPage.auditLogDescription",
     modal: "audit",
     color: "bg-slate-700 dark:bg-[oklch(47.6%_0.114_61.907)]",
     icon: FaHistory,
-  },
-  {
-    titleKey: "settingsPage.integrations",
-    descriptionKey: "settingsPage.integrationsDescription",
-    modal: "integrations",
-    color: "bg-slate-700 dark:bg-[oklch(47.6%_0.114_61.907)]",
-    icon: FaPlug,
   },
   {
     titleKey: "settingsPage.patientsStatistics",
@@ -240,9 +222,7 @@ const SettingsPage: React.FC = () => {
                 <NotificationTemplateSettings />
               )}
               {activeModal === "finance" && <FinancialSettings />}
-              {activeModal === "backup" && <BackupSettings />}
               {activeModal === "audit" && <AuditSettings />}
-              {activeModal === "integrations" && <IntegrationsSettings />}
               {activeModal === "patients" && <PatientsChart />}
               {activeModal === "calendar" && <CalendarSettings />}
             </div>
