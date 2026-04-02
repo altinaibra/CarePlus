@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSnackbar } from "../../../ui/SnackbarContext";
-import { Room, roomAPI } from "../../../app/api";
 import { FaTrash, FaSave, FaEdit, FaDoorOpen } from "react-icons/fa";
+import { Room, roomAPI } from "../../../app/roomAPI";
 
 const RoomSettings: React.FC = () => {
   const { t } = useTranslation();

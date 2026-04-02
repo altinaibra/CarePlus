@@ -2,8 +2,8 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSnackbar } from "../../../ui/SnackbarContext";
 import { NotificationSettingsStyles } from "../../../styles/NotificationSettingsStyles";
-import { notificationsAPI, SystemNotification } from "../../../app/settingsApi";
 import { FaBell } from "react-icons/fa";
+import { notificationsAPI, SystemNotification } from "../../../app/settingsApi";
 
 const NotificationSettings: React.FC = () => {
   const { t } = useTranslation();

@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import { appointmentAPI, Appointment, Patient, Doctor } from "../../app/api";
+import { Appointment, appointmentAPI, Doctor, Patient } from "../../app/appointmentAPI";
 
 type ID = string | number;
 

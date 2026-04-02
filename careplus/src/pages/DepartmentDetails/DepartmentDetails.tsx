@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import {
-  departmentAPI,
-  departmentDetailsAPI,
-  DepartmentDetailsInfo,
-} from "../../app/api";
+
 import styles from "../../styles/DepartmentDetailsStyles";
 import {
   FaHeartbeat,
@@ -20,6 +16,7 @@ import {
   FaProcedures,
 } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
+import { departmentAPI, departmentDetailsAPI, DepartmentDetailsInfo } from "../../app/departmentAPI";
 
 interface Department {
   id: number;

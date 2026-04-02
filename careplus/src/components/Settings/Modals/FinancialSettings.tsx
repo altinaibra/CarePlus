@@ -13,7 +13,7 @@ const FinancialSettings: React.FC = () => {
   const [invoicePrefix, setInvoicePrefix] = useState("INV");
   const [nextInvoiceNumber, setNextInvoiceNumber] = useState("1001");
   const [status, setStatus] = useState("");
- const [currencies, setCurrencies] = useState<Currency[]>([]);
+  const [currencies, setCurrencies] = useState<Currency[]>([]);
   useEffect(() => {
     const loadSettings = async () => {
       setStatus("loading");

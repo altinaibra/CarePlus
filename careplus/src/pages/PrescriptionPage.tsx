@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import PharmacyIcon from "../SVG/PharmacyIcon";
 import { useTheme } from "../context/ThemeContext";
-import { prescriptionAPI } from "../app/api";
 import { printerAPI } from "../app/printer";
 import styles from "..//styles/PrescriptionStyles";
 import { useSnackbar } from "../ui/SnackbarContext";
 import { FaPrint } from "react-icons/fa";
+import { prescriptionAPI } from "../app/prescriptionAPI";
 
 const PrescriptionPage: React.FC = () => {
   const [patientName, setPatientName] = useState("");

@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { PrinterStyles } from "../../../styles/PrinterStyles";
 import { FaPrint, FaTrash } from "react-icons/fa";
 import { Printer, printerAPI } from "../../../app/api";
-import { PrinterGroup, printerGroupAPI } from "../../../app/printerGroup";
+import { PrinterGroup, printerGroupAPI } from "../../../app/printerGroupAPI";
 
 const Printers: React.FC = () => {
   const { t } = useTranslation();

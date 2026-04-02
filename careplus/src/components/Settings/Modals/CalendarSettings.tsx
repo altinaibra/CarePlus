@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useSnackbar } from "../../../ui/SnackbarContext";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../../app/store";
-import { holidayAPI, type Holiday } from "../../../app/calendar";
+import { holidayAPI, type Holiday } from "../../../app/calendarAPI";
 import { FaTrash, FaSave, FaEdit, FaCalendarAlt } from "react-icons/fa";
 import { CalendarSettingsStyles } from "../../../styles/CalendarSettingsStyles";
 

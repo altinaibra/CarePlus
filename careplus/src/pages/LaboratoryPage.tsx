@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import LaboratoryPageStyles from "../styles/LaboratoryPageStyles";
-import { typesOfAnalysesAPI, TypeOfAnalyses } from "../app/typesOfAnalysesApi";
 import { Currency, currencyAPI } from "../app/currenciesApi";
 import { printerAPI } from "../app/printer";
 import { useTranslation } from "react-i18next";
 import { FaFlask, FaPrint } from "react-icons/fa";
+import { TypeOfAnalyses, typesOfAnalysesAPI } from "../app/typesOfAnalysesApi";
 
 const LaboratoryPage: React.FC = () => {
   const [labTypes, setLabTypes] = useState<TypeOfAnalyses[]>([]);

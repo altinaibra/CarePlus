@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { fetchAppointments, deleteAppointmentAsync } from "./appointmentsSlice";
 import { RootState, AppDispatch } from "../../app/store";
-import { Appointment as ApiAppointment } from "../../app/api";
+import { Appointment as ApiAppointment } from "../../app/appointmentAPI";
 import { FaFilter, FaTrash } from "react-icons/fa";
 import styles from "../../styles/AppointmentListStyles";
 

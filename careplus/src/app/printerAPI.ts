@@ -12,31 +12,6 @@ export interface Printer {
   online?: boolean;
 }
 
-export interface LabReportItem {
-  name: string;
-  price: number;
-  unit: string;
-}
-
-export interface LabReportPrintRequest {
-  title?: string;
-  currency: string;
-  totalPrice: number;
-  selectedLabs: LabReportItem[];
-}
-
-export interface PrescriptionPrintRequest {
-  patientName: string;
-  patientAge: number;
-  patientGender: string;
-  hasAllergies: boolean;
-  allergies?: string;
-  diagnosis: string;
-  prescription: string;
-  doctorSignature: string;
-  printDate?: string;
-}
-
 export const printerAPI = {
   getAll: (): Promise<AxiosResponse<Printer[]>> =>
     axiosInstance.get("/Printer"),
@@ -52,13 +27,4 @@ export const printerAPI = {
 
   delete: (id: ID): Promise<AxiosResponse<void>> =>
     axiosInstance.delete(`/Printer/${id}`),
-
-  printLabReport: (data: LabReportPrintRequest): Promise<AxiosResponse<void>> =>
-    axiosInstance.post("/Printer/PrintLabReport", data),
-
-  printPrescription: (
-    data: PrescriptionPrintRequest,
-  ): Promise<AxiosResponse<void>> =>
-    axiosInstance.post("/Printer/PrintPrescription", data),
 };
-

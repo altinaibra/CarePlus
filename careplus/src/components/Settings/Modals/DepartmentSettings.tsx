@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSnackbar } from "../../../ui/SnackbarContext";
-import { Department, departmentAPI } from "../../../app/api";
 import { FaTrash, FaEdit, FaSave, FaBuilding } from "react-icons/fa";
+import { Department, departmentAPI } from "../../../app/departmentAPI";
 
 const DepartmentSettings: React.FC = () => {
   const { t } = useTranslation();

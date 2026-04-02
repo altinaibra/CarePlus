@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { departmentAPI, roomAPI, type Room } from "../app/api";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logout } from "../features/auth/authSlice";
 import { FaBed, FaBuilding, FaHospital } from "react-icons/fa";
-import { Hospital, hospitalAPI } from "../app/hospital";
+import { Hospital, hospitalAPI } from "../app/hospitalAPI";
 import { HomeStyles } from "../styles/HomeStyles";
+import { departmentAPI } from "../app/departmentAPI";
+import { Room, roomAPI } from "../app/roomAPI";
 
 interface Department {
   id: string | number;

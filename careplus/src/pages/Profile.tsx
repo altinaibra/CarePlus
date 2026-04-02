@@ -2,8 +2,9 @@ import React, { useEffect, useState, ChangeEvent, FormEvent } from "react";
 import styles from "../styles/ProfileStyles";
 import { useTranslation } from "react-i18next";
 import { useSnackbar } from "../ui/SnackbarContext";
-import { patientAPI, doctorAPI, adminAPI, authAPI, nurseAPI } from "../app/api";
+import { patientAPI, doctorAPI, adminAPI, authAPI } from "../app/api";
 import axiosInstance from "../app/axiosInstance";
+import { nurseAPI } from "../app/nurseAPI";
 
 interface ProfileData {
   firstName: string;
