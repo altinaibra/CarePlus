@@ -5,6 +5,7 @@ import {
   notificationTemplatesAPI,
 } from "../../../app/settingsApi";
 import { NotificationTemplateStyles } from "../../../styles/NotificationTemplateStyles";
+import { FaRegListAlt } from "react-icons/fa";
 
 const NotificationTemplateSettings: React.FC = () => {
   const { t } = useTranslation();
@@ -66,7 +67,10 @@ const NotificationTemplateSettings: React.FC = () => {
   return (
     <div className={NotificationTemplateStyles.container}>
       <div>
-        <h2 className={NotificationTemplateStyles.title}>
+        <h2
+          className={`${NotificationTemplateStyles.title} flex items-center gap-2`}
+        >
+          <FaRegListAlt className="text-primary dark:text-white" />
           {t("settingsPage.notificationTemplates")}
         </h2>
         <p className={NotificationTemplateStyles.description}>

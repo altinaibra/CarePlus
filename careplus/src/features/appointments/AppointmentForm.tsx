@@ -127,7 +127,7 @@ const AppointmentForm: React.FC = () => {
           value={formData.date}
           onChange={handleChange}
           required
-          className="block w-full p-2 border rounded bg-white dark:bg-[oklch(20.5%_0_0)] dark:border-[oklch(47.6%_0.114_61.907)] text-gray-900 dark:text-gray-100"
+          className="custom-date-input block w-full p-2 border rounded bg-white dark:bg-[oklch(20.5%_0_0)] dark:border-[oklch(47.6%_0.114_61.907)] text-gray-900 dark:text-white"
         />
         <input
           type="time"

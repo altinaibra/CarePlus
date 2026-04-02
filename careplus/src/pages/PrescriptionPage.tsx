@@ -6,6 +6,7 @@ import { prescriptionAPI } from "../app/api";
 import { printerAPI } from "../app/printer";
 import styles from "..//styles/PrescriptionStyles";
 import { useSnackbar } from "../ui/SnackbarContext";
+import { FaPrint } from "react-icons/fa";
 
 const PrescriptionPage: React.FC = () => {
   const [patientName, setPatientName] = useState("");
@@ -70,7 +71,10 @@ const PrescriptionPage: React.FC = () => {
     <div className={styles.container}>
       <div className="w-[50%] mx-auto flex justify-end mb-4">
         <button onClick={handlePrint} className={styles.buttonPrint}>
-          {t("settings.print")}
+          <div className="flex items-center gap-2">
+            {t("settings.print")}
+            <FaPrint className="text-white" />
+          </div>
         </button>
       </div>
 

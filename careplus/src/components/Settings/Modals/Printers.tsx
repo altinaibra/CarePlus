@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { PrinterStyles } from "../../../styles/PrinterStyles";
-import { FaTrash } from "react-icons/fa";
+import { FaPrint, FaTrash } from "react-icons/fa";
 import { Printer, printerAPI } from "../../../app/api";
 import { PrinterGroup, printerGroupAPI } from "../../../app/printerGroup";
 
@@ -111,7 +111,10 @@ const Printers: React.FC = () => {
   };
   return (
     <div className={PrinterStyles.container}>
-      <h1 className="text-2xl font-bold mb-6">{t("printers.printers")}</h1>
+      <h1 className="text-xl font-bold mb-6 flex items-center gap-2">
+        <FaPrint className="text-primary dark:text-white" />
+        {t("printers.printers")}
+      </h1>
 
       <div className="mb-6 flex flex-col gap-3">
         <input
@@ -144,15 +147,19 @@ const Printers: React.FC = () => {
             {printerGroups.length === 0 ? (
               <option value="">{t("printers.noGroups")}</option>
             ) : (
-             printerGroups.map((group, index) => (
-            <option
-              key={group.printerGroupId}
-              value={group.printerGroupId}
-              className={index % 2 === 0 ? "bg-gray-100 dark:bg-[oklch(30%_0.05_0)]" : "bg-white dark:bg-[oklch(20%_0_0)]"}
-            >
-              {group.groupDescription}
-            </option>
-          ))
+              printerGroups.map((group, index) => (
+                <option
+                  key={group.printerGroupId}
+                  value={group.printerGroupId}
+                  className={
+                    index % 2 === 0
+                      ? "bg-gray-100 dark:bg-[oklch(30%_0.05_0)]"
+                      : "bg-white dark:bg-[oklch(20%_0_0)]"
+                  }
+                >
+                  {group.groupDescription}
+                </option>
+              ))
             )}
           </select>
         </div>
@@ -170,7 +177,7 @@ const Printers: React.FC = () => {
 
         <button
           onClick={handleSavePrinter}
-          className="px-5 py-2 bg-gray-700 dark:[background-color:oklch(47.6%_0.114_61.907)] hover:bg-orange-600 text-white rounded transition-colors"
+          className="px-5 py-2 bg-gray-700 dark:[background-color:oklch(47.6%_0.114_61.907) text-white rounded transition-colors"
         >
           Add printer
         </button>

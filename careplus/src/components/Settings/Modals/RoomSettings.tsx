@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSnackbar } from "../../../ui/SnackbarContext";
 import { Room, roomAPI } from "../../../app/api";
-import { FaTrash, FaSave, FaEdit } from "react-icons/fa";
+import { FaTrash, FaSave, FaEdit, FaDoorOpen } from "react-icons/fa";
 
 const RoomSettings: React.FC = () => {
   const { t } = useTranslation();
@@ -95,7 +95,10 @@ const RoomSettings: React.FC = () => {
 
   return (
     <div>
-      <h2 className="text-xl font-bold mb-4">{t("settingsPage.rooms")}</h2>
+      <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
+        <FaDoorOpen className="text-primary dark:text-white" />
+        {t("settingsPage.rooms")}
+      </h2>
 
       <div className="flex flex-wrap gap-2 mb-4">
         <div className="flex-1 flex flex-col">

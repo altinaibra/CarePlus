@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSnackbar } from "../../../ui/SnackbarContext";
+import { FaClock } from "react-icons/fa";
 
 type Shift = {
   id: number;
@@ -39,7 +40,8 @@ const ShiftSettings: React.FC = () => {
   return (
     <div className="flex flex-col h-full">
       <div className="mb-4">
-        <h2 className="text-xl font-bold mb-2">
+        <h2 className="text-xl font-bold mb-2 flex items-center gap-2">
+          <FaClock className="text-primary dark:text-white" />
           {t("settingsPage.shiftSchedule")}
         </h2>
         <p className="text-gray-600 dark:text-gray-300">

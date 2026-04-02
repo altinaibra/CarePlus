@@ -112,7 +112,7 @@ const AppointmentList: React.FC = () => {
     <div className={styles.container}>
       <div className="mb-4 flex flex-wrap items-center gap-4">
         <div className="relative flex-1 max-w-sm min-w-[180px]">
-          <span className="absolute inset-y-0 left-2 flex items-center text-gray-500 dark:text-gray-300">
+          <span className="absolute inset-y-0 left-2 flex items-center text-gray-500 dark:text-[#fff]">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5"
@@ -140,7 +140,7 @@ const AppointmentList: React.FC = () => {
 
         <input
           type="date"
-          className="p-2 border border-gray-300 dark:border-[oklch(47.6%_0.114_61.907)] rounded bg-white dark:bg-[oklch(20.5%_0_0)]"
+          className="custom-date-input p-2 border border-gray-300 dark:border-[oklch(47.6%_0.114_61.907)] rounded bg-white dark:bg-[oklch(20.5%_0_0)] text-gray-900 dark:text-[#fff]"
           value={filterDate}
           onChange={(e) => setFilterDate(e.target.value)}
         />

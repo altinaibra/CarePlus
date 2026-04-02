@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSnackbar } from "../../../ui/SnackbarContext";
 import { PatientCategoriesStyles } from "../../../styles/PatientCategoriesStyles";
+import { FaUsers } from "react-icons/fa";
 
 type Category = {
   id: number;
@@ -37,7 +38,10 @@ const PatientCategoriesSettings: React.FC = () => {
   return (
     <div className={PatientCategoriesStyles.container}>
       <div className={PatientCategoriesStyles.headerWrapper}>
-        <h2 className={PatientCategoriesStyles.headerTitle}>
+        <h2
+          className={`${PatientCategoriesStyles.headerTitle} flex items-center gap-2`}
+        >
+          <FaUsers className="text-primary dark:text-white" />
           {t("settingsPage.patientCategories")}
         </h2>
         <p className={PatientCategoriesStyles.headerDescription}>
@@ -58,7 +62,10 @@ const PatientCategoriesSettings: React.FC = () => {
           placeholder={t("settingsPage.categoryDetails")}
           className={PatientCategoriesStyles.textarea}
         />
-        <button onClick={addCategory} className={PatientCategoriesStyles.addButton}>
+        <button
+          onClick={addCategory}
+          className={PatientCategoriesStyles.addButton}
+        >
           {t("settingsPage.addCategory")}
         </button>
       </div>
@@ -70,11 +77,18 @@ const PatientCategoriesSettings: React.FC = () => {
           </p>
         ) : (
           categories.map((category) => (
-            <div key={category.id} className={PatientCategoriesStyles.categoryItem}>
+            <div
+              key={category.id}
+              className={PatientCategoriesStyles.categoryItem}
+            >
               <div className={PatientCategoriesStyles.categoryContent}>
                 <div className={PatientCategoriesStyles.categoryInfo}>
-                  <h3 className={PatientCategoriesStyles.categoryTitle}>{category.name}</h3>
-                  <p className={PatientCategoriesStyles.categoryDetails}>{category.details}</p>
+                  <h3 className={PatientCategoriesStyles.categoryTitle}>
+                    {category.name}
+                  </h3>
+                  <p className={PatientCategoriesStyles.categoryDetails}>
+                    {category.details}
+                  </p>
                 </div>
                 <button
                   onClick={() => deleteCategory(category.id)}

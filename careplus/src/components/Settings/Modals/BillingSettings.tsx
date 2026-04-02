@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSnackbar } from "../../../ui/SnackbarContext";
 import { BillingStyles } from "../../../styles/BillingStyles";
+import { FaFileInvoiceDollar } from "react-icons/fa";
 
 type BillingRule = {
   id: number;
@@ -43,7 +44,8 @@ const BillingSettings: React.FC = () => {
   return (
     <div className={BillingStyles.container}>
       <div className={BillingStyles.headerWrapper}>
-        <h2 className={BillingStyles.headerTitle}>
+        <h2 className={`${BillingStyles.headerTitle} flex items-center gap-2`}>
+          <FaFileInvoiceDollar className="text-primary dark:text-white" />
           {t("settingsPage.billing")}
         </h2>
         <p className={BillingStyles.headerDesc}>

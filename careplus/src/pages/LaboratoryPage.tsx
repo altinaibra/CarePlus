@@ -4,6 +4,7 @@ import { typesOfAnalysesAPI, TypeOfAnalyses } from "../app/typesOfAnalysesApi";
 import { Currency, currencyAPI } from "../app/currenciesApi";
 import { printerAPI } from "../app/printer";
 import { useTranslation } from "react-i18next";
+import { FaFlask, FaPrint } from "react-icons/fa";
 
 const LaboratoryPage: React.FC = () => {
   const [labTypes, setLabTypes] = useState<TypeOfAnalyses[]>([]);
@@ -102,7 +103,10 @@ const LaboratoryPage: React.FC = () => {
 
   return (
     <div className={LaboratoryPageStyles.container}>
-      <h2 className={LaboratoryPageStyles.title}>{t("laboratory.types")}</h2>
+      <h2 className={`${LaboratoryPageStyles.title} flex items-center gap-2`}>
+        <FaFlask className="text-primary dark:text-white" />
+        {t("laboratory.types")}
+      </h2>
 
       <div className="flex items-center mb-4 w-full">
         <div className="relative flex-1 max-w-md">
@@ -133,9 +137,10 @@ const LaboratoryPage: React.FC = () => {
         <button
           onClick={handlePrint}
           disabled={selectedLabs.size === 0}
-          className="ml-auto px-4 py-2 rounded-md font-bold text-white bg-slate-700 dark:[background-color:oklch(47.6%_0.114_61.907)] hover:bg-slate-800 transition"
+          className="ml-auto px-4 py-2 rounded-md font-bold text-white bg-slate-700 dark:[background-color:oklch(47.6%_0.114_61.907)] hover:bg-slate-800 transition flex items-center gap-2"
         >
           {t("laboratory.print")}
+          <FaPrint className="text-white" />
         </button>
       </div>
 

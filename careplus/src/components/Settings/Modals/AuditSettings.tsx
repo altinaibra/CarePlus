@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { AuditLog, auditLogsAPI } from "../../../app/settingsApi";
 import { AuditSettingsStyles } from "../../../styles/AuditSettingsStyles";
+import { FaClipboardList } from "react-icons/fa";
 
 const AuditSettings: React.FC = () => {
   const { t } = useTranslation();
@@ -29,7 +30,8 @@ const AuditSettings: React.FC = () => {
   return (
     <div className={AuditSettingsStyles.container}>
       <div>
-        <h2 className={AuditSettingsStyles.title}>
+        <h2 className={`${AuditSettingsStyles.title} flex items-center gap-2`}>
+          <FaClipboardList className="text-primary dark:text-white" />
           {t("settingsPage.auditLog")}
         </h2>
 

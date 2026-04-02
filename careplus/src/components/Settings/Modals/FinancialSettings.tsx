@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { financialSettingsAPI } from "../../../app/settingsApi";
 import { FinancialSettingsStyles } from "../../../styles/FinancialSettingsStyles";
 import { Currency } from "../../../app/currenciesApi";
+import { FaMoneyBillWave } from "react-icons/fa";
 
 const FinancialSettings: React.FC = () => {
   const { t } = useTranslation();
@@ -53,7 +54,10 @@ const FinancialSettings: React.FC = () => {
   return (
     <div className={FinancialSettingsStyles.container}>
       <div>
-        <h2 className={FinancialSettingsStyles.title}>
+        <h2
+          className={`${FinancialSettingsStyles.title} flex items-center gap-2`}
+        >
+          <FaMoneyBillWave className="text-primary dark:text-white" />
           {t("settingsPage.finance")}
         </h2>
         <p className={FinancialSettingsStyles.description}>

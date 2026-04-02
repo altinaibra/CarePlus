@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useSnackbar } from "../../../ui/SnackbarContext";
 import { NotificationSettingsStyles } from "../../../styles/NotificationSettingsStyles";
 import { notificationsAPI, SystemNotification } from "../../../app/settingsApi";
+import { FaBell } from "react-icons/fa";
 
 const NotificationSettings: React.FC = () => {
   const { t } = useTranslation();
@@ -64,7 +65,10 @@ const NotificationSettings: React.FC = () => {
   return (
     <div className={NotificationSettingsStyles.container}>
       <div className={NotificationSettingsStyles.headerWrapper}>
-        <h2 className={NotificationSettingsStyles.headerTitle}>
+        <h2
+          className={`${NotificationSettingsStyles.headerTitle} flex items-center gap-2`}
+        >
+          <FaBell className="text-primary dark:text-white" />
           {t("settingsPage.notifications")}
         </h2>
         <p className={NotificationSettingsStyles.headerDescription}>

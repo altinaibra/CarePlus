@@ -4,6 +4,7 @@ import AppointmentForm from "../features/appointments/AppointmentForm";
 import AppointmentList from "../features/appointments/AppointmentList";
 import { useSelector } from "react-redux";
 import { RootState } from "../app/store";
+import { FaCalendarCheck } from "react-icons/fa";
 
 const AppointmentsPage = () => {
   const { t } = useTranslation();
@@ -18,7 +19,8 @@ const AppointmentsPage = () => {
   return (
     <div className="p-5">
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100">
+        <h2 className="flex items-center gap-2 text-2xl sm:text2xl font-bold text-gray-900 dark:text-gray-100">
+          <FaCalendarCheck className="text-primary dark:text-white" />
           {t("appointments.list")}
         </h2>
         {role !== "patient" && (

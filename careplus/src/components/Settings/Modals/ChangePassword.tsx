@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { authAPI } from "../../../app/api";
 import { useSnackbar } from "../../../ui/SnackbarContext";
 import { ChangePasswordStyles } from "../../../styles/ChangePasswordStyles";
+import { FaLock } from "react-icons/fa";
 
 type Props = {
   onClose: () => void;
@@ -41,7 +42,12 @@ const ChangePassword: React.FC<Props> = ({ onClose }) => {
   return (
     <div className={ChangePasswordStyles.container}>
       <div className={ChangePasswordStyles.content}>
-        <h2 className={ChangePasswordStyles.header}>{t("settingsPage.changePassword")}</h2>
+        <h2
+          className={`${ChangePasswordStyles.header} flex items-center gap-2`}
+        >
+          <FaLock className="text-primary dark:text-white" />
+          {t("settingsPage.changePassword")}
+        </h2>
         {error && <p className={ChangePasswordStyles.errorText}>{error}</p>}
 
         <input
@@ -71,7 +77,10 @@ const ChangePassword: React.FC<Props> = ({ onClose }) => {
         <button onClick={onClose} className={ChangePasswordStyles.cancelButton}>
           {t("settingsPage.cancel")}
         </button>
-        <button onClick={handleSubmit} className={ChangePasswordStyles.saveButton}>
+        <button
+          onClick={handleSubmit}
+          className={ChangePasswordStyles.saveButton}
+        >
           {t("settingsPage.save")}
         </button>
       </div>

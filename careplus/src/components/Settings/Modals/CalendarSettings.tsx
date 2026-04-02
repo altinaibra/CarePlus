@@ -4,7 +4,7 @@ import { useSnackbar } from "../../../ui/SnackbarContext";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../../app/store";
 import { holidayAPI, type Holiday } from "../../../app/calendar";
-import { FaTrash, FaSave, FaEdit } from "react-icons/fa";
+import { FaTrash, FaSave, FaEdit, FaCalendarAlt } from "react-icons/fa";
 import { CalendarSettingsStyles } from "../../../styles/CalendarSettingsStyles";
 
 const CalendarSettings: React.FC = () => {
@@ -96,7 +96,10 @@ const CalendarSettings: React.FC = () => {
 
   return (
     <div className={CalendarSettingsStyles.container}>
-      <h2 className={CalendarSettingsStyles.header}>
+      <h2
+        className={`${CalendarSettingsStyles.header} flex items-center gap-2`}
+      >
+        <FaCalendarAlt className="text-primary dark:text-white" />
         {t("settingsPage.calendar")}
       </h2>
 

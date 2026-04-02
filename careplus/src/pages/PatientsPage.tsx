@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import PatientForm from "../features/patients/PatientForm";
 import PatientList from "../features/patients/PatientList";
+import { FaUsers } from "react-icons/fa";
 
 const PatientsPage = () => {
   const { t } = useTranslation();
@@ -14,7 +15,10 @@ const PatientsPage = () => {
   return (
     <div className="p-5">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl sm:text-3xl font-bold">{t("patients.list")}</h2>
+        <h2 className="flex items-center gap-2 text-2xl sm:text-2xl font-bold text-gray-900 dark:text-gray-100">
+          <FaUsers className="text-primary dark:text-white" />
+          {t("patients.list")}
+        </h2>
 
         <button
           onClick={handleOpen}

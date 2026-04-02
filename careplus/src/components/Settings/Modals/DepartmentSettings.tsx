@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSnackbar } from "../../../ui/SnackbarContext";
 import { Department, departmentAPI } from "../../../app/api";
-import { FaTrash, FaEdit, FaSave } from "react-icons/fa";
+import { FaTrash, FaEdit, FaSave, FaBuilding } from "react-icons/fa";
 
 const DepartmentSettings: React.FC = () => {
   const { t } = useTranslation();
@@ -77,7 +77,8 @@ const DepartmentSettings: React.FC = () => {
 
   return (
     <div>
-      <h2 className="text-xl font-bold mb-4">
+      <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
+        <FaBuilding className="text-primary dark:text-white" />
         {t("settingsPage.departments")}
       </h2>
 
